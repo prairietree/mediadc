@@ -48,33 +48,39 @@ export default {
 	components: {
 		ResolvedList,
 	},
+
 	props: {
 		rootTitle: {
 			type: String,
 			required: true,
 		},
+
 		loading: {
 			type: Boolean,
 			required: true,
 		},
 	},
+
 	computed: {
 		...mapGetters([
 			'page',
 			'selectedType',
 		]),
 	},
+
 	watch: {
 		page() {
 			this.$store.dispatch('getResolved')
 		},
+
 		selectedType() {
 			this.$store.dispatch('getResolved')
 		},
 	},
+
 	beforeMount() {
 		this.$emit('update:loading', true)
-		this.$store.dispatch('getResolved').then(res => {
+		this.$store.dispatch('getResolved').then((res) => {
 			if (res.data.success) {
 				this.$emit('update:loading', false)
 			}

@@ -27,7 +27,8 @@
 		<p style="margin: 0 0 20px;">
 			{{ t('mediadc', 'Collect non sensitive system info for bug report') }}
 		</p>
-		<NcButton type="secondary"
+		<NcButton
+			variant="secondary"
 			:disabled="updating"
 			:aria-label="t('mediadc', 'Collect system info')"
 			@click="collectSystemInfo">
@@ -38,8 +39,9 @@
 		</NcButton>
 		<div v-if="systemInfo" class="system-info">
 			<h3>{{ t('mediadc', 'System info') }}</h3>
-			<NcButton v-if="systemInfo"
-				type="tertiary"
+			<NcButton
+				v-if="systemInfo"
+				variant="tertiary"
 				@click="copySystemInfoToClipboard">
 				{{ t('mediadc', 'Copy to clipboard') }}
 				<template #icon>
@@ -55,9 +57,8 @@
 
 <script>
 import axios from '@nextcloud/axios'
-import { generateUrl } from '@nextcloud/router'
 import { showSuccess } from '@nextcloud/dialogs'
-
+import { generateUrl } from '@nextcloud/router'
 import { NcButton } from '@nextcloud/vue'
 import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
 
@@ -67,23 +68,26 @@ export default {
 		NcButton,
 		ContentCopy,
 	},
+
 	data() {
 		return {
 			systemInfo: null,
 			updating: false,
 		}
 	},
+
 	methods: {
 		collectSystemInfo() {
 			this.updating = true
-			axios.get(generateUrl('/apps/mediadc/api/v1/system-info')).then(res => {
+			axios.get(generateUrl('/apps/mediadc/api/v1/system-info')).then((res) => {
 				this.systemInfo = res.data
 				this.updating = false
-			}).catch(err => {
+			}).catch((err) => {
 				console.debug(err)
 				this.updating = false
 			})
 		},
+
 		copySystemInfoToClipboard() {
 			navigator.clipboard.writeText(JSON.stringify(this.systemInfo, null, 2))
 			showSuccess(this.t('mediadc', 'Copied to clipboard'))

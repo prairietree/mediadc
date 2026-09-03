@@ -24,8 +24,9 @@
 
 <template>
 	<div class="pagination">
-		<NcButton v-if="details.length > itemsPerPage"
-			type="tertiary"
+		<NcButton
+			v-if="details.length > itemsPerPage"
+			variant="tertiary"
 			:aria-label="t('mediadc', 'Previous duplicate list page')"
 			@click="prevGroupsPage">
 			<template #icon>
@@ -34,8 +35,9 @@
 		</NcButton>
 		<span v-if="details.length > itemsPerPage" style="margin-left: 5px;">{{ t('mediadc', 'Page:') }}&nbsp;</span>
 		<span v-if="details.length > itemsPerPage" style="margin-right: 5px;">{{ page + 1 }}/{{ Math.ceil(details.length / itemsPerPage) }}</span>
-		<NcButton v-if="details.length > itemsPerPage"
-			type="tertiary"
+		<NcButton
+			v-if="details.length > itemsPerPage"
+			variant="tertiary"
 			:aria-label="t('mediadc', 'Next duplicate list page')"
 			@click="nextGroupsPage">
 			<template #icon>
@@ -43,7 +45,8 @@
 			</template>
 		</NcButton>
 		<template v-if="details.length > itemsPerPage">
-			<input id="go_to_page"
+			<input
+				id="go_to_page"
 				v-model="goToPage"
 				type="number"
 				:min="1"
@@ -51,8 +54,9 @@
 				name="go_to_page"
 				:aria-label="t('mediadc', 'Page to navigate to')"
 				@keyup.enter="navigateToPage">
-			<NcButton v-tooltip="t('mediadc', 'Go to page')"
-				type="tertiary"
+			<NcButton
+				v-tooltip="t('mediadc', 'Go to page')"
+				variant="tertiary"
 				:aria-label="t('mediadc', 'Navigate to duplicate list page')"
 				@click="navigateToPage">
 				<template #icon>
@@ -72,37 +76,45 @@ export default {
 	components: {
 		NcButton,
 	},
+
 	props: {
 		details: {
 			type: Array,
 			required: true,
 		},
+
 		prevGroupsPage: {
 			type: Function,
 			required: true,
 		},
+
 		nextGroupsPage: {
 			type: Function,
 			required: true,
 		},
+
 		page: {
 			type: Number,
 			required: true,
 		},
 	},
+
 	data() {
 		return {
 			goToPage: 1,
 		}
 	},
+
 	computed: {
 		...mapGetters([
 			'itemsPerPage',
 		]),
+
 		pagesRange() {
 			return Array.from({ length: Math.ceil(this.details.length / this.itemsPerPage) }, (_, i) => i)
 		},
 	},
+
 	methods: {
 		navigateToPage() {
 			if (this.goToPage > this.pagesRange.length) {

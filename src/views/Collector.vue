@@ -39,10 +39,10 @@
 </template>
 
 <script>
-import TasksNew from '../components/tasks/TasksNew.vue'
-import TasksList from '../components/tasks/TasksList.vue'
 import { loadState } from '@nextcloud/initial-state'
 import { mapActions } from 'vuex'
+import TasksList from '../components/tasks/TasksList.vue'
+import TasksNew from '../components/tasks/TasksNew.vue'
 
 export default {
 	name: 'Collector',
@@ -50,21 +50,25 @@ export default {
 		TasksNew,
 		TasksList,
 	},
+
 	props: {
 		rootTitle: {
 			type: String,
 			required: true,
 		},
+
 		loading: {
 			type: Boolean,
 			required: true,
 		},
 	},
+
 	data() {
 		return {
 			updating: false,
 		}
 	},
+
 	beforeMount() {
 		if (this.getTasks().length > 0) {
 			this.$emit('update:loading', false)
@@ -91,6 +95,7 @@ export default {
 			}
 		}
 	},
+
 	methods: {
 		...mapActions(['getTasks', 'getSettings']),
 	},

@@ -23,9 +23,10 @@
  -->
 
 <template>
-	<NcListItem :name="listItemTitle"
+	<NcListItem
+		:name="listItemTitle"
 		:bold="true"
-		:force-display-actions="true"
+		:forceDisplayActions="true"
 		:to="{ name: 'collectorDetails', params: { taskId: task.id } }"
 		class="task-list-item">
 		<template #icon>
@@ -33,26 +34,28 @@
 		</template>
 		<template #subname>
 			{{ listItemDetails }}
-			<NcProgressBar :value="Math.round((task.files_scanned / task.files_total) * 100)"
+			<NcProgressBar
+				:value="Math.round((task.files_scanned / task.files_total) * 100)"
 				size="small"
 				:error="getStatusBadge(task) === 'error'" />
 		</template>
 		<template #actions>
-			<NcActionButton icon="icon-history" :close-after-click="true" @click="restartTask(task)">
+			<NcActionButton icon="icon-history" :closeAfterClick="true" @click="restartTask(task)">
 				{{ getStatusBadge(task) === 'duplicated' ? t('mediadc', 'Start') : t('mediadc', 'Restart') }}
 			</NcActionButton>
-			<NcActionButton icon="icon-pause" :close-after-click="true" @click="terminateTask(task)">
+			<NcActionButton icon="icon-pause" :closeAfterClick="true" @click="terminateTask(task)">
 				{{ t('mediadc', 'Stop') }}
 			</NcActionButton>
-			<NcActionButton v-tooltip="{content: t('mediadc', 'Create copy of the task'), placement: 'left'}"
-				:close-after-click="true"
+			<NcActionButton
+				v-tooltip="{content: t('mediadc', 'Create copy of the task'), placement: 'left'}"
+				:closeAfterClick="true"
 				@click="duplicateTask(task)">
 				{{ t('mediadc', 'Duplicate') }}
 				<template #icon>
 					<ContentCopy :size="16" />
 				</template>
 			</NcActionButton>
-			<NcActionButton icon="icon-delete" :close-after-click="true" @click="deleteTask(task)">
+			<NcActionButton icon="icon-delete" :closeAfterClick="true" @click="deleteTask(task)">
 				{{ t('mediadc', 'Delete') }}
 			</NcActionButton>
 		</template>
@@ -60,16 +63,14 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
-
 import {
 	NcActionButton,
-	NcProgressBar,
 	NcListItem,
+	NcProgressBar,
 } from '@nextcloud/vue'
+import { mapActions, mapGetters } from 'vuex'
 import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
-
-import { formatBytes, parseUnixTimestamp, getStatusBadge, parseTargetMtype } from '../../composables/useFormats.js'
+import { formatBytes, getStatusBadge, parseTargetMtype, parseUnixTimestamp } from '../../composables/useFormats.js'
 
 export default {
 	name: 'TasksListItem',
@@ -79,27 +80,32 @@ export default {
 		NcListItem,
 		NcProgressBar,
 	},
+
 	props: {
 		task: {
 			type: Object,
 			required: true,
 		},
 	},
+
 	computed: {
 		...mapGetters([
 			'tasks',
 		]),
+
 		listItemTitle() {
 			const taskName = this.task.name !== '' && this.task.name !== null ? this.task.name + ' - ' : ''
 			return `${taskName}${this.parseTargetMtype(this.task)}
 				${this.task.files_scanned !== this.task.files_total ? this.task.files_scanned + '/' : ''}${this.task.files_total} ${this.n('mediadc', 'file', 'files', this.task.files_total)}
 				(${this.formatBytes(Number(this.task.files_total_size))})`
 		},
+
 		listItemDetails() {
 			return `${this.parseUnixTimestamp(this.task.created_time)}
 				${Number(this.task.finished_time) > 0 ? ' - ' + this.parseUnixTimestamp(this.task.finished_time) : ''}`
 		},
 	},
+
 	methods: {
 		formatBytes,
 		parseUnixTimestamp,

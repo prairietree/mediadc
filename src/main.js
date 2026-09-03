@@ -19,21 +19,19 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
  */
 
-import { generateFilePath } from '@nextcloud/router'
 import { getRequestToken } from '@nextcloud/auth'
-import { VTooltip as Tooltip } from 'floating-vue' // eslint-disable-line n/no-extraneous-import
 import { translate, translatePlural } from '@nextcloud/l10n'
-import '@nextcloud/dialogs/style.css'
+import { generateFilePath } from '@nextcloud/router'
+import { VTooltip as Tooltip } from 'floating-vue' // eslint-disable-line n/no-extraneous-import
 import { createApp } from 'vue'
-
 import MediaDC from './MediaDC.vue'
 import router from './router/index.js'
 import store from './store/index.js'
 
-// eslint-disable-next-line
+import '@nextcloud/dialogs/style.css'
+
 __webpack_nonce__ = btoa(getRequestToken())
 
 // eslint-disable-next-line

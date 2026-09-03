@@ -31,10 +31,10 @@
 		"dev": "webpack --node-env development --progress",
 		"watch": "webpack --node-env development --progress --watch",
 		"serve": "NODE_ENV=development webpack serve --allowed-hosts all --config webpack.config.js",
-		"lint": "eslint --ext .js,.vue src",
-		"lint:fix": "eslint --ext .js,.vue src --fix",
-		"stylelint": "stylelint css/*.css src/**/*.vue",
-		"stylelint:fix": "stylelint css/*.css src/**/*.vue --fix"
+		"lint": "eslint src",
+		"lint:fix": "eslint src --fix",
+		"stylelint": "stylelint 'css/*.css' 'src/**/*.vue'",
+		"stylelint:fix": "stylelint 'css/*.css' 'src/**/*.vue' --fix"
 	},
 	"browserslist": [
 		"extends @nextcloud/browserslist-config"
@@ -60,9 +60,10 @@
 	"devDependencies": {
 		"@nextcloud/babel-config": "^1.2.0",
 		"@nextcloud/browserslist-config": "^3.0.1",
-		"@nextcloud/eslint-config": "^8.4.1",
+		"@nextcloud/eslint-config": "^9.0.1",
 		"@nextcloud/stylelint-config": "^3.0.1",
 		"@nextcloud/webpack-vue-config": "^7.0.2",
+		"eslint": "^10.9.1",
 		"eslint-webpack-plugin": "^4.2.0",
 		"stylelint-webpack-plugin": "^5.0.1"
 	},

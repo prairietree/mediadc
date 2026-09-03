@@ -19,14 +19,12 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
  */
 
 import axios from '@nextcloud/axios'
-import { generateUrl } from '@nextcloud/router'
 import { showError, showSuccess, showWarning } from '@nextcloud/dialogs'
-
-import { translate as t, translatePlural as n } from '@nextcloud/l10n'
+import { translatePlural as n, translate as t } from '@nextcloud/l10n'
+import { generateUrl } from '@nextcloud/router'
 import { getStatusBadge } from '../composables/useFormats.js'
 
 const state = {
@@ -52,7 +50,7 @@ const mutations = {
 	 * @param {object} task updated task object
 	 */
 	updateTask(state, task) {
-		const taskIndex = state.tasks.findIndex(t => t.id === task.id)
+		const taskIndex = state.tasks.findIndex((t) => t.id === task.id)
 		const updatedTasks = state.tasks
 		updatedTasks[taskIndex] = task
 		state.tasks = updatedTasks
@@ -65,7 +63,7 @@ const mutations = {
 	 * @param {object} task deleted task to remove
 	 */
 	deleteTask(state, task) {
-		const taskIndex = state.tasks.findIndex(t => t.id === task.id)
+		const taskIndex = state.tasks.findIndex((t) => t.id === task.id)
 		const updatedTasks = state.tasks
 		updatedTasks.splice(taskIndex, 1)
 		state.tasks = updatedTasks
@@ -80,14 +78,14 @@ const getters = {
 	 * @param {object} state the store data
 	 * @return {Array}
 	 */
-	tasks: state => state.tasks,
+	tasks: (state) => state.tasks,
 
 	/**
 	 *
 	 * @param {object} state the store data
 	 * @return {object}
 	 */
-	taskById: state => id => state.tasks.find(task => task.id === id),
+	taskById: (state) => (id) => state.tasks.find((task) => task.id === id),
 }
 
 const actions = {
@@ -101,7 +99,7 @@ const actions = {
 	 * @return {Promise<object>} request results
 	 */
 	async getTasks({ commit }, recent = false) {
-		return axios.get(generateUrl(`/apps/mediadc/api/v1/tasks?recent=${recent}`)).then(res => {
+		return axios.get(generateUrl(`/apps/mediadc/api/v1/tasks?recent=${recent}`)).then((res) => {
 			commit('setTasks', res.data)
 			return res.data
 		})
@@ -115,7 +113,7 @@ const actions = {
 	 * @return {Promise}
 	 */
 	async runTask(context, data) {
-		return axios.post(generateUrl('/apps/mediadc/api/v1/tasks/run'), data).then(res => {
+		return axios.post(generateUrl('/apps/mediadc/api/v1/tasks/run'), data).then((res) => {
 			if (res.data.success) {
 				showSuccess(t('mediadc', 'Task started'))
 			} else if (res.data.php_exec_not_enabled) {
@@ -126,7 +124,7 @@ const actions = {
 				showWarning(t('mediadc', 'No matching files found in the selected directories.'))
 			}
 			return res
-		}).catch(err => {
+		}).catch((err) => {
 			console.debug(err)
 			showError(t('mediadc', 'An error occurred while starting the task'))
 		})
@@ -138,16 +136,17 @@ const actions = {
 	 * @param {object} context the store object
 	 * @param {object} context.commit the store mutations
 	 * @param {number} taskId task id
+	 * @param task
 	 * @return {Promise<object>}
 	 */
 	async terminateTask({ commit }, task) {
-		return axios.post(generateUrl(`/apps/mediadc/api/v1/tasks/${task.id}/terminate`)).then(res => {
+		return axios.post(generateUrl(`/apps/mediadc/api/v1/tasks/${task.id}/terminate`)).then((res) => {
 			if (res.data.success) {
 				commit('updateTask', res.data.terminatedTask)
 				showSuccess(t('mediadc', 'Task terminated'))
 			}
 			return res
-		}).catch(err => {
+		}).catch((err) => {
 			console.debug(err)
 			showError(t('mediadc', 'Some error occurred while terminating task'))
 		})
@@ -162,12 +161,12 @@ const actions = {
 	 * @return {Promise<object>}
 	 */
 	async deleteTask({ commit }, task) {
-		return axios.delete(generateUrl(`/apps/mediadc/api/v1/tasks/${task.id}`)).then(res => {
+		return axios.delete(generateUrl(`/apps/mediadc/api/v1/tasks/${task.id}`)).then((res) => {
 			if (res.data.success) {
 				commit('deleteTask', res.data.deletedTask)
 			}
 			return res
-		}).catch(err => {
+		}).catch((err) => {
 			console.debug(err)
 			showError(t('mediadc', 'An error occurred while deleting task'))
 		})
@@ -182,14 +181,14 @@ const actions = {
 	 * @return {Promise<object>}
 	 */
 	async duplicateTask({ dispatch }, task) {
-		return axios.post(generateUrl(`/apps/mediadc/api/v1/tasks/${task.id}/duplicate`)).then(res => {
+		return axios.post(generateUrl(`/apps/mediadc/api/v1/tasks/${task.id}/duplicate`)).then((res) => {
 			if (res.data.success) {
 				dispatch('getTasks', true).then(() => {
 					showSuccess(t('mediadc', 'Task successfully duplicated'))
 				})
 			}
 			return res
-		}).catch(err => {
+		}).catch((err) => {
 			console.debug(err)
 		})
 	},
@@ -219,7 +218,7 @@ const actions = {
 				finish_notification: JSON.parse(task.collector_settings).finish_notification,
 			},
 			name: task.name,
-		}).then(res => {
+		}).then((res) => {
 			if (res.data.success) {
 				commit('updateTask', res.data.restartedTask)
 				if (getStatusBadge(task) !== 'duplicated') {
@@ -237,7 +236,7 @@ const actions = {
 				showWarning(t('medaidc', 'Some error occurred while running Collector Task. Try again.'))
 			}
 			return res
-		}).catch(err => {
+		}).catch((err) => {
 			console.debug(err)
 			showError(t('mediadc', 'Some error occurred while running Collector Task. Try again.'))
 		})

@@ -26,21 +26,25 @@
 	<div class="file" :class="{'icon-loading': updating}" :style="'width: ' + detailsGridSize + 'px;'">
 		<div v-if="updating" class="updating-blackout" />
 		<div class="file-thumb" @click="openFile(file)">
-			<div v-show="loaded"
+			<div
+				v-show="loaded"
 				v-if="file.filempart === 'image' || (file.filempart === 'video' && file.has_preview)"
 				class="file-thumb-loaded">
-				<img v-show="loaded"
+				<img
+					v-show="loaded"
 					:key="file.filepath"
 					:src="imageUrl"
 					:alt="file.filename"
 					:title="file.filepath"
 					@load="onLoad">
 			</div>
-			<div v-show="!loaded && file.filempart === 'video'"
+			<div
+				v-show="!loaded && file.filempart === 'video'"
 				class="placeholder"
 				:style="'min-height: ' + detailsGridSize + 'px'"
 				:title="file.filepath">
-				<svg width="50%"
+				<svg
+					width="50%"
 					height="50%"
 					version="1.1"
 					viewBox="-31 0 512 512"
@@ -50,11 +54,13 @@
 					<path d="m234.77 492c-5.5078 0-10 4.4922-10 10s4.4922 10 10 10c5.5117 0 10-4.4922 10-10s-4.4883-10-10-10z" />
 				</svg>
 			</div>
-			<div v-show="!loaded && file.filempart === 'image'"
+			<div
+				v-show="!loaded && file.filempart === 'image'"
 				class="placeholder"
 				:style="'min-height: ' + detailsGridSize + 'px'"
 				:title="file.filepath">
-				<svg width="50%"
+				<svg
+					width="50%"
 					enable-background="new 0 0 512 512"
 					version="1.1"
 					viewBox="0 0 512 512"
@@ -73,27 +79,31 @@
 				{{ file.albums }}
 			</span>
 			<div class="actions" style="display: flex;">
-				<NcCheckboxRadioSwitch v-tooltip="{ content: t('mediadc', 'Select file'), placement: 'top' }"
-					class="mediadc-checkbox-only"
-					v-model="checked" />
-				<NcButton v-tooltip="{ content: t('mediadc', 'Delete file'), placement: 'top' }"
-					type="tertiary"
+				<NcCheckboxRadioSwitch
+					v-model="checked"
+					v-tooltip="{ content: t('mediadc', 'Select file'), placement: 'top' }"
+					class="mediadc-checkbox-only" />
+				<NcButton
+					v-tooltip="{ content: t('mediadc', 'Delete file'), placement: 'top' }"
+					variant="tertiary"
 					:aria-label="t('mediadc', 'Delete file')"
 					@click="deleteGroupFile(file)">
 					<template #icon>
 						<span class="icon-delete" />
 					</template>
 				</NcButton>
-				<NcButton v-tooltip="{ content: t('mediadc', 'Remove file (mark resolved)'), placement: 'top' }"
-					type="tertiary"
+				<NcButton
+					v-tooltip="{ content: t('mediadc', 'Remove file (mark resolved)'), placement: 'top' }"
+					variant="tertiary"
 					:aria-label="t('mediadc', 'Remove file (mark resolved)')"
 					@click="removeGroupFile(file)">
 					<template #icon>
 						<span class="icon-close" />
 					</template>
 				</NcButton>
-				<NcButton v-tooltip="{ content: t('mediadc', 'Add to album'), placement: 'top' }"
-					type="tertiary"
+				<NcButton
+					v-tooltip="{ content: t('mediadc', 'Add to album'), placement: 'top' }"
+					variant="tertiary"
 					:aria-label="t('mediadc', 'Add to album')"
 					@click="openAlbumDialog">
 					<template #icon>
@@ -102,7 +112,8 @@
 				</NcButton>
 			</div>
 		</div>
-		<NcDialog v-if="albumDialogOpen"
+		<NcDialog
+			v-if="albumDialogOpen"
 			:name="t('mediadc', 'Add to album')"
 			size="small"
 			@update:open="onAlbumDialogOpenUpdate">
@@ -113,19 +124,21 @@
 				<p v-else-if="albumOptions.length === 0" class="album-picker__hint">
 					{{ t('mediadc', 'No albums available. Create one in the Photos app first.') }}
 				</p>
-				<NcSelect v-else
+				<NcSelect
+					v-else
 					v-model="selectedAlbum"
 					:options="albumOptions"
 					:clearable="false"
 					:placeholder="t('mediadc', 'Select an album')"
 					label="name"
-					track-by="album_id" />
+					trackBy="album_id" />
 			</div>
 			<template #actions>
-				<NcButton type="secondary" @click="albumDialogOpen = false">
+				<NcButton variant="secondary" @click="albumDialogOpen = false">
 					{{ t('mediadc', 'Cancel') }}
 				</NcButton>
-				<NcButton type="primary"
+				<NcButton
+					variant="primary"
 					:disabled="!selectedAlbum || addingToAlbum"
 					@click="confirmAddFileToAlbum">
 					{{ t('mediadc', 'Add') }}
@@ -136,18 +149,15 @@
 </template>
 
 <script>
-import axios from '@nextcloud/axios'
 import { getCurrentUser } from '@nextcloud/auth'
-import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
+import axios from '@nextcloud/axios'
 import { getDialogBuilder, showError, showMessage, showSuccess, showWarning } from '@nextcloud/dialogs'
+import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { generateRemoteUrl, generateUrl } from '@nextcloud/router'
-
 import { NcButton, NcCheckboxRadioSwitch, NcDialog, NcSelect } from '@nextcloud/vue'
-import AlbumIcon from 'vue-material-design-icons/Album.vue'
-
 import { mapGetters } from 'vuex'
-
-import { formatBytes, parseUnixTimestamp, getStatusBadge, parseTargetMtype } from '../../composables/useFormats.js'
+import AlbumIcon from 'vue-material-design-icons/Album.vue'
+import { formatBytes, getStatusBadge, parseTargetMtype, parseUnixTimestamp } from '../../composables/useFormats.js'
 
 export default {
 	name: 'DetailsFile',
@@ -158,28 +168,34 @@ export default {
 		NcSelect,
 		AlbumIcon,
 	},
+
 	props: {
 		file: {
 			type: Object,
 			required: true,
 		},
+
 		files: {
 			type: Array,
 			required: true,
 		},
+
 		allFiles: {
 			type: Array,
 			required: true,
 		},
+
 		checkedFiles: {
 			type: Array,
 			required: true,
 		},
+
 		detail: {
 			type: Object,
 			required: true,
 		},
 	},
+
 	data() {
 		return {
 			loaded: false,
@@ -192,6 +208,7 @@ export default {
 			selectedAlbum: null,
 		}
 	},
+
 	computed: {
 		...mapGetters([
 			'detailsGridSize',
@@ -199,6 +216,7 @@ export default {
 			'showFullFilePath',
 			'details',
 		]),
+
 		imageUrl() {
 			if (this.file.has_preview) {
 				return generateUrl(`/core/preview?fileId=${this.file.fileid}&x=${this.detailsGridSize}&y=${this.detailsGridSize}$forceIcon=0`)
@@ -207,10 +225,11 @@ export default {
 			}
 		},
 	},
+
 	watch: {
 		checked() {
 			const newCheckedFiles = this.checkedFiles
-			const fileIndex = newCheckedFiles.findIndex(f => f.fileid === this.file.fileid)
+			const fileIndex = newCheckedFiles.findIndex((f) => f.fileid === this.file.fileid)
 			if (this.checked) {
 				if (fileIndex === -1) {
 					newCheckedFiles.push(this.file)
@@ -220,28 +239,32 @@ export default {
 			}
 			this.$emit('update:checkedFiles', newCheckedFiles)
 		},
+
 		checkedFiles() {
-			const fileIndex = this.checkedFiles.findIndex(f => f.fileid === this.file.fileid)
+			const fileIndex = this.checkedFiles.findIndex((f) => f.fileid === this.file.fileid)
 			if (!this.checked && fileIndex !== -1) {
 				this.checked = true
 			}
 		},
 	},
+
 	beforeMount() {
-		const fileIndexChecked = this.checkedFiles.findIndex(f => f.fileid === this.file.fileid)
+		const fileIndexChecked = this.checkedFiles.findIndex((f) => f.fileid === this.file.fileid)
 		this.checked = fileIndexChecked !== -1
 		subscribe('deselectFiles', this.deselect)
 	},
+
 	beforeUnmount() {
 		unsubscribe('deselectFiles', this.deselect)
 	},
+
 	methods: {
 		formatBytes,
 		parseUnixTimestamp,
 		getStatusBadge,
 		parseTargetMtype,
 		openFile(file) {
-			const filesList = this.files.map(file => ({
+			const filesList = this.files.map((file) => ({
 				basename: file.filename,
 				fileid: file.fileid,
 				filename: file.filepath.replace(`/${getCurrentUser().uid}/files`, '').replace('files/', '/'),
@@ -252,18 +275,20 @@ export default {
 			}))
 			OCA.Viewer.open({
 				path: file.filepath.replace(`/${getCurrentUser().uid}/files`, '').replace('files/', '/'),
-				list: filesList.map(file => ({
+				list: filesList.map((file) => ({
 					...file,
 					list: filesList,
 				})),
 			})
 		},
+
 		onLoad() {
 			this.loaded = true
 		},
+
 		async deleteGroupFile(file) {
 			if (this.deleteFileConfirmation) {
-				const confirmed = await new Promise(resolve => {
+				const confirmed = await new Promise((resolve) => {
 					getDialogBuilder(this.t('mediadc', 'Confirm file deletion'))
 						.setText(this.t('mediadc', 'Are you sure you want to delete this file?'))
 						.setSeverity('warning')
@@ -279,10 +304,11 @@ export default {
 				this._deleteGroupFile(file)
 			}
 		},
+
 		_deleteGroupFile(file) {
 			this.updating = true
 			axios.delete(generateUrl(`/apps/mediadc/api/v1/tasks/${this.detail.task_id}/files/${this.detail.group_id}/${file.fileid}`))
-				.then(res => {
+				.then((res) => {
 					if (res.data.success) {
 						const files = this.files
 						if (this.allFiles.length === 2) { // Remove detail when 1 file left
@@ -290,9 +316,9 @@ export default {
 							this.$store.commit('deleteDetail', this.detail)
 							showMessage(this.t('mediadc', 'Group successfully removed (1 file left)'))
 						}
-						const fileidIndex = files.findIndex(f => f.fileid === file.fileid)
+						const fileidIndex = files.findIndex((f) => f.fileid === file.fileid)
 						files.splice(fileidIndex, 1)
-						const checkedIndex = this.checkedFiles.findIndex(f => f.fileid === file.fileid)
+						const checkedIndex = this.checkedFiles.findIndex((f) => f.fileid === file.fileid)
 						if (this.checked && checkedIndex !== -1) {
 							const newCheckedFiles = this.checkedFiles
 							newCheckedFiles.splice(checkedIndex, 1)
@@ -313,15 +339,16 @@ export default {
 					}
 					this.updating = false
 				})
-				.catch(err => {
+				.catch((err) => {
 					console.debug(err)
 					showError(this.t('mediadc', 'An error occurred while deleting the file'))
 					this.updating = false
 				})
 		},
+
 		removeGroupFile(file) {
 			this.updating = true
-			axios.post(generateUrl(`/apps/mediadc/api/v1/tasks/${this.detail.task_id}/files/${this.detail.group_id}/remove`), { fileIds: [file.fileid] }).then(res => {
+			axios.post(generateUrl(`/apps/mediadc/api/v1/tasks/${this.detail.task_id}/files/${this.detail.group_id}/remove`), { fileIds: [file.fileid] }).then((res) => {
 				if (res.data.success) {
 					const files = this.files
 					if (this.allFiles.length === 2) { // Remove detail when 1 file left
@@ -329,9 +356,9 @@ export default {
 						this.$store.commit('deleteDetail', this.detail)
 						showMessage(this.t('mediadc', 'Group successfully removed (1 file left)'))
 					}
-					const fileidIndex = files.findIndex(f => f.fileid === file.fileid)
+					const fileidIndex = files.findIndex((f) => f.fileid === file.fileid)
 					files.splice(fileidIndex, 1)
-					const checkedIndex = this.checkedFiles.findIndex(f => f.fileid === file.fileid)
+					const checkedIndex = this.checkedFiles.findIndex((f) => f.fileid === file.fileid)
 					if (this.checked && checkedIndex !== -1) {
 						const newCheckedFiles = this.checkedFiles
 						newCheckedFiles.splice(checkedIndex, 1)
@@ -342,26 +369,28 @@ export default {
 					emit('updateGroupFilesPagination', this.file)
 					this.updating = false
 				}
-			}).catch(err => {
+			}).catch((err) => {
 				console.debug(err)
 				showError(this.t('mediadc', 'A server error occurred'))
 				this.updating = false
 			})
 		},
+
 		deselect(filesToDeselect) {
-			if (this.checked && filesToDeselect.map(f => f.fileid).includes(this.file.fileid)) {
+			if (this.checked && filesToDeselect.map((f) => f.fileid).includes(this.file.fileid)) {
 				this.checked = false
 			}
 		},
+
 		openAlbumDialog() {
 			this.selectedAlbum = null
 			this.albumDialogOpen = true
 			this.loadingAlbums = true
 			axios.get(generateUrl('/apps/mediadc/api/v1/albums'))
-				.then(res => {
+				.then((res) => {
 					this.albumOptions = res.data?.albums ?? []
 				})
-				.catch(err => {
+				.catch((err) => {
 					console.debug(err)
 					this.albumOptions = []
 					showError(this.t('mediadc', 'Could not load albums'))
@@ -370,11 +399,13 @@ export default {
 					this.loadingAlbums = false
 				})
 		},
+
 		onAlbumDialogOpenUpdate(open) {
 			if (!open) {
 				this.albumDialogOpen = false
 			}
 		},
+
 		confirmAddFileToAlbum() {
 			if (!this.selectedAlbum) {
 				return
@@ -383,7 +414,7 @@ export default {
 			const albumId = this.selectedAlbum.album_id
 			const albumName = this.selectedAlbum.name
 			axios.post(generateUrl(`/apps/mediadc/api/v1/tasks/${this.detail.task_id}/files/${this.detail.group_id}/${this.file.fileid}/album/${albumId}`))
-				.then(res => {
+				.then((res) => {
 					if (res.data.success) {
 						showSuccess(this.t('mediadc', 'Added to album "{name}"', { name: albumName }))
 						this.albumDialogOpen = false
@@ -399,7 +430,7 @@ export default {
 						showError(this.t('mediadc', 'Could not add file to album'))
 					}
 				})
-				.catch(err => {
+				.catch((err) => {
 					console.debug(err)
 					showError(this.t('mediadc', 'Could not add file to album'))
 				})

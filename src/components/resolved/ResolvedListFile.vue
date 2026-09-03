@@ -26,21 +26,25 @@
 	<div class="grid-view-item" :class="{'icon-loading': updating}">
 		<div v-if="updating" class="updating-blackout" />
 		<div class="grid-view-item-thumb" @click="openFile(file)">
-			<div v-show="loaded"
+			<div
+				v-show="loaded"
 				v-if="file.filempart === 'image' || (file.filempart === 'video' && file.has_preview)"
 				class="file-thumb-loaded">
-				<img v-show="loaded"
+				<img
+					v-show="loaded"
 					:key="file.filepath"
 					:src="imageUrl"
 					:alt="file.filename"
 					:title="file.filepath"
 					@load="onLoad">
 			</div>
-			<div v-show="!loaded && file.filempart === 'video'"
+			<div
+				v-show="!loaded && file.filempart === 'video'"
 				class="placeholder"
 				:style="'min-height: ' + detailsGridSize + 'px'"
 				:title="file.filepath">
-				<svg width="50%"
+				<svg
+					width="50%"
 					height="50%"
 					version="1.1"
 					viewBox="-31 0 512 512"
@@ -50,11 +54,13 @@
 					<path d="m234.77 492c-5.5078 0-10 4.4922-10 10s4.4922 10 10 10c5.5117 0 10-4.4922 10-10s-4.4883-10-10-10z" />
 				</svg>
 			</div>
-			<div v-show="!loaded && file.filempart === 'image'"
+			<div
+				v-show="!loaded && file.filempart === 'image'"
 				class="placeholder"
 				:style="'min-height: ' + detailsGridSize + 'px'"
 				:title="file.filepath">
-				<svg width="50%"
+				<svg
+					width="50%"
 					enable-background="new 0 0 512 512"
 					version="1.1"
 					viewBox="0 0 512 512"
@@ -69,8 +75,9 @@
 			<span class="filename" :title="file.filepath">{{ file.filename }}</span>
 			<span class="owner">{{ file.fileowner }}</span>
 			<span class="size" :title="file.filesize + ' B'">{{ formatBytes(Number(file.filesize)) }}</span>
-			<NcButton v-tooltip="{ content: t('mediadc', 'Remove file from resolved list'), placement: 'top'}"
-				type="tertiary"
+			<NcButton
+				v-tooltip="{ content: t('mediadc', 'Remove file from resolved list'), placement: 'top'}"
+				variant="tertiary"
 				:aria-label="t('mediadc', 'Remove file from resolved list')"
 				@click="unresolve(file.fileid)">
 				<template #icon>
@@ -84,43 +91,47 @@
 <script>
 import { getCurrentUser } from '@nextcloud/auth'
 import { generateUrl } from '@nextcloud/router'
-import { mapGetters } from 'vuex'
-
-import { formatBytes, parseUnixTimestamp, getStatusBadge, parseTargetMtype } from '../../composables/useFormats.js'
-
 import { NcButton } from '@nextcloud/vue'
+import { mapGetters } from 'vuex'
+import { formatBytes, getStatusBadge, parseTargetMtype, parseUnixTimestamp } from '../../composables/useFormats.js'
 
 export default {
 	name: 'ResolvedListFile',
 	components: {
 		NcButton,
 	},
+
 	props: {
 		file: {
 			type: Object,
 			required: true,
 		},
+
 		files: {
 			type: Array,
 			required: true,
 		},
 	},
+
 	data() {
 		return {
 			loaded: false,
 			updating: false,
 		}
 	},
+
 	computed: {
 		...mapGetters([
 			'resolved',
 			'page',
 			'detailsGridSize',
 		]),
+
 		imageUrl() {
 			return generateUrl(`/core/preview?fileId=${this.file.fileid}&x=${this.detailsGridSize}&y=${this.detailsGridSize}$forceIcon=0`)
 		},
 	},
+
 	methods: {
 		formatBytes,
 		parseUnixTimestamp,
@@ -129,7 +140,7 @@ export default {
 		unresolve(fileid) {
 			this.updating = true
 			const lastFileOnPage = this.resolved.data.length === 1
-			this.$store.dispatch('resolveFile', { fileid, resolved: false }).then(res => {
+			this.$store.dispatch('resolveFile', { fileid, resolved: false }).then((res) => {
 				this.updating = false
 				if (res.data?.success) {
 					if (lastFileOnPage && this.page > 0) {
@@ -139,8 +150,9 @@ export default {
 				}
 			})
 		},
+
 		openFile(file) {
-			const filesList = this.files.map(file => ({
+			const filesList = this.files.map((file) => ({
 				basename: file.filename,
 				fileid: file.fileid,
 				filename: file.filepath.replace(`/${getCurrentUser().uid}/files`, ''),
@@ -151,12 +163,13 @@ export default {
 			}))
 			OCA.Viewer.open({
 				path: file.filepath.replace(`/${getCurrentUser().uid}/files`, ''),
-				list: filesList.map(file => ({
+				list: filesList.map((file) => ({
 					...file,
 					list: filesList,
 				})),
 			})
 		},
+
 		onLoad() {
 			this.loaded = true
 		},

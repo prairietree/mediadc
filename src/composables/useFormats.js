@@ -1,6 +1,6 @@
-import { formatBytes } from '../utils/files.js'
-import moment from '@nextcloud/moment'
 import { translate as t } from '@nextcloud/l10n'
+import moment from '@nextcloud/moment'
+import { formatBytes } from '../utils/files.js'
 
 const KEEP_ALIVE_INTERVAL = 8
 const TARGET_MTYPE_LABELS = [
@@ -9,10 +9,18 @@ const TARGET_MTYPE_LABELS = [
 	t('mediadc', 'Photos&Videos'),
 ]
 
+/**
+ *
+ * @param time
+ */
 export function parseUnixTimestamp(time) {
 	return moment.unix(Number(time)).format('YYYY-MM-DD HH:mm:ss')
 }
 
+/**
+ *
+ * @param task
+ */
 export function getStatusBadge(task) {
 	if (task === null || task === undefined) {
 		return ''
@@ -39,6 +47,10 @@ export function getStatusBadge(task) {
 	return 'pending'
 }
 
+/**
+ *
+ * @param task
+ */
 export function parseTargetMtype(task) {
 	if (task) {
 		try {

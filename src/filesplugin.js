@@ -19,24 +19,23 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
  */
 
 import axios from '@nextcloud/axios'
 import { showInfo } from '@nextcloud/dialogs'
-import { FileAction, registerFileAction, FileType } from '@nextcloud/files'
+import { FileAction, FileType, registerFileAction } from '@nextcloud/files'
 import { generateUrl } from '@nextcloud/router'
 
 // eslint-disable-next-line
 function getSettings() {
-	return axios.get(generateUrl('/apps/mediadc/api/v1/settings')).then(res => {
+	return axios.get(generateUrl('/apps/mediadc/api/v1/settings')).then((res) => {
 		return res.data
 	})
 }
 
 // eslint-disable-next-line
 function settingByName(settings, name) {
-	return settings.find(s => s.name === name)
+	return settings.find((s) => s.name === name)
 }
 
 // eslint-disable-next-line

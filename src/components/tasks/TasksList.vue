@@ -27,14 +27,16 @@
 		<h2>{{ t('mediadc', 'Recent Tasks') }}</h2>
 		<div v-if="tasks.length > 0">
 			<transition-group name="list" tag="ul">
-				<TasksListItem v-for="task in tasks"
+				<TasksListItem
+					v-for="task in tasks"
 					:key="task.id"
 					class="task-row"
 					:task="task" />
 			</transition-group>
 		</div>
 		<div v-else class="empty-tasks-list">
-			<NcEmptyContent style="margin-top: 5vh;"
+			<NcEmptyContent
+				style="margin-top: 5vh;"
 				:name="t('mediadc', 'No tasks yet')"
 				:description="t('mediadc', 'Create a new one!')">
 				<template #icon>
@@ -46,13 +48,11 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
-
 import { NcEmptyContent } from '@nextcloud/vue'
+import { mapActions, mapGetters } from 'vuex'
 import ClipboardListOutline from 'vue-material-design-icons/ClipboardListOutline.vue'
-
-import { formatBytes, parseUnixTimestamp, getStatusBadge, parseTargetMtype } from '../../composables/useFormats.js'
 import TasksListItem from './TasksListItem.vue'
+import { formatBytes, getStatusBadge, parseTargetMtype, parseUnixTimestamp } from '../../composables/useFormats.js'
 
 export default {
 	name: 'TasksList',
@@ -61,22 +61,27 @@ export default {
 		NcEmptyContent,
 		ClipboardListOutline,
 	},
+
 	data() {
 		return {
 			tasksUpdater: null,
 		}
 	},
+
 	computed: {
 		...mapGetters([
 			'tasks',
 		]),
 	},
+
 	beforeMount() {
 		this.tasksUpdater = setInterval(() => this.getTasks(true), 5000)
 	},
+
 	beforeUnmount() {
 		clearInterval(this.tasksUpdater)
 	},
+
 	methods: {
 		formatBytes,
 		parseUnixTimestamp,

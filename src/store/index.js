@@ -19,15 +19,13 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
  */
 
 import { createStore } from 'vuex'
-
-import settings from './settings.js'
-import tasks from './tasks.js'
 import details from './details.js'
 import resolved from './resolved.js'
+import settings from './settings.js'
+import tasks from './tasks.js'
 
 export default createStore({
 	modules: {

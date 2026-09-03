@@ -30,7 +30,8 @@
 				<h2>{{ t('mediadc', 'Export task results') }}</h2>
 				<div class="selection-container">
 					<label for="export-file-format">{{ t('mediadc', 'Select export file format') }}</label>
-					<select id="export-file-format"
+					<select
+						id="export-file-format"
 						v-model="exportFileFormat">
 						<option v-for="format in exportFormatOptions" :key="format" :value="format">
 							{{ format }}
@@ -47,7 +48,6 @@
 
 <script>
 import { generateUrl } from '@nextcloud/router'
-
 import { NcButton } from '@nextcloud/vue'
 
 export default {
@@ -55,23 +55,27 @@ export default {
 	components: {
 		NcButton,
 	},
+
 	props: {
 		task: {
 			type: Object,
 			required: true,
 		},
 	},
+
 	data() {
 		return {
 			exportFormatOptions: ['xml', 'json'],
 			exportFileFormat: 'xml',
 		}
 	},
+
 	computed: {
 		downloadExportUrl() {
 			return generateUrl(`/apps/mediadc/api/v1/tasks/${this.task.id}/export/${this.exportFileFormat}`)
 		},
 	},
+
 	methods: {
 		closeExportResultsDialog() {
 			this.$emit('update:opened', false)

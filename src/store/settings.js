@@ -19,7 +19,6 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
  */
 
 import axios from '@nextcloud/axios'
@@ -52,7 +51,7 @@ const mutations = {
 	 * @param {object} setting mediadc setting
 	 */
 	setSetting(state, setting) {
-		const settingIndex = state.settings.findIndex(s => s.name === setting.name)
+		const settingIndex = state.settings.findIndex((s) => s.name === setting.name)
 		const newSettings = state.settings
 		newSettings[settingIndex] = setting
 		state.settings = newSettings
@@ -65,7 +64,7 @@ const mutations = {
 	 * @param {object} setting mediadc setting
 	 */
 	updateSetting(state, setting) {
-		const settingIndex = state.settings.findIndex(s => s.name === setting.name)
+		const settingIndex = state.settings.findIndex((s) => s.name === setting.name)
 		if (settingIndex !== -1) {
 			const settings = state.settings
 			settings[settingIndex] = setting
@@ -124,7 +123,7 @@ const getters = {
 	 * @param {object} state the store data
 	 * @return {Array}
 	 */
-	settings: state => state.settings,
+	settings: (state) => state.settings,
 
 	/**
 	 * Returns setting object by setting name
@@ -132,7 +131,7 @@ const getters = {
 	 * @param {object} state the store data
 	 * @return {object}
 	 */
-	settingByName: state => name => state.settings.find(setting => setting.name === name),
+	settingByName: (state) => (name) => state.settings.find((setting) => setting.name === name),
 
 	/**
 	 * Returns details grid size setting
@@ -140,7 +139,7 @@ const getters = {
 	 * @param {object} state the store data
 	 * @return {number}
 	 */
-	detailsGridSize: state => state.detailsGridSize,
+	detailsGridSize: (state) => state.detailsGridSize,
 
 	/**
 	 * Returns delete file confirmation setting
@@ -148,7 +147,7 @@ const getters = {
 	 * @param {object} state the store data
 	 * @return {boolean}
 	 */
-	deleteFileConfirmation: state => state.deleteFileConfirmation,
+	deleteFileConfirmation: (state) => state.deleteFileConfirmation,
 
 	/**
 	 * Returns auto open next group setting
@@ -156,7 +155,7 @@ const getters = {
 	 * @param {object} state the store data
 	 * @return {boolean}
 	 */
-	autoOpenNextGroup: state => state.autoOpenNextGroup,
+	autoOpenNextGroup: (state) => state.autoOpenNextGroup,
 
 	/**
 	 * Returns showFullFilePath path setting
@@ -164,7 +163,7 @@ const getters = {
 	 * @param {object} state the store data
 	 * @return {boolean}
 	 */
-	showFullFilePath: state => state.showFullFilePath,
+	showFullFilePath: (state) => state.showFullFilePath,
 }
 
 const actions = {
@@ -177,10 +176,10 @@ const actions = {
 	 * @return {Promise<object>}
 	 */
 	async getSettings({ commit }) {
-		return axios.get(generateUrl('/apps/mediadc/api/v1/settings')).then(res => {
+		return axios.get(generateUrl('/apps/mediadc/api/v1/settings')).then((res) => {
 			commit('setSettings', res.data)
 			return res.data
-		}).catch(err => {
+		}).catch((err) => {
 			console.debug(err)
 		})
 	},
@@ -194,7 +193,7 @@ const actions = {
 	 * @return {Promise<object>}
 	 */
 	async getSettingByName({ commit }, settingName) {
-		return axios.get(generateUrl(`/apps/mediadc/api/v1/settings/name/${settingName}`)).then(res => {
+		return axios.get(generateUrl(`/apps/mediadc/api/v1/settings/name/${settingName}`)).then((res) => {
 			if (res.data?.success) {
 				commit('updateSetting', res.data.setting)
 			}

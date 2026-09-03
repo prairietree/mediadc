@@ -39,8 +39,9 @@
 					<NcCheckboxRadioSwitch v-model="sortGroups" style="margin-right: 20px;">
 						{{ t('mediadc', 'Sort groups') }}
 					</NcCheckboxRadioSwitch>
-					<NcButton v-tooltip="t('mediadc', 'Sorting details by files count')"
-						type="tertiary"
+					<NcButton
+						v-tooltip="t('mediadc', 'Sorting details by files count')"
+						variant="tertiary"
 						:aria-label="t('mediadc', 'Sorting details by files count')"
 						@click="toggleSorting">
 						<template #icon>
@@ -48,17 +49,19 @@
 						</template>
 					</NcButton>
 				</div>
-				<Pagination :details="(!filtered) ? details : detailsFiltered"
-					:prev-groups-page="prevGroupsPage"
-					:next-groups-page="nextGroupsPage"
-					v-model:page="page" />
+				<Pagination
+					v-model:page="page"
+					:details="(!filtered) ? details : detailsFiltered"
+					:prevGroupsPage="prevGroupsPage"
+					:nextGroupsPage="nextGroupsPage" />
 			</div>
 		</div>
 		<div v-if="details.length > 0">
 			<div class="filters">
 				<label for="group-id-filter">
 					{{ t('mediadc', 'Filter by duplicate group id: ') }}
-					<input id="group-id-filter"
+					<input
+						id="group-id-filter"
 						v-model="filterId"
 						v-tooltip="t('mediadc', 'Filter by id or range of ids (1-10)')"
 						type="search"
@@ -68,8 +71,9 @@
 						@input="filterByGroupId">
 				</label>
 				<div class="batch-actions" style="display: flex;">
-					<NcButton v-tooltip="t('mediadc', 'Toggle duplicate groups')"
-						type="tertiary"
+					<NcButton
+						v-tooltip="t('mediadc', 'Toggle duplicate groups')"
+						variant="tertiary"
 						:aria-label="t('mediadc', 'Toggle duplicate groups')"
 						style="margin-right: 10px;"
 						@click="toggleGroups">
@@ -117,12 +121,14 @@
 								</template>
 								{{ t('mediadc', 'Uncheck selected') }}
 							</NcActionButton>
-							<NcActionButton v-tooltip="{content: t('mediadc', 'Mark all files in group as resolved'), placement: 'left'}"
+							<NcActionButton
+								v-tooltip="{content: t('mediadc', 'Mark all files in group as resolved'), placement: 'left'}"
 								icon="icon-close"
 								@click="removeCheckedGroups">
 								{{ n('mediadc', 'Remove group', 'Remove groups', checkedDetailGroups.length) }}
 							</NcActionButton>
-							<NcActionButton v-tooltip="{content: t('mediadc', 'Delete all files except the largest one'), placement: 'left'}"
+							<NcActionButton
+								v-tooltip="{content: t('mediadc', 'Delete all files except the largest one'), placement: 'left'}"
 								icon="icon-delete"
 								:disabled="batchDeleting"
 								@click="deleteCheckedGroupsFiles">
@@ -140,37 +146,41 @@
 			</div>
 			<div v-if="!filtered">
 				<template v-if="sortGroups">
-					<div v-for="detail in paginatedSortedDetails[page]"
+					<div
+						v-for="detail in paginatedSortedDetails[page]"
 						v-show="detail.files.length > 1"
 						:key="detail.group_id"
 						class="task-details-row">
-						<DetailsListItem :detail="detail" v-model:checked-detail-groups="checkedDetailGroups" />
+						<DetailsListItem v-model:checkedDetailGroups="checkedDetailGroups" :detail="detail" />
 					</div>
 				</template>
 				<template v-else>
-					<div v-for="detail in paginatedDetails[page]"
+					<div
+						v-for="detail in paginatedDetails[page]"
 						v-show="detail.files.length > 1"
 						:key="detail.group_id"
 						class="task-details-row">
-						<DetailsListItem :detail="detail" v-model:checked-detail-groups="checkedDetailGroups" />
+						<DetailsListItem v-model:checkedDetailGroups="checkedDetailGroups" :detail="detail" />
 					</div>
 				</template>
 			</div>
 			<div v-else-if="detailsFiltered.length > 0 && filtered">
 				<template v-if="!sortGroups">
-					<div v-for="detail in paginatedDetailsFiltered[page]"
+					<div
+						v-for="detail in paginatedDetailsFiltered[page]"
 						v-show="detail.files.length > 1"
 						:key="detail.group_id"
 						class="task-details-row">
-						<DetailsListItem :detail="detail" v-model:checked-detail-groups="checkedDetailGroups" />
+						<DetailsListItem v-model:checkedDetailGroups="checkedDetailGroups" :detail="detail" />
 					</div>
 				</template>
 				<template v-else>
-					<div v-for="detail in paginatedDetailsFilteredSorted[page]"
+					<div
+						v-for="detail in paginatedDetailsFilteredSorted[page]"
 						v-show="detail.files.length > 1"
 						:key="detail.group_id"
 						class="task-details-row">
-						<DetailsListItem :detail="detail" v-model:checked-detail-groups="checkedDetailGroups" />
+						<DetailsListItem v-model:checkedDetailGroups="checkedDetailGroups" :detail="detail" />
 					</div>
 				</template>
 			</div>
@@ -188,26 +198,23 @@
 
 <script>
 import axios from '@nextcloud/axios'
-import { generateUrl } from '@nextcloud/router'
 import { showError, showSuccess, showWarning } from '@nextcloud/dialogs'
-import { subscribe, unsubscribe, emit } from '@nextcloud/event-bus'
+import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
+import { generateUrl } from '@nextcloud/router'
 import {
-	NcCheckboxRadioSwitch,
-	NcButton,
-	NcActions,
 	NcActionButton,
+	NcActions,
+	NcButton,
+	NcCheckboxRadioSwitch,
 	NcLoadingIcon,
 } from '@nextcloud/vue'
-import MinusBoxOutline from 'vue-material-design-icons/MinusBoxOutline.vue'
+import { mapGetters } from 'vuex'
 import CheckAll from 'vue-material-design-icons/CheckAll.vue'
 import CheckUnderline from 'vue-material-design-icons/CheckUnderline.vue'
-
-import { mapGetters } from 'vuex'
-
-import { formatBytes, parseUnixTimestamp, getStatusBadge, parseTargetMtype } from '../../composables/useFormats.js'
-
+import MinusBoxOutline from 'vue-material-design-icons/MinusBoxOutline.vue'
 import DetailsListItem from './DetailsListItem.vue'
 import Pagination from './Pagination.vue'
+import { formatBytes, getStatusBadge, parseTargetMtype, parseUnixTimestamp } from '../../composables/useFormats.js'
 
 export default {
 	name: 'DetailsList',
@@ -223,6 +230,7 @@ export default {
 		CheckUnderline,
 		NcLoadingIcon,
 	},
+
 	data() {
 		return {
 			page: 0,
@@ -233,6 +241,7 @@ export default {
 			batchDeleting: false,
 		}
 	},
+
 	computed: {
 		...mapGetters([
 			'task',
@@ -250,28 +259,31 @@ export default {
 			'detailsFilteredSorted',
 			'autoOpenNextGroup',
 		]),
+
 		filtered() {
 			return this.filterId !== '' && this.filterId !== null
 		},
+
 		checkedDetailGroupsIntersect() {
 			let a = []
 			if (!this.sortGroups) {
 				if (this.filtered) {
-					a = new Set(this.paginatedDetailsFiltered[this.page].map(d => d.group_id))
+					a = new Set(this.paginatedDetailsFiltered[this.page].map((d) => d.group_id))
 				} else {
-					a = new Set(this.paginatedDetails[this.page].map(d => d.group_id))
+					a = new Set(this.paginatedDetails[this.page].map((d) => d.group_id))
 				}
 			} else {
 				if (this.filtered) {
-					a = new Set(this.paginatedDetailsFilteredSorted[this.page].map(d => d.group_id))
+					a = new Set(this.paginatedDetailsFilteredSorted[this.page].map((d) => d.group_id))
 				} else {
-					a = new Set(this.paginatedSortedDetails[this.page].map(d => d.group_id))
+					a = new Set(this.paginatedSortedDetails[this.page].map((d) => d.group_id))
 				}
 			}
-			const b = new Set(this.checkedDetailGroups.map(d => d.group_id))
-			const intersect = new Set([...a].filter(i => b.has(i)))
+			const b = new Set(this.checkedDetailGroups.map((d) => d.group_id))
+			const intersect = new Set([...a].filter((i) => b.has(i)))
 			return Array.from(intersect)
 		},
+
 		pagesRange() {
 			if (this.filterId === null) {
 				return Array.from({ length: Math.ceil(this.details.length / this.itemsPerPage) }, (_, i) => i)
@@ -280,22 +292,26 @@ export default {
 			}
 		},
 	},
+
 	watch: {
 		itemsPerPage(newItemsPerPage) {
 			if (this.page >= Math.ceil(this.details.length / newItemsPerPage)) {
 				this.page = Math.ceil(this.details.length / newItemsPerPage) - 1
 			}
 		},
+
 		details(newDetails) {
 			if (this.page >= Math.ceil(newDetails.length / this.itemsPerPage)) {
 				this.page = Math.ceil(newDetails.length / this.itemsPerPage) - 1
 			}
 		},
+
 		sortGroups() {
 			window.localStorage.setItem('mediadc_details_sort_groups', this.sortGroups)
 			this.$store.commit('setSortGroups', this.sortGroups)
 		},
 	},
+
 	beforeMount() {
 		this.$emit('update:loading', false)
 		const sortGroups = window.localStorage.getItem('mediadc_details_sort_groups')
@@ -303,9 +319,11 @@ export default {
 		this.$store.commit('setSortGroups', sortGroups !== null ? JSON.parse(sortGroups) === true : true)
 		subscribe('openNextDetailGroup', this.openNextDetailGroup)
 	},
+
 	beforeUnmount() {
 		unsubscribe('openNextDetailGroup', this.openNextDetailGroup)
 	},
+
 	methods: {
 		formatBytes,
 		parseUnixTimestamp,
@@ -318,6 +336,7 @@ export default {
 				showWarning(this.t('mediadc', 'First page reached!'))
 			}
 		},
+
 		nextGroupsPage() {
 			if (!this.filtered && this.page < Math.ceil(this.details.length / this.itemsPerPage) - 1) {
 				this.page += 1
@@ -327,9 +346,11 @@ export default {
 				showWarning(this.t('mediadc', 'Last page reached!'))
 			}
 		},
+
 		toggleSorting() {
 			this.$store.commit('setSorted', !this.sorted)
 		},
+
 		filterByGroupId() {
 			if (this.filterId !== null && this.filterId !== '') {
 				const singleIdRegex = /^[1-9]$/s
@@ -337,68 +358,73 @@ export default {
 				this.page = 0
 
 				if (singleIdRegex.test(this.filterId)) {
-					this.$store.commit('setDetailsFiltered', this.details.filter(d => d.group_id.toString().includes(this.filterId)))
+					this.$store.commit('setDetailsFiltered', this.details.filter((d) => d.group_id.toString().includes(this.filterId)))
 				} else if (rangeIdsRegex.test(this.filterId)) {
 					const beginRange = this.filterId.split('-')[0]
 					const endRange = this.filterId.split('-')[1]
-					this.$store.commit('setDetailsFiltered', this.details.filter(d => Number(d.group_id) >= beginRange && Number(d.group_id) <= endRange))
+					this.$store.commit('setDetailsFiltered', this.details.filter((d) => Number(d.group_id) >= beginRange && Number(d.group_id) <= endRange))
 				}
 			} else {
 				this.$store.commit('setDetailsFiltered', [])
 			}
 		},
+
 		openBatchActionsPopup() {
 			document.addEventListener('click', this.toggleBatchActionsPopup)
 		},
+
 		toggleBatchActionsPopup() {
 			if (this.batchActionsOpened) {
 				document.removeEventListener('click', this.toggleBatchActionsPopup)
 			}
 			this.batchActionsOpened = !this.batchActionsOpened
 		},
+
 		removeCheckedGroups() {
-			axios.post(generateUrl(`/apps/mediadc/api/v1/tasks/${this.task.id}/details/remove`), { groupIds: this.checkedDetailGroups.map(d => d.group_id) }).then(res => {
+			axios.post(generateUrl(`/apps/mediadc/api/v1/tasks/${this.task.id}/details/remove`), { groupIds: this.checkedDetailGroups.map((d) => d.group_id) }).then((res) => {
 				if (res.data.success) {
 					emit('openNextDetailGroup', this.checkedDetailGroups[this.checkedDetailGroups.length - 1])
 					const updatedDetails = [...this.details]
 					for (const removedGroupId of res.data.removedGroupIds) {
-						const checkedIndex = this.checkedDetailGroups.findIndex(d => Number(d.group_id) === removedGroupId)
+						const checkedIndex = this.checkedDetailGroups.findIndex((d) => Number(d.group_id) === removedGroupId)
 						if (checkedIndex !== -1) {
 							this.checkedDetailGroups.splice(checkedIndex, 1)
 						}
-						const removedDetailIndex = updatedDetails.findIndex(d => Number(d.group_id) === removedGroupId)
+						const removedDetailIndex = updatedDetails.findIndex((d) => Number(d.group_id) === removedGroupId)
 						updatedDetails.splice(removedDetailIndex, 1)
 					}
 					emit('updateTaskInfo')
 					this.$store.commit('setDetails', updatedDetails)
 					showSuccess(this.t('mediadc', 'Selected groups successfully removed'))
 				}
-			}).catch(err => {
+			}).catch((err) => {
 				showError(this.t('mediadc', 'A server error occurred'))
 				console.debug(err)
 			})
 		},
+
 		_deselectAllGroups(_details) {
-			emit('deselectGroups', this.checkedDetailGroups.map(d => d.group_id))
+			emit('deselectGroups', this.checkedDetailGroups.map((d) => d.group_id))
 			for (const detail of this.details) {
-				const detailIndex = this.checkedDetailGroups.findIndex(d => d.group_id === detail.group_id)
+				const detailIndex = this.checkedDetailGroups.findIndex((d) => d.group_id === detail.group_id)
 				if (detailIndex !== -1) {
 					this.checkedDetailGroups.splice(detailIndex, 1)
 				}
 			}
 		},
+
 		deleteCheckedGroupsFiles() {
 			this.batchDeleting = true
-			axios.post(generateUrl(`/apps/mediadc/api/v1/tasks/${this.task.id}/details/delete`), { groupIds: this.checkedDetailGroups.map(d => d.group_id) }).then(res => {
+			axios.post(generateUrl(`/apps/mediadc/api/v1/tasks/${this.task.id}/details/delete`), { groupIds: this.checkedDetailGroups.map((d) => d.group_id) }).then((res) => {
 				if (res.data.success) {
 					emit('openNextDetailGroup', this.checkedDetailGroups[this.checkedDetailGroups.length - 1])
 					const updatedDetails = [...this.details]
 					for (const removedGroupId of res.data.removedGroupIds) {
-						const checkedIndex = this.checkedDetailGroups.findIndex(d => Number(d.group_id) === removedGroupId)
+						const checkedIndex = this.checkedDetailGroups.findIndex((d) => Number(d.group_id) === removedGroupId)
 						if (checkedIndex !== -1) {
 							this.checkedDetailGroups.splice(checkedIndex, 1)
 						}
-						const removedDetailIndex = updatedDetails.findIndex(d => Number(d.group_id) === removedGroupId)
+						const removedDetailIndex = updatedDetails.findIndex((d) => Number(d.group_id) === removedGroupId)
 						updatedDetails.splice(removedDetailIndex, 1)
 					}
 					emit('updateTaskInfo')
@@ -411,25 +437,27 @@ export default {
 					showError(this.t('mediadc', 'Failed to delete selected group files'))
 				}
 				this.batchDeleting = false
-			}).catch(err => {
+			}).catch((err) => {
 				showError(this.t('mediadc', 'A server error occurred'))
 				console.debug(err)
 				this.batchDeleting = false
 			})
 		},
+
 		selectAllGroups() {
 			const _details = (!this.filtered) ? this.details : this.detailsFiltered
 			if (this.checkedDetailGroups.length === _details.length) {
 				this._deselectAllGroups(_details)
 			} else {
 				for (const detail of _details) {
-					const detailIndex = this.checkedDetailGroups.findIndex(d => d.group_id === detail.group_id)
+					const detailIndex = this.checkedDetailGroups.findIndex((d) => d.group_id === detail.group_id)
 					if (detailIndex === -1) {
 						this.checkedDetailGroups.push(detail)
 					}
 				}
 			}
 		},
+
 		selectAllGroupsOnPage() {
 			const _details = (!this.filtered)
 				? ((!this.sortGroups) ? this.paginatedDetails : this.paginatedSortedDetails)
@@ -438,23 +466,24 @@ export default {
 				const groupsToDeselect = this.checkedDetailGroupsIntersect
 				emit('deselectGroups', groupsToDeselect)
 				for (const detail of groupsToDeselect) {
-					const detailIndex = this.checkedDetailGroups.findIndex(d => d.group_id === detail.group_id)
+					const detailIndex = this.checkedDetailGroups.findIndex((d) => d.group_id === detail.group_id)
 					if (detailIndex !== -1) {
 						this.checkedDetailGroups.splice(detailIndex, 1)
 					}
 				}
 			} else {
 				for (const detail of _details[this.page]) {
-					const detailIndex = this.checkedDetailGroups.findIndex(d => d.group_id === detail.group_id)
+					const detailIndex = this.checkedDetailGroups.findIndex((d) => d.group_id === detail.group_id)
 					if (detailIndex === -1) {
 						this.checkedDetailGroups.push(detail)
 					}
 				}
 			}
 		},
+
 		openNextDetailGroup(detail) {
 			if (this.autoOpenNextGroup) {
-				const detailIndex = this.details.findIndex(d => d.group_id === detail.group_id)
+				const detailIndex = this.details.findIndex((d) => d.group_id === detail.group_id)
 				if (detailIndex !== -1) {
 					if (detailIndex !== this.details.length - 1) {
 						emit('openGroup', this.details[detailIndex + 1])
@@ -464,6 +493,7 @@ export default {
 				}
 			}
 		},
+
 		toggleGroups() {
 			const _details = (!this.filtered)
 				? ((!this.sortGroups) ? this.paginatedDetails[this.page] : this.paginatedSortedDetails[this.page])

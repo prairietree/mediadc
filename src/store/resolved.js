@@ -19,14 +19,12 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
  */
 
 import axios from '@nextcloud/axios'
-import { generateUrl } from '@nextcloud/router'
 import { showError } from '@nextcloud/dialogs'
-
 import { translate as t } from '@nextcloud/l10n'
+import { generateUrl } from '@nextcloud/router'
 
 const state = {
 	photos: {
@@ -104,7 +102,7 @@ const getters = {
 	 * @param {object} state the store data
 	 * @return {Array} list of resolved photos or videos
 	 */
-	resolved: state => ['photos', 'videos'].includes(state.selectedType) ? state[state.selectedType].data : null,
+	resolved: (state) => ['photos', 'videos'].includes(state.selectedType) ? state[state.selectedType].data : null,
 
 	/**
 	 * Returns current pagination page within selected type
@@ -112,7 +110,7 @@ const getters = {
 	 * @param {object} state the store data
 	 * @return {number}
 	 */
-	page: state => state[state.selectedType].page,
+	page: (state) => state[state.selectedType].page,
 
 	/**
 	 * Returns page size (items per page)
@@ -120,7 +118,7 @@ const getters = {
 	 * @param {object} state the store data
 	 * @return {number}
 	 */
-	pageSize: state => state.pageSize,
+	pageSize: (state) => state.pageSize,
 
 	/**
 	 * Return current selected type of resolved list (photos or videos)
@@ -128,7 +126,7 @@ const getters = {
 	 * @param {object} state the store data
 	 * @return {Array}
 	 */
-	selectedType: state => state.selectedType,
+	selectedType: (state) => state.selectedType,
 
 	/**
 	 * Return current cleanup loading state
@@ -136,7 +134,7 @@ const getters = {
 	 * @param {object} state the store data
 	 * @return {boolean}
 	 */
-	cleanuploading: state => state.cleanuploading,
+	cleanuploading: (state) => state.cleanuploading,
 }
 
 const actions = {
@@ -148,7 +146,7 @@ const actions = {
 	 * @return {Promise<object>}
 	 */
 	async getResolved(context) {
-		return axios.get(generateUrl(`/apps/mediadc/api/v1/resolved?type=${context.state.selectedType}&limit=${context.state.pageSize}&offset=${context.state[context.state.selectedType].page * 10}`)).then(res => {
+		return axios.get(generateUrl(`/apps/mediadc/api/v1/resolved?type=${context.state.selectedType}&limit=${context.state.pageSize}&offset=${context.state[context.state.selectedType].page * 10}`)).then((res) => {
 			if (res.data.success) {
 				if (context.state.selectedType === 'photos') {
 					context.commit('setResolvedPhotos', res.data.resolved.photos)
@@ -160,7 +158,7 @@ const actions = {
 				}
 			}
 			return res
-		}).catch(err => {
+		}).catch((err) => {
 			console.debug(err)
 		})
 	},
@@ -173,9 +171,9 @@ const actions = {
 	 * @return {Promise<object>}
 	 */
 	async resolveFile(context, params) {
-		return axios.post(generateUrl(`/apps/mediadc/api/v1/resolved/mark/${params.fileid}`), { type: context.state.selectedType, resolved: params.resolved }).then(res => {
+		return axios.post(generateUrl(`/apps/mediadc/api/v1/resolved/mark/${params.fileid}`), { type: context.state.selectedType, resolved: params.resolved }).then((res) => {
 			return res
-		}).catch(err => {
+		}).catch((err) => {
 			console.debug(err)
 			showError(t('mediadc', 'A server error occurred'))
 		})
@@ -189,9 +187,9 @@ const actions = {
 	 * @return {Promise<object>}
 	 */
 	async cleanupResolved(context, params) {
-		return axios.post(generateUrl(`/apps/mediadc/api/v1/resolved/${params.type}/cleanup`)).then(res => {
+		return axios.post(generateUrl(`/apps/mediadc/api/v1/resolved/${params.type}/cleanup`)).then((res) => {
 			return res
-		}).catch(err => {
+		}).catch((err) => {
 			console.debug(err)
 			showError(t('mediadc', 'A server error occurred'))
 		})

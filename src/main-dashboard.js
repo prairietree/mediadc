@@ -19,17 +19,14 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
  */
 
-import { generateFilePath } from '@nextcloud/router'
 import { getRequestToken } from '@nextcloud/auth'
 import { translate, translatePlural } from '@nextcloud/l10n'
+import { generateFilePath } from '@nextcloud/router'
 import { createApp } from 'vue'
-
 import Dashboard from './views/Dashboard.vue'
 
-// eslint-disable-next-line
 __webpack_nonce__ = btoa(getRequestToken())
 // eslint-disable-next-line
 __webpack_public_path__ = generateFilePath('mediadc', '', 'js/')

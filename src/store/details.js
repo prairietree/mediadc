@@ -19,12 +19,10 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
  */
 
 import axios from '@nextcloud/axios'
 import { generateUrl } from '@nextcloud/router'
-
 import { getStatusBadge } from '../composables/useFormats.js'
 
 const state = {
@@ -126,7 +124,7 @@ const mutations = {
 	 */
 	deleteDetail(state, detail) {
 		const newDetails = [...state.details]
-		const detailIndex = newDetails.findIndex(d => d.group_id === detail.group_id)
+		const detailIndex = newDetails.findIndex((d) => d.group_id === detail.group_id)
 		newDetails.splice(detailIndex, 1)
 		state.details = newDetails
 		state.paginatedDetails = paginate(newDetails, state.itemsPerPage)
@@ -208,7 +206,7 @@ const getters = {
 	 * @param {object} state the store data
 	 * @return {object} CollectorTask object
 	 */
-	task: state => state.task,
+	task: (state) => state.task,
 
 	/**
 	 * Current task info (target&exclude directories)
@@ -216,7 +214,7 @@ const getters = {
 	 * @param {object} state the store data
 	 * @return {object}
 	 */
-	taskInfo: state => state.taskInfo,
+	taskInfo: (state) => state.taskInfo,
 
 	/**
 	 * List of task details
@@ -224,7 +222,7 @@ const getters = {
 	 * @param {object} state the store data
 	 * @return {Array} CollectorTaskDetails
 	 */
-	details: state => state.details,
+	details: (state) => state.details,
 
 	/**
 	 * Task details info (filescount, filestotal)
@@ -232,7 +230,7 @@ const getters = {
 	 * @param {object} state the store data
 	 * @return {object}
 	 */
-	detailsInfo: state => state.detailsInfo,
+	detailsInfo: (state) => state.detailsInfo,
 
 	/**
 	 * List of sorted task details
@@ -240,7 +238,7 @@ const getters = {
 	 * @param {object} state the store data
 	 * @return {Array}
 	 */
-	sortedDetails: state => state.sortedDetails,
+	sortedDetails: (state) => state.sortedDetails,
 
 	/**
 	 * List of filtered task details
@@ -248,7 +246,7 @@ const getters = {
 	 * @param {object} state the store data
 	 * @return {Array}
 	 */
-	detailsFiltered: state => state.detailsFiltered,
+	detailsFiltered: (state) => state.detailsFiltered,
 
 	/**
 	 * List of sorted filtered task details
@@ -256,7 +254,7 @@ const getters = {
 	 * @param {object} state the store data
 	 * @return {Array}
 	 */
-	detailsFilteredSorted: state => state.detailsFilteredSorted,
+	detailsFilteredSorted: (state) => state.detailsFilteredSorted,
 
 	/**
 	 * List of paginated task details
@@ -264,7 +262,7 @@ const getters = {
 	 * @param {object} state the store data
 	 * @return {Array}
 	 */
-	paginatedDetails: state => state.paginatedDetails,
+	paginatedDetails: (state) => state.paginatedDetails,
 
 	/**
 	 * List of paginated sorted task details
@@ -272,7 +270,7 @@ const getters = {
 	 * @param {object} state the store data
 	 * @return {Array}
 	 */
-	paginatedSortedDetails: state => state.paginatedSortedDetails,
+	paginatedSortedDetails: (state) => state.paginatedSortedDetails,
 
 	/**
 	 * List of paginated filtered task details
@@ -280,7 +278,7 @@ const getters = {
 	 * @param {object} state the store data
 	 * @return {Array}
 	 */
-	paginatedDetailsFiltered: state => state.paginatedDetailsFiltered,
+	paginatedDetailsFiltered: (state) => state.paginatedDetailsFiltered,
 
 	/**
 	 * List of paginated, filtered and sorted task details
@@ -288,7 +286,7 @@ const getters = {
 	 * @param {object} state the store data
 	 * @return {Array}
 	 */
-	paginatedDetailsFilteredSorted: state => state.paginatedDetailsFilteredSorted,
+	paginatedDetailsFilteredSorted: (state) => state.paginatedDetailsFilteredSorted,
 
 	/**
 	 * Items per details list page setting
@@ -296,7 +294,7 @@ const getters = {
 	 * @param {object} state the store data
 	 * @return {number}
 	 */
-	itemsPerPage: state => state.itemsPerPage,
+	itemsPerPage: (state) => state.itemsPerPage,
 
 	/**
 	 * Items per detail group items per page
@@ -304,7 +302,7 @@ const getters = {
 	 * @param {object} state the store data
 	 * @return {number}
 	 */
-	groupItemsPerPage: state => state.groupItemsPerPage,
+	groupItemsPerPage: (state) => state.groupItemsPerPage,
 
 	/**
 	 * Is groups asc/desc sorted flag
@@ -312,7 +310,7 @@ const getters = {
 	 * @param {object} state the store data
 	 * @return {boolean}
 	 */
-	sorted: state => state.sorted,
+	sorted: (state) => state.sorted,
 
 	/**
 	 * Is groups sorted
@@ -320,7 +318,7 @@ const getters = {
 	 * @param {object} state the store data
 	 * @return {boolean}
 	 */
-	sortGroups: state => state.sortGroups,
+	sortGroups: (state) => state.sortGroups,
 }
 
 const actions = {
@@ -329,10 +327,11 @@ const actions = {
 	 * Retrieve and commit list of task details
 	 *
 	 * @param {object} context the store object
+	 * @param taskId
 	 * @return {Promise<object>} request data (collectorTask, collectorTaskDetails)
 	 */
 	async getTaskDetails(context, taskId) {
-		return axios.get(generateUrl(`/apps/mediadc/api/v1/tasks/${taskId}`)).then(res => {
+		return axios.get(generateUrl(`/apps/mediadc/api/v1/tasks/${taskId}`)).then((res) => {
 			if ('success' in res.data && res.data.success) {
 				context.commit('setTask', res.data.collectorTask)
 				context.commit('setDetails', res.data.collectorTaskDetails)
@@ -350,10 +349,11 @@ const actions = {
 	 * Retrieve and commit task info
 	 *
 	 * @param {object} context the store object
+	 * @param taskId
 	 * @return {Promise<object>} request data (collectorTaskInfo: target/exclude directories info)
 	 */
 	async getTaskInfo(context, taskId) {
-		return axios.get(generateUrl(`/apps/mediadc/api/v1/tasks/${taskId}/info`)).then(res => {
+		return axios.get(generateUrl(`/apps/mediadc/api/v1/tasks/${taskId}/info`)).then((res) => {
 			context.commit('setTaskInfo', res.data.collectorTaskInfo)
 			return res
 		})
@@ -363,10 +363,11 @@ const actions = {
 	 * Retrieve and commit task details info
 	 *
 	 * @param {object} context the store object
+	 * @param taskId
 	 * @return {Promise<object>} request data (task details filessize and filestotal)
 	 */
 	async getDetailFilesTotalSize(context, taskId) {
-		return axios.get(generateUrl(`/apps/mediadc/api/v1/tasks/${taskId}/filestotal`)).then(res => {
+		return axios.get(generateUrl(`/apps/mediadc/api/v1/tasks/${taskId}/filestotal`)).then((res) => {
 			context.commit('setDetailsInfo', { filessize: res.data.filessize, filestotal: res.data.filestotal })
 			return res
 		})
@@ -380,7 +381,7 @@ const actions = {
 	 * @return {Promise<object>} request data
 	 */
 	async terminateTask(context, task) {
-		return axios.post(generateUrl(`/apps/mediadc/api/v1/tasks/${task.id}/terminate`)).then(res => {
+		return axios.post(generateUrl(`/apps/mediadc/api/v1/tasks/${task.id}/terminate`)).then((res) => {
 			context.dispatch('getTaskDetails')
 			return res
 		})

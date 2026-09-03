@@ -27,7 +27,8 @@
 		<div class="filters">
 			<div class="sorting">
 				{{ t('mediadc', 'Files size sorting') }}
-				<NcButton type="tertiary"
+				<NcButton
+					variant="tertiary"
 					:aria-label="t('mediadc', 'Toggle files size sorting')"
 					style="margin: 0 10px;"
 					@click="updateFileSorting">
@@ -39,7 +40,8 @@
 			<div class="search">
 				<label for="filename-filter">
 					{{ t('mediadc', 'Filter by filename: ') }}
-					<input id="filename-filter"
+					<input
+						id="filename-filter"
 						v-model="filterFileName"
 						type="search"
 						name="filename-filter"
@@ -50,22 +52,26 @@
 			<div v-if="checkedFiles.length > 0" class="batch-editing">
 				{{ n('mediadc', 'Batch actions for %n file', 'Batch actions for %n files', checkedFiles.length) }}
 				<NcActions placement="left" style="margin-left: 5px;">
-					<NcActionButton v-tooltip="{content: t('mediadc', 'Select all files in a group'), placement: 'left'}"
+					<NcActionButton
+						v-tooltip="{content: t('mediadc', 'Select all files in a group'), placement: 'left'}"
 						icon="icon-checkmark"
 						@click="selectAllFiles">
 						{{ checkedFiles.length === allFiles.length ? t('mediadc', 'Deselect all') : t('mediadc', 'Select all') }}
 					</NcActionButton>
-					<NcActionButton v-if="detail.files.length > groupItemsPerPage"
+					<NcActionButton
+						v-if="detail.files.length > groupItemsPerPage"
 						icon="icon-checkmark"
 						@click="selectAllFilesOnPage">
 						{{ checkedFilesIntersect.length === files.length ? t('mediadc', 'Deselect all on page') : t('mediadc', 'Select all on page') }}
 					</NcActionButton>
-					<NcActionButton v-tooltip="{content: t('mediadc', 'Mark as resolved without deleting'), placement: 'left'}"
+					<NcActionButton
+						v-tooltip="{content: t('mediadc', 'Mark as resolved without deleting'), placement: 'left'}"
 						icon="icon-close"
 						@click="removeCheckedFiles">
 						{{ n('mediadc', 'Remove file', 'Remove files', checkedFiles.length) }}
 					</NcActionButton>
-					<NcActionButton v-tooltip="{content: n('mediadc', 'Delete selected file', 'Delete selected files', checkedFiles.length), placement: 'left'}"
+					<NcActionButton
+						v-tooltip="{content: n('mediadc', 'Delete selected file', 'Delete selected files', checkedFiles.length), placement: 'left'}"
 						icon="icon-delete"
 						@click="deleteCheckedFiles">
 						{{ n('mediadc', 'Delete file', 'Delete files', checkedFiles.length) }}
@@ -74,21 +80,23 @@
 			</div>
 		</div>
 		<div v-if="!filesFiltered" class="details-group-files">
-			<DetailsFile v-for="file in files"
+			<DetailsFile
+				v-for="file in files"
 				:key="file.fileid"
+				v-model:checkedFiles="checkedFiles"
 				:file="file"
 				:files="files"
-				:all-files="allFiles"
-				v-model:checked-files="checkedFiles"
+				:allFiles="allFiles"
 				:detail="detail" />
 		</div>
 		<div v-else-if="filteredFiles.length > 0" class="details-group-files">
-			<DetailsFile v-for="file in filteredFiles"
+			<DetailsFile
+				v-for="file in filteredFiles"
 				:key="file.fileid"
+				v-model:checkedFiles="checkedFiles"
 				:file="file"
 				:files="files"
-				:all-files="allFiles"
-				v-model:checked-files="checkedFiles"
+				:allFiles="allFiles"
 				:detail="detail" />
 		</div>
 		<div v-else class="details-group-files">
@@ -104,15 +112,13 @@
 
 <script>
 import axios from '@nextcloud/axios'
-import { mapGetters } from 'vuex'
 import { showError, showMessage, showSuccess, showWarning } from '@nextcloud/dialogs'
-import { generateUrl } from '@nextcloud/router'
 import { emit } from '@nextcloud/event-bus'
-
-import { NcActions, NcActionButton, NcButton } from '@nextcloud/vue'
-
-import { formatBytes, parseUnixTimestamp, getStatusBadge, parseTargetMtype } from '../../composables/useFormats.js'
+import { generateUrl } from '@nextcloud/router'
+import { NcActionButton, NcActions, NcButton } from '@nextcloud/vue'
+import { mapGetters } from 'vuex'
 import DetailsFile from './DetailsFile.vue'
+import { formatBytes, getStatusBadge, parseTargetMtype, parseUnixTimestamp } from '../../composables/useFormats.js'
 
 export default {
 	name: 'DetailsGroupList',
@@ -122,34 +128,41 @@ export default {
 		NcActionButton,
 		NcButton,
 	},
+
 	props: {
 		files: {
 			type: Array,
 			required: true,
 			default: () => [],
 		},
+
 		allFiles: {
 			type: Array,
 			required: true,
 			default: () => [],
 		},
+
 		detail: {
 			type: Object,
 			required: true,
 		},
+
 		loadingFiles: {
 			type: Boolean,
 			required: true,
 		},
+
 		updating: {
 			type: Boolean,
 			required: true,
 		},
+
 		filesAscending: {
 			type: Boolean,
 			required: true,
 		},
 	},
+
 	data() {
 		return {
 			checkedFiles: [],
@@ -159,24 +172,28 @@ export default {
 			filteredFiles: [],
 		}
 	},
+
 	computed: {
 		...mapGetters([
 			'detailsGridSize',
 			'groupItemsPerPage',
 			'details',
 		]),
+
 		checkedFilesIntersect() {
 			const a = new Set(this.files)
 			const b = new Set(this.checkedFiles)
-			const intersect = new Set([...a].filter(i => b.has(i)))
+			const intersect = new Set([...a].filter((i) => b.has(i)))
 			return Array.from(intersect)
 		},
 	},
+
 	watch: {
 		files() {
 			this.filterByFileName()
 		},
 	},
+
 	methods: {
 		formatBytes,
 		parseUnixTimestamp,
@@ -185,52 +202,56 @@ export default {
 		openBatchActionsPopup() {
 			document.addEventListener('click', this.toggleBatchActionsPopup)
 		},
+
 		toggleBatchActionsPopup() {
 			if (this.batchActionsOpened) {
 				document.removeEventListener('click', this.toggleBatchActionsPopup)
 			}
 			this.batchActionsOpened = !this.batchActionsOpened
 		},
+
 		selectAllFiles() {
 			if (this.checkedFiles.length === this.allFiles.length) { // Deselect files
 				emit('deselectFiles', this.checkedFiles)
 				for (const file of this.allFiles) {
-					const fileIndex = this.checkedFiles.findIndex(f => f.fileid === file.fileid)
+					const fileIndex = this.checkedFiles.findIndex((f) => f.fileid === file.fileid)
 					if (fileIndex !== -1) {
 						this.checkedFiles.splice(fileIndex, 1)
 					}
 				}
 			} else {
 				for (const file of this.allFiles) {
-					const fileIndex = this.checkedFiles.findIndex(f => f.fileid === file.fileid)
+					const fileIndex = this.checkedFiles.findIndex((f) => f.fileid === file.fileid)
 					if (fileIndex === -1) {
 						this.checkedFiles.push(file)
 					}
 				}
 			}
 		},
+
 		selectAllFilesOnPage() {
 			if (this.files.length === this.checkedFilesIntersect.length) {
 				const filesToDeselect = this.checkedFilesIntersect
 				emit('deselectFiles', filesToDeselect)
-				for (const fileid of filesToDeselect.map(f => f.fileid)) {
-					const fileIndex = this.checkedFiles.findIndex(f => f.fileid === fileid)
+				for (const fileid of filesToDeselect.map((f) => f.fileid)) {
+					const fileIndex = this.checkedFiles.findIndex((f) => f.fileid === fileid)
 					if (fileIndex !== -1) {
 						this.checkedFiles.splice(fileIndex, 1)
 					}
 				}
 			} else {
 				for (const file of this.files) {
-					const fileIndex = this.checkedFiles.findIndex(f => f.fileid === file.fileid)
+					const fileIndex = this.checkedFiles.findIndex((f) => f.fileid === file.fileid)
 					if (fileIndex === -1) {
 						this.checkedFiles.push(file)
 					}
 				}
 			}
 		},
+
 		removeCheckedFiles() {
 			this.$emit('update:updating', true)
-			axios.post(generateUrl(`/apps/mediadc/api/v1/tasks/${this.detail.task_id}/files/${this.detail.group_id}/remove`), { fileIds: this.checkedFiles.map(f => f.fileid) }).then(res => {
+			axios.post(generateUrl(`/apps/mediadc/api/v1/tasks/${this.detail.task_id}/files/${this.detail.group_id}/remove`), { fileIds: this.checkedFiles.map((f) => f.fileid) }).then((res) => {
 				if (res.data.success) {
 					const allFiles = this.allFiles
 					if ((this.allFiles.length - this.checkedFiles.length) <= 1) {
@@ -242,9 +263,9 @@ export default {
 						}
 					}
 					for (const fileid of res.data.removedFileIds) {
-						const fileidIndex = allFiles.findIndex(f => f.fileid === fileid)
+						const fileidIndex = allFiles.findIndex((f) => f.fileid === fileid)
 						allFiles.splice(fileidIndex, 1)
-						const checkedFileIdIndex = this.checkedFiles.findIndex(f => f.fileid === fileid)
+						const checkedFileIdIndex = this.checkedFiles.findIndex((f) => f.fileid === fileid)
 						if (checkedFileIdIndex !== -1) {
 							this.checkedFiles.splice(checkedFileIdIndex, 1)
 						}
@@ -255,12 +276,13 @@ export default {
 					this.$emit('update:updating', false)
 					showSuccess(this.t('mediadc', 'Checked files successfully removed'))
 				}
-			}).catch(err => {
+			}).catch((err) => {
 				console.debug(err)
 				showError(this.t('mediadc', 'A server error occurred'))
 				this.$emit('update:updating', false)
 			})
 		},
+
 		deleteCheckedFiles() {
 			if (this.allFiles.length === this.checkedFiles.length) {
 				if (confirm(this.t('mediadc', 'Are you sure you want to delete all files'))) {
@@ -270,9 +292,10 @@ export default {
 				this._deleteCheckedFiles()
 			}
 		},
+
 		_deleteCheckedFiles() {
 			this.$emit('update:updating', true)
-			axios.post(generateUrl(`/apps/mediadc/api/v1/tasks/${this.detail.task_id}/files/${this.detail.group_id}/delete`), { fileIds: this.checkedFiles.map(f => f.fileid) }).then(res => {
+			axios.post(generateUrl(`/apps/mediadc/api/v1/tasks/${this.detail.task_id}/files/${this.detail.group_id}/delete`), { fileIds: this.checkedFiles.map((f) => f.fileid) }).then((res) => {
 				if (res.data.success) {
 					this._updateDeletedFiles(res)
 					this.$store.commit('setTask', res.data.task)
@@ -284,12 +307,13 @@ export default {
 					showError(this.t('mediadc', 'A server error occurred. Files not deleted'))
 					this.$emit('update:updating', false)
 				}
-			}).catch(err => {
+			}).catch((err) => {
 				console.debug(err)
 				showError(this.t('mediadc', 'A server error occurred'))
 				this.$emit('update:updating', false)
 			})
 		},
+
 		_updateDeletedFiles(res) {
 			const allFiles = this.allFiles
 			if ((this.allFiles.length - this.checkedFiles.length) <= 1 && res.data.deletedFileIds.length === this.checkedFiles.length) {
@@ -302,9 +326,9 @@ export default {
 			}
 
 			for (const fileid of res.data.deletedFileIds) {
-				const fileidIndex = allFiles.findIndex(f => f.fileid === fileid)
+				const fileidIndex = allFiles.findIndex((f) => f.fileid === fileid)
 				allFiles.splice(fileidIndex, 1)
-				const checkedFileIdIndex = this.checkedFiles.findIndex(f => f.fileid === fileid)
+				const checkedFileIdIndex = this.checkedFiles.findIndex((f) => f.fileid === fileid)
 				if (checkedFileIdIndex !== -1) {
 					this.checkedFiles.splice(checkedFileIdIndex, 1)
 				}
@@ -316,15 +340,17 @@ export default {
 			this.$emit('update:updating', false)
 			showSuccess(this.t('mediadc', 'Checked files successfully deleted'))
 		},
+
 		filterByFileName() {
 			if (this.filterFileName !== '') {
 				this.filesFiltered = true
-				this.filteredFiles = this.files.filter(f => f.filename.toLowerCase().includes(this.filterFileName.toLowerCase()))
+				this.filteredFiles = this.files.filter((f) => f.filename.toLowerCase().includes(this.filterFileName.toLowerCase()))
 			} else {
 				this.filesFiltered = false
 				this.filteredFiles = []
 			}
 		},
+
 		updateFileSorting() {
 			this.$emit('update:filesAscending', !this.filesAscending)
 		},

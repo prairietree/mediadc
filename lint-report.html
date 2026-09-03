@@ -1,0 +1,1418 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>ESLint Report</title>
+        <link rel="icon" type="image/png" sizes="any" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAHaAAAB2gGFomX7AAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAABD1JREFUWMPFl11sk2UUx3/nbYtjxS1MF7MLMTECMgSTtSSyrQkLhAj7UBPnDSEGoxegGzMwojhXVpmTAA5iYpSoMQa8GBhFOrMFk03buei6yRAlcmOM0SEmU9d90b19jxcM1o5+sGnsc/e+z/l6ztf/HFFVMnns6QieeOCHBePGsHM+wrOtvLG2C4WRVDSSygNV7sCjlspxwDnPB44aols/DXk+mbMBmx/6OseITF1CuOtfevkPh2Uu+/jbdX8lujSScRlT5r7/QDlAfsRmfzmpnkQ/H3H13gf6bBrBn1uqK8WylgEnU8eZmk1repbfchJG1TyKyIKEwuBHFd3lD3naY3O1siiwXsVoBV2VgM1ht/QQUJk2ByqKghsQziYQ8ifKgexIXmuyzC4r67Y7R+xPAfuB/Nn3Cpva+0s7khpQVtZtd4bt51BWxtBYAiciprG7c7D4SixzU9PYalDL6110Ifb/w8W9eY7JqFeFHbO8fPGyLHwwFHJNJTSgwtVTB9oaw9BlQ+tO93vOxypoaQnfEYlI43SeCHDC4TDq9+51/h5fxr33q0ZfV9g04wat9Q943rjJgCp3952W2i8Bi6eDvdsfKj0cK/DYMRyXL4/sUJUmIHd2zYMezsvLaamp4WpcWN3BXSiHpuMwbGbZlnZ8tXY4rgosy+G7oRwQ0cAsd28YGgqfU5UjCZQDLALxDg+Hv/P5Rqvj4hwrS8izXzWb4spwc1GgENFnkpWRzxeuB+ssUHgLdb9UVdt8vpGdKQpze7n7y1U3DBChNRUuqOo9c+0+qpKKxyZqtAIYla7gY4JszAAQri93BSsMRZoyBcUC+w3Q3AyOA4sNhAOZ0q7Iq0b2vUNvK5zPgP+/H8+Zetdoa6uOikhdGurxebwvJY8Iz3V1rTMNAH+opEuQj5KTT/qA1yC+wyUjBm12OidaUtCcPNNX2h0Hx2JG69VulANZAJZJwfU7rzd/FHixuXniTdM0m4GtSQT7bTartqEh9yfImUEzkwKZmTwmo5a5JwkYBfcDL01/RkR5y8iWhtPBknB8ZxwtU9UjwOrrKCeizzc25nTGg1F/turEHoU9wMLpDvWKf8DTmNCAKnd/tqUTF4ElMXJ+A5rWDJS+41WsGWzALhJ+ErBWrLj9g+pqojHxlXJX8HGUg0BsR/x1yhxf3jm4cSzpQFLp6tmi6PEE7g1ZhtZ91ufpSZUAFa6gC+UoQslNaSmypT1U8mHKiUgEKS8KfgF4EpYunFI16tsHin+OG0LcgQK7yj7g6cSzpva2D3hKVNG0Y3mVO1BkqfSlmJrHBQ4uvM12gJHc6ETW8HZVfMRmXvyxxNC1Z/o839zyXlDuCr4nsC11J+MXueaVJWn6yPv+/pJtc9oLTNN4AeTvNGByd3rlhE2x9s5pLwDoHCy+grDzWmOZ95lUtLYj5Bma126Y8eX0/zj/ADxGyViSg4BXAAAAAElFTkSuQmCC">
+        <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PScwIDAgMjk0LjgyNSAyNTguOTgyJyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnPg0KPHBhdGggZmlsbD0nIzgwODBGMicgZD0nTTk3LjAyMSw5OS4wMTZsNDguNDMyLTI3Ljk2MmMxLjIxMi0wLjcsMi43MDYtMC43LDMuOTE4LDBsNDguNDMzLDI3Ljk2MiBjMS4yMTEsMC43LDEuOTU5LDEuOTkzLDEuOTU5LDMuMzkzdjU1LjkyNGMwLDEuMzk5LTAuNzQ4LDIuNjkzLTEuOTU5LDMuMzk0bC00OC40MzMsMjcuOTYyYy0xLjIxMiwwLjctMi43MDYsMC43LTMuOTE4LDAgbC00OC40MzItMjcuOTYyYy0xLjIxMi0wLjctMS45NTktMS45OTQtMS45NTktMy4zOTR2LTU1LjkyNEM5NS4wNjMsMTAxLjAwOSw5NS44MSw5OS43MTYsOTcuMDIxLDk5LjAxNicvPg0KPHBhdGggZmlsbD0nIzRCMzJDMycgZD0nTTI3My4zMzYsMTI0LjQ4OEwyMTUuNDY5LDIzLjgxNmMtMi4xMDItMy42NC01Ljk4NS02LjMyNS0xMC4xODgtNi4zMjVIODkuNTQ1IGMtNC4yMDQsMC04LjA4OCwyLjY4NS0xMC4xOSw2LjMyNWwtNTcuODY3LDEwMC40NWMtMi4xMDIsMy42NDEtMi4xMDIsOC4yMzYsMCwxMS44NzdsNTcuODY3LDk5Ljg0NyBjMi4xMDIsMy42NCw1Ljk4Niw1LjUwMSwxMC4xOSw1LjUwMWgxMTUuNzM1YzQuMjAzLDAsOC4wODctMS44MDUsMTAuMTg4LTUuNDQ2bDU3Ljg2Ny0xMDAuMDEgQzI3NS40MzksMTMyLjM5NiwyNzUuNDM5LDEyOC4xMjgsMjczLjMzNiwxMjQuNDg4IE0yMjUuNDE5LDE3Mi44OThjMCwxLjQ4LTAuODkxLDIuODQ5LTIuMTc0LDMuNTlsLTczLjcxLDQyLjUyNyBjLTEuMjgyLDAuNzQtMi44ODgsMC43NC00LjE3LDBsLTczLjc2Ny00Mi41MjdjLTEuMjgyLTAuNzQxLTIuMTc5LTIuMTA5LTIuMTc5LTMuNTlWODcuODQzYzAtMS40ODEsMC44ODQtMi44NDksMi4xNjctMy41OSBsNzMuNzA3LTQyLjUyN2MxLjI4Mi0wLjc0MSwyLjg4Ni0wLjc0MSw0LjE2OCwwbDczLjc3Miw0Mi41MjdjMS4yODMsMC43NDEsMi4xODYsMi4xMDksMi4xODYsMy41OVYxNzIuODk4eicvPg0KPC9zdmc+">
+        <style>
+            body {
+                font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+                font-size: 16px;
+                font-weight: normal;
+                margin: 0;
+                padding: 0;
+                color: #333;
+            }
+
+            #overview {
+                padding: 20px 30px;
+            }
+
+            td,
+            th {
+                padding: 5px 10px;
+            }
+
+            h1 {
+                margin: 0;
+            }
+
+            table {
+                margin: 30px;
+                width: calc(100% - 60px);
+                max-width: 1000px;
+                border-radius: 5px;
+                border: 1px solid #ddd;
+                border-spacing: 0;
+            }
+
+            th {
+                font-weight: 400;
+                font-size: medium;
+                text-align: left;
+                cursor: pointer;
+            }
+
+            td.clr-1,
+            td.clr-2,
+            th span {
+                font-weight: 700;
+            }
+
+            th span {
+                float: right;
+                margin-left: 20px;
+            }
+
+            th span::after {
+                content: "";
+                clear: both;
+                display: block;
+            }
+
+            tr:last-child td {
+                border-bottom: none;
+            }
+
+            tr td:first-child,
+            tr td:last-child {
+                color: #9da0a4;
+            }
+
+            #overview.bg-0,
+            tr.bg-0 th {
+                color: #468847;
+                background: #dff0d8;
+                border-bottom: 1px solid #d6e9c6;
+            }
+
+            #overview.bg-1,
+            tr.bg-1 th {
+                color: #f0ad4e;
+                background: #fcf8e3;
+                border-bottom: 1px solid #fbeed5;
+            }
+
+            #overview.bg-2,
+            tr.bg-2 th {
+                color: #b94a48;
+                background: #f2dede;
+                border-bottom: 1px solid #eed3d7;
+            }
+
+            td {
+                border-bottom: 1px solid #ddd;
+            }
+
+            td.clr-1 {
+                color: #f0ad4e;
+            }
+
+            td.clr-2 {
+                color: #b94a48;
+            }
+
+            td a {
+                color: #3a33d1;
+                text-decoration: none;
+            }
+
+            td a:hover {
+                color: #272296;
+                text-decoration: underline;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="overview" class="bg-2">
+            <h1>ESLint Report</h1>
+            <div>
+                <span>120 problems (45 errors, 75 warnings)</span> - Generated on Wed Sep 02 2026 17:12:00 GMT-0700 (Pacific Daylight Time)
+            </div>
+        </div>
+        <table>
+            <tbody>
+                <tr class="bg-2" data-group="f-0">
+    <th colspan="4">
+        [+] /home/user/nextcloud-docker-dev-d/workspace/stable34/apps-extra/mediadc/src/MediaDC.vue
+        <span>1 problem (1 error, 0 warnings)</span>
+    </th>
+</tr>
+<tr style="display: none;" class="f-0">
+    <td>32:6</td>
+    <td class="clr-2">Error</td>
+    <td>Using `exact` is deprecated - consult Vue Router documentation for alternatives.</td>
+    <td>
+        <a href="" target="_blank" rel="noopener noreferrer">@nextcloud/no-deprecated-library-props</a>
+    </td>
+</tr>
+
+<tr class="bg-2" data-group="f-1">
+    <th colspan="4">
+        [+] /home/user/nextcloud-docker-dev-d/workspace/stable34/apps-extra/mediadc/src/components/details/DetailsExport.vue
+        <span>2 problems (1 error, 1 warning)</span>
+    </th>
+</tr>
+<tr style="display: none;" class="f-1">
+    <td>27:3</td>
+    <td class="clr-2">Error</td>
+    <td>The element inside `&#60;transition&#62;` is expected to have a `v-if` or `v-show` directive.</td>
+    <td>
+        <a href="https://eslint.vuejs.org/rules/require-toggle-inside-transition.html" target="_blank" rel="noopener noreferrer">vue/require-toggle-inside-transition</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-1">
+    <td>81:15</td>
+    <td class="clr-1">Warning</td>
+    <td>The &#34;update:opened&#34; event has been triggered but not declared on `emits` option.</td>
+    <td>
+        <a href="https://eslint.vuejs.org/rules/require-explicit-emits.html" target="_blank" rel="noopener noreferrer">vue/require-explicit-emits</a>
+    </td>
+</tr>
+
+<tr class="bg-2" data-group="f-2">
+    <th colspan="4">
+        [+] /home/user/nextcloud-docker-dev-d/workspace/stable34/apps-extra/mediadc/src/components/details/DetailsFile.vue
+        <span>10 problems (4 errors, 6 warnings)</span>
+    </th>
+</tr>
+<tr style="display: none;" class="f-2">
+    <td>217:4</td>
+    <td class="clr-1">Warning</td>
+    <td>&#39;details&#39; of computed property found, but never used.</td>
+    <td>
+        <a href="https://eslint.vuejs.org/rules/no-unused-properties.html" target="_blank" rel="noopener noreferrer">vue/no-unused-properties</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-2">
+    <td>240:15</td>
+    <td class="clr-1">Warning</td>
+    <td>The &#34;update:checkedFiles&#34; event has been triggered but not declared on `emits` option.</td>
+    <td>
+        <a href="https://eslint.vuejs.org/rules/require-explicit-emits.html" target="_blank" rel="noopener noreferrer">vue/require-explicit-emits</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-2">
+    <td>325:19</td>
+    <td class="clr-1">Warning</td>
+    <td>The &#34;update:checkedFiles&#34; event has been triggered but not declared on `emits` option.</td>
+    <td>
+        <a href="https://eslint.vuejs.org/rules/require-explicit-emits.html" target="_blank" rel="noopener noreferrer">vue/require-explicit-emits</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-2">
+    <td>327:18</td>
+    <td class="clr-1">Warning</td>
+    <td>The &#34;update:files&#34; event has been triggered but not declared on `emits` option.</td>
+    <td>
+        <a href="https://eslint.vuejs.org/rules/require-explicit-emits.html" target="_blank" rel="noopener noreferrer">vue/require-explicit-emits</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-2">
+    <td>343:6</td>
+    <td class="clr-2">Error</td>
+    <td>Unexpected console statement.</td>
+    <td>
+        <a href="https://eslint.org/docs/latest/rules/no-console" target="_blank" rel="noopener noreferrer">no-console</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-2">
+    <td>365:18</td>
+    <td class="clr-1">Warning</td>
+    <td>The &#34;update:checkedFiles&#34; event has been triggered but not declared on `emits` option.</td>
+    <td>
+        <a href="https://eslint.vuejs.org/rules/require-explicit-emits.html" target="_blank" rel="noopener noreferrer">vue/require-explicit-emits</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-2">
+    <td>367:17</td>
+    <td class="clr-1">Warning</td>
+    <td>The &#34;update:files&#34; event has been triggered but not declared on `emits` option.</td>
+    <td>
+        <a href="https://eslint.vuejs.org/rules/require-explicit-emits.html" target="_blank" rel="noopener noreferrer">vue/require-explicit-emits</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-2">
+    <td>373:5</td>
+    <td class="clr-2">Error</td>
+    <td>Unexpected console statement.</td>
+    <td>
+        <a href="https://eslint.org/docs/latest/rules/no-console" target="_blank" rel="noopener noreferrer">no-console</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-2">
+    <td>394:6</td>
+    <td class="clr-2">Error</td>
+    <td>Unexpected console statement.</td>
+    <td>
+        <a href="https://eslint.org/docs/latest/rules/no-console" target="_blank" rel="noopener noreferrer">no-console</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-2">
+    <td>434:6</td>
+    <td class="clr-2">Error</td>
+    <td>Unexpected console statement.</td>
+    <td>
+        <a href="https://eslint.org/docs/latest/rules/no-console" target="_blank" rel="noopener noreferrer">no-console</a>
+    </td>
+</tr>
+
+<tr class="bg-2" data-group="f-3">
+    <th colspan="4">
+        [+] /home/user/nextcloud-docker-dev-d/workspace/stable34/apps-extra/mediadc/src/components/details/DetailsGroupList.vue
+        <span>18 problems (5 errors, 13 warnings)</span>
+    </th>
+</tr>
+<tr style="display: none;" class="f-3">
+    <td>133:3</td>
+    <td class="clr-2">Error</td>
+    <td>Prop &#34;files&#34; should be optional.</td>
+    <td>
+        <a href="https://eslint.vuejs.org/rules/no-required-prop-with-default.html" target="_blank" rel="noopener noreferrer">vue/no-required-prop-with-default</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-3">
+    <td>139:3</td>
+    <td class="clr-2">Error</td>
+    <td>Prop &#34;allFiles&#34; should be optional.</td>
+    <td>
+        <a href="https://eslint.vuejs.org/rules/no-required-prop-with-default.html" target="_blank" rel="noopener noreferrer">vue/no-required-prop-with-default</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-3">
+    <td>155:3</td>
+    <td class="clr-1">Warning</td>
+    <td>&#39;updating&#39; of property found, but never used.</td>
+    <td>
+        <a href="https://eslint.vuejs.org/rules/no-unused-properties.html" target="_blank" rel="noopener noreferrer">vue/no-unused-properties</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-3">
+    <td>178:4</td>
+    <td class="clr-1">Warning</td>
+    <td>&#39;detailsGridSize&#39; of computed property found, but never used.</td>
+    <td>
+        <a href="https://eslint.vuejs.org/rules/no-unused-properties.html" target="_blank" rel="noopener noreferrer">vue/no-unused-properties</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-3">
+    <td>180:4</td>
+    <td class="clr-1">Warning</td>
+    <td>&#39;details&#39; of computed property found, but never used.</td>
+    <td>
+        <a href="https://eslint.vuejs.org/rules/no-unused-properties.html" target="_blank" rel="noopener noreferrer">vue/no-unused-properties</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-3">
+    <td>253:15</td>
+    <td class="clr-1">Warning</td>
+    <td>The &#34;update:updating&#34; event has been triggered but not declared on `emits` option.</td>
+    <td>
+        <a href="https://eslint.vuejs.org/rules/require-explicit-emits.html" target="_blank" rel="noopener noreferrer">vue/require-explicit-emits</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-3">
+    <td>274:17</td>
+    <td class="clr-1">Warning</td>
+    <td>The &#34;update:allFiles&#34; event has been triggered but not declared on `emits` option.</td>
+    <td>
+        <a href="https://eslint.vuejs.org/rules/require-explicit-emits.html" target="_blank" rel="noopener noreferrer">vue/require-explicit-emits</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-3">
+    <td>276:17</td>
+    <td class="clr-1">Warning</td>
+    <td>The &#34;update:updating&#34; event has been triggered but not declared on `emits` option.</td>
+    <td>
+        <a href="https://eslint.vuejs.org/rules/require-explicit-emits.html" target="_blank" rel="noopener noreferrer">vue/require-explicit-emits</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-3">
+    <td>280:5</td>
+    <td class="clr-2">Error</td>
+    <td>Unexpected console statement.</td>
+    <td>
+        <a href="https://eslint.org/docs/latest/rules/no-console" target="_blank" rel="noopener noreferrer">no-console</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-3">
+    <td>282:16</td>
+    <td class="clr-1">Warning</td>
+    <td>The &#34;update:updating&#34; event has been triggered but not declared on `emits` option.</td>
+    <td>
+        <a href="https://eslint.vuejs.org/rules/require-explicit-emits.html" target="_blank" rel="noopener noreferrer">vue/require-explicit-emits</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-3">
+    <td>297:15</td>
+    <td class="clr-1">Warning</td>
+    <td>The &#34;update:updating&#34; event has been triggered but not declared on `emits` option.</td>
+    <td>
+        <a href="https://eslint.vuejs.org/rules/require-explicit-emits.html" target="_blank" rel="noopener noreferrer">vue/require-explicit-emits</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-3">
+    <td>306:6</td>
+    <td class="clr-2">Error</td>
+    <td>Unexpected console statement.</td>
+    <td>
+        <a href="https://eslint.org/docs/latest/rules/no-console" target="_blank" rel="noopener noreferrer">no-console</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-3">
+    <td>308:17</td>
+    <td class="clr-1">Warning</td>
+    <td>The &#34;update:updating&#34; event has been triggered but not declared on `emits` option.</td>
+    <td>
+        <a href="https://eslint.vuejs.org/rules/require-explicit-emits.html" target="_blank" rel="noopener noreferrer">vue/require-explicit-emits</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-3">
+    <td>311:5</td>
+    <td class="clr-2">Error</td>
+    <td>Unexpected console statement.</td>
+    <td>
+        <a href="https://eslint.org/docs/latest/rules/no-console" target="_blank" rel="noopener noreferrer">no-console</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-3">
+    <td>313:16</td>
+    <td class="clr-1">Warning</td>
+    <td>The &#34;update:updating&#34; event has been triggered but not declared on `emits` option.</td>
+    <td>
+        <a href="https://eslint.vuejs.org/rules/require-explicit-emits.html" target="_blank" rel="noopener noreferrer">vue/require-explicit-emits</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-3">
+    <td>338:15</td>
+    <td class="clr-1">Warning</td>
+    <td>The &#34;update:allFiles&#34; event has been triggered but not declared on `emits` option.</td>
+    <td>
+        <a href="https://eslint.vuejs.org/rules/require-explicit-emits.html" target="_blank" rel="noopener noreferrer">vue/require-explicit-emits</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-3">
+    <td>340:15</td>
+    <td class="clr-1">Warning</td>
+    <td>The &#34;update:updating&#34; event has been triggered but not declared on `emits` option.</td>
+    <td>
+        <a href="https://eslint.vuejs.org/rules/require-explicit-emits.html" target="_blank" rel="noopener noreferrer">vue/require-explicit-emits</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-3">
+    <td>355:15</td>
+    <td class="clr-1">Warning</td>
+    <td>The &#34;update:filesAscending&#34; event has been triggered but not declared on `emits` option.</td>
+    <td>
+        <a href="https://eslint.vuejs.org/rules/require-explicit-emits.html" target="_blank" rel="noopener noreferrer">vue/require-explicit-emits</a>
+    </td>
+</tr>
+
+<tr class="bg-2" data-group="f-4">
+    <th colspan="4">
+        [+] /home/user/nextcloud-docker-dev-d/workspace/stable34/apps-extra/mediadc/src/components/details/DetailsList.vue
+        <span>8 problems (4 errors, 4 warnings)</span>
+    </th>
+</tr>
+<tr style="display: none;" class="f-4">
+    <td>248:4</td>
+    <td class="clr-1">Warning</td>
+    <td>&#39;taskInfo&#39; of computed property found, but never used.</td>
+    <td>
+        <a href="https://eslint.vuejs.org/rules/no-unused-properties.html" target="_blank" rel="noopener noreferrer">vue/no-unused-properties</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-4">
+    <td>251:4</td>
+    <td class="clr-1">Warning</td>
+    <td>&#39;sortedDetails&#39; of computed property found, but never used.</td>
+    <td>
+        <a href="https://eslint.vuejs.org/rules/no-unused-properties.html" target="_blank" rel="noopener noreferrer">vue/no-unused-properties</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-4">
+    <td>259:4</td>
+    <td class="clr-1">Warning</td>
+    <td>&#39;detailsFilteredSorted&#39; of computed property found, but never used.</td>
+    <td>
+        <a href="https://eslint.vuejs.org/rules/no-unused-properties.html" target="_blank" rel="noopener noreferrer">vue/no-unused-properties</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-4">
+    <td>268:8</td>
+    <td class="clr-2">Error</td>
+    <td>The value assigned to &#39;a&#39; is not used in subsequent statements.</td>
+    <td>
+        <a href="https://eslint.org/docs/latest/rules/no-useless-assignment" target="_blank" rel="noopener noreferrer">no-useless-assignment</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-4">
+    <td>316:14</td>
+    <td class="clr-1">Warning</td>
+    <td>The &#34;update:loading&#34; event has been triggered but not declared on `emits` option.</td>
+    <td>
+        <a href="https://eslint.vuejs.org/rules/require-explicit-emits.html" target="_blank" rel="noopener noreferrer">vue/require-explicit-emits</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-4">
+    <td>402:5</td>
+    <td class="clr-2">Error</td>
+    <td>Unexpected console statement.</td>
+    <td>
+        <a href="https://eslint.org/docs/latest/rules/no-console" target="_blank" rel="noopener noreferrer">no-console</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-4">
+    <td>406:22</td>
+    <td class="clr-2">Error</td>
+    <td>&#39;_details&#39; is defined but never used.</td>
+    <td>
+        <a href="https://typescript-eslint.io/rules/no-unused-vars" target="_blank" rel="noopener noreferrer">@typescript-eslint/no-unused-vars</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-4">
+    <td>442:5</td>
+    <td class="clr-2">Error</td>
+    <td>Unexpected console statement.</td>
+    <td>
+        <a href="https://eslint.org/docs/latest/rules/no-console" target="_blank" rel="noopener noreferrer">no-console</a>
+    </td>
+</tr>
+
+<tr class="bg-2" data-group="f-5">
+    <th colspan="4">
+        [+] /home/user/nextcloud-docker-dev-d/workspace/stable34/apps-extra/mediadc/src/components/details/DetailsListItem.vue
+        <span>6 problems (2 errors, 4 warnings)</span>
+    </th>
+</tr>
+<tr style="display: none;" class="f-5">
+    <td>165:4</td>
+    <td class="clr-1">Warning</td>
+    <td>&#39;task&#39; of computed property found, but never used.</td>
+    <td>
+        <a href="https://eslint.vuejs.org/rules/no-unused-properties.html" target="_blank" rel="noopener noreferrer">vue/no-unused-properties</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-5">
+    <td>195:15</td>
+    <td class="clr-1">Warning</td>
+    <td>The &#34;update:checkedDetailGroups&#34; event has been triggered but not declared on `emits` option.</td>
+    <td>
+        <a href="https://eslint.vuejs.org/rules/require-explicit-emits.html" target="_blank" rel="noopener noreferrer">vue/require-explicit-emits</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-5">
+    <td>282:23</td>
+    <td class="clr-2">Error</td>
+    <td>&#39;detail&#39; is defined but never used.</td>
+    <td>
+        <a href="https://typescript-eslint.io/rules/no-unused-vars" target="_blank" rel="noopener noreferrer">@typescript-eslint/no-unused-vars</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-5">
+    <td>344:18</td>
+    <td class="clr-1">Warning</td>
+    <td>The &#34;update:checkedDetailGroups&#34; event has been triggered but not declared on `emits` option.</td>
+    <td>
+        <a href="https://eslint.vuejs.org/rules/require-explicit-emits.html" target="_blank" rel="noopener noreferrer">vue/require-explicit-emits</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-5">
+    <td>353:18</td>
+    <td class="clr-1">Warning</td>
+    <td>The &#34;update:checkedDetailGroups&#34; event has been triggered but not declared on `emits` option.</td>
+    <td>
+        <a href="https://eslint.vuejs.org/rules/require-explicit-emits.html" target="_blank" rel="noopener noreferrer">vue/require-explicit-emits</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-5">
+    <td>361:5</td>
+    <td class="clr-2">Error</td>
+    <td>Unexpected console statement.</td>
+    <td>
+        <a href="https://eslint.org/docs/latest/rules/no-console" target="_blank" rel="noopener noreferrer">no-console</a>
+    </td>
+</tr>
+
+<tr class="bg-2" data-group="f-6">
+    <th colspan="4">
+        [+] /home/user/nextcloud-docker-dev-d/workspace/stable34/apps-extra/mediadc/src/components/details/Pagination.vue
+        <span>2 problems (1 error, 1 warning)</span>
+    </th>
+</tr>
+<tr style="display: none;" class="f-6">
+    <td>75:8</td>
+    <td class="clr-2">Error</td>
+    <td>Component name &#34;Pagination&#34; should always be multi-word.</td>
+    <td>
+        <a href="https://eslint.vuejs.org/rules/multi-word-component-names.html" target="_blank" rel="noopener noreferrer">vue/multi-word-component-names</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-6">
+    <td>125:15</td>
+    <td class="clr-1">Warning</td>
+    <td>The &#34;update:page&#34; event has been triggered but not declared on `emits` option.</td>
+    <td>
+        <a href="https://eslint.vuejs.org/rules/require-explicit-emits.html" target="_blank" rel="noopener noreferrer">vue/require-explicit-emits</a>
+    </td>
+</tr>
+
+<tr class="bg-0" data-group="f-7">
+    <th colspan="4">
+        [+] /home/user/nextcloud-docker-dev-d/workspace/stable34/apps-extra/mediadc/src/components/resolved/ResolvedList.vue
+        <span>0 problems</span>
+    </th>
+</tr>
+
+<tr class="bg-0" data-group="f-8">
+    <th colspan="4">
+        [+] /home/user/nextcloud-docker-dev-d/workspace/stable34/apps-extra/mediadc/src/components/resolved/ResolvedListFile.vue
+        <span>0 problems</span>
+    </th>
+</tr>
+
+<tr class="bg-2" data-group="f-9">
+    <th colspan="4">
+        [+] /home/user/nextcloud-docker-dev-d/workspace/stable34/apps-extra/mediadc/src/components/settings/AdminSettings.vue
+        <span>6 problems (6 errors, 0 warnings)</span>
+    </th>
+</tr>
+<tr style="display: none;" class="f-9">
+    <td>326:6</td>
+    <td class="clr-2">Error</td>
+    <td>Unexpected console statement.</td>
+    <td>
+        <a href="https://eslint.org/docs/latest/rules/no-console" target="_blank" rel="noopener noreferrer">no-console</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-9">
+    <td>356:7</td>
+    <td class="clr-2">Error</td>
+    <td>Unexpected console statement.</td>
+    <td>
+        <a href="https://eslint.org/docs/latest/rules/no-console" target="_blank" rel="noopener noreferrer">no-console</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-9">
+    <td>360:6</td>
+    <td class="clr-2">Error</td>
+    <td>Unexpected console statement.</td>
+    <td>
+        <a href="https://eslint.org/docs/latest/rules/no-console" target="_blank" rel="noopener noreferrer">no-console</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-9">
+    <td>381:7</td>
+    <td class="clr-2">Error</td>
+    <td>Unexpected console statement.</td>
+    <td>
+        <a href="https://eslint.org/docs/latest/rules/no-console" target="_blank" rel="noopener noreferrer">no-console</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-9">
+    <td>402:7</td>
+    <td class="clr-2">Error</td>
+    <td>Unexpected console statement.</td>
+    <td>
+        <a href="https://eslint.org/docs/latest/rules/no-console" target="_blank" rel="noopener noreferrer">no-console</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-9">
+    <td>418:6</td>
+    <td class="clr-2">Error</td>
+    <td>Unexpected console statement.</td>
+    <td>
+        <a href="https://eslint.org/docs/latest/rules/no-console" target="_blank" rel="noopener noreferrer">no-console</a>
+    </td>
+</tr>
+
+<tr class="bg-1" data-group="f-10">
+    <th colspan="4">
+        [+] /home/user/nextcloud-docker-dev-d/workspace/stable34/apps-extra/mediadc/src/components/settings/AppSettings.vue
+        <span>1 problem (0 errors, 1 warning)</span>
+    </th>
+</tr>
+<tr style="display: none;" class="f-10">
+    <td>166:15</td>
+    <td class="clr-1">Warning</td>
+    <td>The &#34;update:open&#34; event has been triggered but not declared on `emits` option.</td>
+    <td>
+        <a href="https://eslint.vuejs.org/rules/require-explicit-emits.html" target="_blank" rel="noopener noreferrer">vue/require-explicit-emits</a>
+    </td>
+</tr>
+
+<tr class="bg-2" data-group="f-11">
+    <th colspan="4">
+        [+] /home/user/nextcloud-docker-dev-d/workspace/stable34/apps-extra/mediadc/src/components/settings/BugReport.vue
+        <span>1 problem (1 error, 0 warnings)</span>
+    </th>
+</tr>
+<tr style="display: none;" class="f-11">
+    <td>86:5</td>
+    <td class="clr-2">Error</td>
+    <td>Unexpected console statement.</td>
+    <td>
+        <a href="https://eslint.org/docs/latest/rules/no-console" target="_blank" rel="noopener noreferrer">no-console</a>
+    </td>
+</tr>
+
+<tr class="bg-2" data-group="f-12">
+    <th colspan="4">
+        [+] /home/user/nextcloud-docker-dev-d/workspace/stable34/apps-extra/mediadc/src/components/tasks/TasksEdit.vue
+        <span>4 problems (1 error, 3 warnings)</span>
+    </th>
+</tr>
+<tr style="display: none;" class="f-12">
+    <td>27:3</td>
+    <td class="clr-2">Error</td>
+    <td>The element inside `&#60;transition&#62;` is expected to have a `v-if` or `v-show` directive.</td>
+    <td>
+        <a href="https://eslint.vuejs.org/rules/require-toggle-inside-transition.html" target="_blank" rel="noopener noreferrer">vue/require-toggle-inside-transition</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-12">
+    <td>247:4</td>
+    <td class="clr-1">Warning</td>
+    <td>&#39;settings&#39; of computed property found, but never used.</td>
+    <td>
+        <a href="https://eslint.vuejs.org/rules/no-unused-properties.html" target="_blank" rel="noopener noreferrer">vue/no-unused-properties</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-12">
+    <td>249:4</td>
+    <td class="clr-1">Warning</td>
+    <td>&#39;tasks&#39; of computed property found, but never used.</td>
+    <td>
+        <a href="https://eslint.vuejs.org/rules/no-unused-properties.html" target="_blank" rel="noopener noreferrer">vue/no-unused-properties</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-12">
+    <td>449:15</td>
+    <td class="clr-1">Warning</td>
+    <td>The &#34;update:opened&#34; event has been triggered but not declared on `emits` option.</td>
+    <td>
+        <a href="https://eslint.vuejs.org/rules/require-explicit-emits.html" target="_blank" rel="noopener noreferrer">vue/require-explicit-emits</a>
+    </td>
+</tr>
+
+<tr class="bg-0" data-group="f-13">
+    <th colspan="4">
+        [+] /home/user/nextcloud-docker-dev-d/workspace/stable34/apps-extra/mediadc/src/components/tasks/TasksList.vue
+        <span>0 problems</span>
+    </th>
+</tr>
+
+<tr class="bg-1" data-group="f-14">
+    <th colspan="4">
+        [+] /home/user/nextcloud-docker-dev-d/workspace/stable34/apps-extra/mediadc/src/components/tasks/TasksListItem.vue
+        <span>3 problems (0 errors, 3 warnings)</span>
+    </th>
+</tr>
+<tr style="display: none;" class="f-14">
+    <td>93:4</td>
+    <td class="clr-1">Warning</td>
+    <td>&#39;tasks&#39; of computed property found, but never used.</td>
+    <td>
+        <a href="https://eslint.vuejs.org/rules/no-unused-properties.html" target="_blank" rel="noopener noreferrer">vue/no-unused-properties</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-14">
+    <td>115:4</td>
+    <td class="clr-1">Warning</td>
+    <td>&#39;getTasks&#39; of method found, but never used.</td>
+    <td>
+        <a href="https://eslint.vuejs.org/rules/no-unused-properties.html" target="_blank" rel="noopener noreferrer">vue/no-unused-properties</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-14">
+    <td>116:4</td>
+    <td class="clr-1">Warning</td>
+    <td>&#39;getSettings&#39; of method found, but never used.</td>
+    <td>
+        <a href="https://eslint.vuejs.org/rules/no-unused-properties.html" target="_blank" rel="noopener noreferrer">vue/no-unused-properties</a>
+    </td>
+</tr>
+
+<tr class="bg-1" data-group="f-15">
+    <th colspan="4">
+        [+] /home/user/nextcloud-docker-dev-d/workspace/stable34/apps-extra/mediadc/src/components/tasks/TasksNew.vue
+        <span>2 problems (0 errors, 2 warnings)</span>
+    </th>
+</tr>
+<tr style="display: none;" class="f-15">
+    <td>248:4</td>
+    <td class="clr-1">Warning</td>
+    <td>&#39;settings&#39; of computed property found, but never used.</td>
+    <td>
+        <a href="https://eslint.vuejs.org/rules/no-unused-properties.html" target="_blank" rel="noopener noreferrer">vue/no-unused-properties</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-15">
+    <td>250:4</td>
+    <td class="clr-1">Warning</td>
+    <td>&#39;tasks&#39; of computed property found, but never used.</td>
+    <td>
+        <a href="https://eslint.vuejs.org/rules/no-unused-properties.html" target="_blank" rel="noopener noreferrer">vue/no-unused-properties</a>
+    </td>
+</tr>
+
+<tr class="bg-1" data-group="f-16">
+    <th colspan="4">
+        [+] /home/user/nextcloud-docker-dev-d/workspace/stable34/apps-extra/mediadc/src/composables/useFormats.js
+        <span>6 problems (0 errors, 6 warnings)</span>
+    </th>
+</tr>
+<tr style="display: none;" class="f-16">
+    <td>14:1</td>
+    <td class="clr-1">Warning</td>
+    <td>Missing JSDoc @param &#34;time&#34; description.</td>
+    <td>
+        <a href="https://github.com/gajus/eslint-plugin-jsdoc/blob/main/docs/rules/require-param-description.md#repos-sticky-header" target="_blank" rel="noopener noreferrer">jsdoc/require-param-description</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-16">
+    <td>14:1</td>
+    <td class="clr-1">Warning</td>
+    <td>Missing JSDoc @param &#34;time&#34; type.</td>
+    <td>
+        <a href="https://github.com/gajus/eslint-plugin-jsdoc/blob/main/docs/rules/require-param-type.md#repos-sticky-header" target="_blank" rel="noopener noreferrer">jsdoc/require-param-type</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-16">
+    <td>22:1</td>
+    <td class="clr-1">Warning</td>
+    <td>Missing JSDoc @param &#34;task&#34; description.</td>
+    <td>
+        <a href="https://github.com/gajus/eslint-plugin-jsdoc/blob/main/docs/rules/require-param-description.md#repos-sticky-header" target="_blank" rel="noopener noreferrer">jsdoc/require-param-description</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-16">
+    <td>22:1</td>
+    <td class="clr-1">Warning</td>
+    <td>Missing JSDoc @param &#34;task&#34; type.</td>
+    <td>
+        <a href="https://github.com/gajus/eslint-plugin-jsdoc/blob/main/docs/rules/require-param-type.md#repos-sticky-header" target="_blank" rel="noopener noreferrer">jsdoc/require-param-type</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-16">
+    <td>52:1</td>
+    <td class="clr-1">Warning</td>
+    <td>Missing JSDoc @param &#34;task&#34; description.</td>
+    <td>
+        <a href="https://github.com/gajus/eslint-plugin-jsdoc/blob/main/docs/rules/require-param-description.md#repos-sticky-header" target="_blank" rel="noopener noreferrer">jsdoc/require-param-description</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-16">
+    <td>52:1</td>
+    <td class="clr-1">Warning</td>
+    <td>Missing JSDoc @param &#34;task&#34; type.</td>
+    <td>
+        <a href="https://github.com/gajus/eslint-plugin-jsdoc/blob/main/docs/rules/require-param-type.md#repos-sticky-header" target="_blank" rel="noopener noreferrer">jsdoc/require-param-type</a>
+    </td>
+</tr>
+
+<tr class="bg-0" data-group="f-17">
+    <th colspan="4">
+        [+] /home/user/nextcloud-docker-dev-d/workspace/stable34/apps-extra/mediadc/src/filesplugin.js
+        <span>0 problems</span>
+    </th>
+</tr>
+
+<tr class="bg-2" data-group="f-18">
+    <th colspan="4">
+        [+] /home/user/nextcloud-docker-dev-d/workspace/stable34/apps-extra/mediadc/src/main-admin-settings.js
+        <span>1 problem (1 error, 0 warnings)</span>
+    </th>
+</tr>
+<tr style="display: none;" class="f-18">
+    <td>27:52</td>
+    <td class="clr-2">Error</td>
+    <td>Definition for rule &#39;n/no-extraneous-import&#39; was not found.</td>
+    <td>
+        <a href="" target="_blank" rel="noopener noreferrer">n/no-extraneous-import</a>
+    </td>
+</tr>
+
+<tr class="bg-0" data-group="f-19">
+    <th colspan="4">
+        [+] /home/user/nextcloud-docker-dev-d/workspace/stable34/apps-extra/mediadc/src/main-dashboard.js
+        <span>0 problems</span>
+    </th>
+</tr>
+
+<tr class="bg-2" data-group="f-20">
+    <th colspan="4">
+        [+] /home/user/nextcloud-docker-dev-d/workspace/stable34/apps-extra/mediadc/src/main.js
+        <span>1 problem (1 error, 0 warnings)</span>
+    </th>
+</tr>
+<tr style="display: none;" class="f-20">
+    <td>27:52</td>
+    <td class="clr-2">Error</td>
+    <td>Definition for rule &#39;n/no-extraneous-import&#39; was not found.</td>
+    <td>
+        <a href="" target="_blank" rel="noopener noreferrer">n/no-extraneous-import</a>
+    </td>
+</tr>
+
+<tr class="bg-2" data-group="f-21">
+    <th colspan="4">
+        [+] /home/user/nextcloud-docker-dev-d/workspace/stable34/apps-extra/mediadc/src/router/index.js
+        <span>2 problems (2 errors, 0 warnings)</span>
+    </th>
+</tr>
+<tr style="display: none;" class="f-21">
+    <td>39:12</td>
+    <td class="clr-2">Error</td>
+    <td>&#39;route&#39; is defined but never used.</td>
+    <td>
+        <a href="https://eslint.org/docs/latest/rules/no-unused-vars" target="_blank" rel="noopener noreferrer">no-unused-vars</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-21">
+    <td>56:12</td>
+    <td class="clr-2">Error</td>
+    <td>&#39;route&#39; is defined but never used.</td>
+    <td>
+        <a href="https://eslint.org/docs/latest/rules/no-unused-vars" target="_blank" rel="noopener noreferrer">no-unused-vars</a>
+    </td>
+</tr>
+
+<tr class="bg-1" data-group="f-22">
+    <th colspan="4">
+        [+] /home/user/nextcloud-docker-dev-d/workspace/stable34/apps-extra/mediadc/src/store/details.js
+        <span>7 problems (0 errors, 7 warnings)</span>
+    </th>
+</tr>
+<tr style="display: none;" class="f-22">
+    <td>190:1</td>
+    <td class="clr-1">Warning</td>
+    <td>Prefer a more specific type to `*`</td>
+    <td>
+        <a href="https://github.com/gajus/eslint-plugin-jsdoc/blob/main/docs/rules/reject-any-type.md#repos-sticky-header" target="_blank" rel="noopener noreferrer">jsdoc/reject-any-type</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-22">
+    <td>330:1</td>
+    <td class="clr-1">Warning</td>
+    <td>Missing JSDoc @param &#34;taskId&#34; description.</td>
+    <td>
+        <a href="https://github.com/gajus/eslint-plugin-jsdoc/blob/main/docs/rules/require-param-description.md#repos-sticky-header" target="_blank" rel="noopener noreferrer">jsdoc/require-param-description</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-22">
+    <td>330:1</td>
+    <td class="clr-1">Warning</td>
+    <td>Missing JSDoc @param &#34;taskId&#34; type.</td>
+    <td>
+        <a href="https://github.com/gajus/eslint-plugin-jsdoc/blob/main/docs/rules/require-param-type.md#repos-sticky-header" target="_blank" rel="noopener noreferrer">jsdoc/require-param-type</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-22">
+    <td>352:1</td>
+    <td class="clr-1">Warning</td>
+    <td>Missing JSDoc @param &#34;taskId&#34; description.</td>
+    <td>
+        <a href="https://github.com/gajus/eslint-plugin-jsdoc/blob/main/docs/rules/require-param-description.md#repos-sticky-header" target="_blank" rel="noopener noreferrer">jsdoc/require-param-description</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-22">
+    <td>352:1</td>
+    <td class="clr-1">Warning</td>
+    <td>Missing JSDoc @param &#34;taskId&#34; type.</td>
+    <td>
+        <a href="https://github.com/gajus/eslint-plugin-jsdoc/blob/main/docs/rules/require-param-type.md#repos-sticky-header" target="_blank" rel="noopener noreferrer">jsdoc/require-param-type</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-22">
+    <td>366:1</td>
+    <td class="clr-1">Warning</td>
+    <td>Missing JSDoc @param &#34;taskId&#34; description.</td>
+    <td>
+        <a href="https://github.com/gajus/eslint-plugin-jsdoc/blob/main/docs/rules/require-param-description.md#repos-sticky-header" target="_blank" rel="noopener noreferrer">jsdoc/require-param-description</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-22">
+    <td>366:1</td>
+    <td class="clr-1">Warning</td>
+    <td>Missing JSDoc @param &#34;taskId&#34; type.</td>
+    <td>
+        <a href="https://github.com/gajus/eslint-plugin-jsdoc/blob/main/docs/rules/require-param-type.md#repos-sticky-header" target="_blank" rel="noopener noreferrer">jsdoc/require-param-type</a>
+    </td>
+</tr>
+
+<tr class="bg-2" data-group="f-23">
+    <th colspan="4">
+        [+] /home/user/nextcloud-docker-dev-d/workspace/stable34/apps-extra/mediadc/src/store/index.js
+        <span>1 problem (1 error, 0 warnings)</span>
+    </th>
+</tr>
+<tr style="display: none;" class="f-23">
+    <td>38:10</td>
+    <td class="clr-2">Error</td>
+    <td>&#39;process&#39; is not defined.</td>
+    <td>
+        <a href="https://eslint.org/docs/latest/rules/no-undef" target="_blank" rel="noopener noreferrer">no-undef</a>
+    </td>
+</tr>
+
+<tr class="bg-2" data-group="f-24">
+    <th colspan="4">
+        [+] /home/user/nextcloud-docker-dev-d/workspace/stable34/apps-extra/mediadc/src/store/resolved.js
+        <span>3 problems (3 errors, 0 warnings)</span>
+    </th>
+</tr>
+<tr style="display: none;" class="f-24">
+    <td>162:4</td>
+    <td class="clr-2">Error</td>
+    <td>Unexpected console statement.</td>
+    <td>
+        <a href="https://eslint.org/docs/latest/rules/no-console" target="_blank" rel="noopener noreferrer">no-console</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-24">
+    <td>177:4</td>
+    <td class="clr-2">Error</td>
+    <td>Unexpected console statement.</td>
+    <td>
+        <a href="https://eslint.org/docs/latest/rules/no-console" target="_blank" rel="noopener noreferrer">no-console</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-24">
+    <td>193:4</td>
+    <td class="clr-2">Error</td>
+    <td>Unexpected console statement.</td>
+    <td>
+        <a href="https://eslint.org/docs/latest/rules/no-console" target="_blank" rel="noopener noreferrer">no-console</a>
+    </td>
+</tr>
+
+<tr class="bg-2" data-group="f-25">
+    <th colspan="4">
+        [+] /home/user/nextcloud-docker-dev-d/workspace/stable34/apps-extra/mediadc/src/store/settings.js
+        <span>1 problem (1 error, 0 warnings)</span>
+    </th>
+</tr>
+<tr style="display: none;" class="f-25">
+    <td>183:4</td>
+    <td class="clr-2">Error</td>
+    <td>Unexpected console statement.</td>
+    <td>
+        <a href="https://eslint.org/docs/latest/rules/no-console" target="_blank" rel="noopener noreferrer">no-console</a>
+    </td>
+</tr>
+
+<tr class="bg-2" data-group="f-26">
+    <th colspan="4">
+        [+] /home/user/nextcloud-docker-dev-d/workspace/stable34/apps-extra/mediadc/src/store/tasks.js
+        <span>8 problems (5 errors, 3 warnings)</span>
+    </th>
+</tr>
+<tr style="display: none;" class="f-26">
+    <td>128:4</td>
+    <td class="clr-2">Error</td>
+    <td>Unexpected console statement.</td>
+    <td>
+        <a href="https://eslint.org/docs/latest/rules/no-console" target="_blank" rel="noopener noreferrer">no-console</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-26">
+    <td>138:1</td>
+    <td class="clr-1">Warning</td>
+    <td>Expected @param names to be &#34;context, task&#34;. Got &#34;context, taskId, task&#34;.</td>
+    <td>
+        <a href="https://github.com/gajus/eslint-plugin-jsdoc/blob/main/docs/rules/check-param-names.md#repos-sticky-header" target="_blank" rel="noopener noreferrer">jsdoc/check-param-names</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-26">
+    <td>139:1</td>
+    <td class="clr-1">Warning</td>
+    <td>Missing JSDoc @param &#34;task&#34; description.</td>
+    <td>
+        <a href="https://github.com/gajus/eslint-plugin-jsdoc/blob/main/docs/rules/require-param-description.md#repos-sticky-header" target="_blank" rel="noopener noreferrer">jsdoc/require-param-description</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-26">
+    <td>139:1</td>
+    <td class="clr-1">Warning</td>
+    <td>Missing JSDoc @param &#34;task&#34; type.</td>
+    <td>
+        <a href="https://github.com/gajus/eslint-plugin-jsdoc/blob/main/docs/rules/require-param-type.md#repos-sticky-header" target="_blank" rel="noopener noreferrer">jsdoc/require-param-type</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-26">
+    <td>150:4</td>
+    <td class="clr-2">Error</td>
+    <td>Unexpected console statement.</td>
+    <td>
+        <a href="https://eslint.org/docs/latest/rules/no-console" target="_blank" rel="noopener noreferrer">no-console</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-26">
+    <td>170:4</td>
+    <td class="clr-2">Error</td>
+    <td>Unexpected console statement.</td>
+    <td>
+        <a href="https://eslint.org/docs/latest/rules/no-console" target="_blank" rel="noopener noreferrer">no-console</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-26">
+    <td>192:4</td>
+    <td class="clr-2">Error</td>
+    <td>Unexpected console statement.</td>
+    <td>
+        <a href="https://eslint.org/docs/latest/rules/no-console" target="_blank" rel="noopener noreferrer">no-console</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-26">
+    <td>240:4</td>
+    <td class="clr-2">Error</td>
+    <td>Unexpected console statement.</td>
+    <td>
+        <a href="https://eslint.org/docs/latest/rules/no-console" target="_blank" rel="noopener noreferrer">no-console</a>
+    </td>
+</tr>
+
+<tr class="bg-2" data-group="f-27">
+    <th colspan="4">
+        [+] /home/user/nextcloud-docker-dev-d/workspace/stable34/apps-extra/mediadc/src/utils/files.js
+        <span>11 problems (1 error, 10 warnings)</span>
+    </th>
+</tr>
+<tr style="display: none;" class="f-27">
+    <td>40:1</td>
+    <td class="clr-1">Warning</td>
+    <td>Missing JSDoc @param &#34;xml&#34; description.</td>
+    <td>
+        <a href="https://github.com/gajus/eslint-plugin-jsdoc/blob/main/docs/rules/require-param-description.md#repos-sticky-header" target="_blank" rel="noopener noreferrer">jsdoc/require-param-description</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-27">
+    <td>40:1</td>
+    <td class="clr-1">Warning</td>
+    <td>Missing JSDoc @param &#34;xml&#34; type.</td>
+    <td>
+        <a href="https://github.com/gajus/eslint-plugin-jsdoc/blob/main/docs/rules/require-param-type.md#repos-sticky-header" target="_blank" rel="noopener noreferrer">jsdoc/require-param-type</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-27">
+    <td>55:1</td>
+    <td class="clr-1">Warning</td>
+    <td>Missing JSDoc @param &#34;xml&#34; description.</td>
+    <td>
+        <a href="https://github.com/gajus/eslint-plugin-jsdoc/blob/main/docs/rules/require-param-description.md#repos-sticky-header" target="_blank" rel="noopener noreferrer">jsdoc/require-param-description</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-27">
+    <td>55:1</td>
+    <td class="clr-1">Warning</td>
+    <td>Missing JSDoc @param &#34;xml&#34; type.</td>
+    <td>
+        <a href="https://github.com/gajus/eslint-plugin-jsdoc/blob/main/docs/rules/require-param-type.md#repos-sticky-header" target="_blank" rel="noopener noreferrer">jsdoc/require-param-type</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-27">
+    <td>70:1</td>
+    <td class="clr-1">Warning</td>
+    <td>Missing JSDoc @param &#34;path&#34; description.</td>
+    <td>
+        <a href="https://github.com/gajus/eslint-plugin-jsdoc/blob/main/docs/rules/require-param-description.md#repos-sticky-header" target="_blank" rel="noopener noreferrer">jsdoc/require-param-description</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-27">
+    <td>70:1</td>
+    <td class="clr-1">Warning</td>
+    <td>Missing JSDoc @param &#34;path&#34; type.</td>
+    <td>
+        <a href="https://github.com/gajus/eslint-plugin-jsdoc/blob/main/docs/rules/require-param-type.md#repos-sticky-header" target="_blank" rel="noopener noreferrer">jsdoc/require-param-type</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-27">
+    <td>84:1</td>
+    <td class="clr-1">Warning</td>
+    <td>Missing JSDoc @param &#34;bytes&#34; description.</td>
+    <td>
+        <a href="https://github.com/gajus/eslint-plugin-jsdoc/blob/main/docs/rules/require-param-description.md#repos-sticky-header" target="_blank" rel="noopener noreferrer">jsdoc/require-param-description</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-27">
+    <td>84:1</td>
+    <td class="clr-1">Warning</td>
+    <td>Missing JSDoc @param &#34;bytes&#34; type.</td>
+    <td>
+        <a href="https://github.com/gajus/eslint-plugin-jsdoc/blob/main/docs/rules/require-param-type.md#repos-sticky-header" target="_blank" rel="noopener noreferrer">jsdoc/require-param-type</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-27">
+    <td>85:1</td>
+    <td class="clr-1">Warning</td>
+    <td>Missing JSDoc @param &#34;decimals&#34; description.</td>
+    <td>
+        <a href="https://github.com/gajus/eslint-plugin-jsdoc/blob/main/docs/rules/require-param-description.md#repos-sticky-header" target="_blank" rel="noopener noreferrer">jsdoc/require-param-description</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-27">
+    <td>85:1</td>
+    <td class="clr-1">Warning</td>
+    <td>Missing JSDoc @param &#34;decimals&#34; type.</td>
+    <td>
+        <a href="https://github.com/gajus/eslint-plugin-jsdoc/blob/main/docs/rules/require-param-type.md#repos-sticky-header" target="_blank" rel="noopener noreferrer">jsdoc/require-param-type</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-27">
+    <td>88:21</td>
+    <td class="clr-2">Error</td>
+    <td>This line has 2 statements. Maximum allowed is 1.</td>
+    <td>
+        <a href="https://eslint.style/rules/max-statements-per-line" target="_blank" rel="noopener noreferrer">@stylistic/max-statements-per-line</a>
+    </td>
+</tr>
+
+<tr class="bg-2" data-group="f-28">
+    <th colspan="4">
+        [+] /home/user/nextcloud-docker-dev-d/workspace/stable34/apps-extra/mediadc/src/views/Collector.vue
+        <span>7 problems (1 error, 6 warnings)</span>
+    </th>
+</tr>
+<tr style="display: none;" class="f-28">
+    <td>48:8</td>
+    <td class="clr-2">Error</td>
+    <td>Component name &#34;Collector&#34; should always be multi-word.</td>
+    <td>
+        <a href="https://eslint.vuejs.org/rules/multi-word-component-names.html" target="_blank" rel="noopener noreferrer">vue/multi-word-component-names</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-28">
+    <td>74:15</td>
+    <td class="clr-1">Warning</td>
+    <td>The &#34;update:loading&#34; event has been triggered but not declared on `emits` option.</td>
+    <td>
+        <a href="https://eslint.vuejs.org/rules/require-explicit-emits.html" target="_blank" rel="noopener noreferrer">vue/require-explicit-emits</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-28">
+    <td>80:16</td>
+    <td class="clr-1">Warning</td>
+    <td>The &#34;update:loading&#34; event has been triggered but not declared on `emits` option.</td>
+    <td>
+        <a href="https://eslint.vuejs.org/rules/require-explicit-emits.html" target="_blank" rel="noopener noreferrer">vue/require-explicit-emits</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-28">
+    <td>83:17</td>
+    <td class="clr-1">Warning</td>
+    <td>The &#34;update:loading&#34; event has been triggered but not declared on `emits` option.</td>
+    <td>
+        <a href="https://eslint.vuejs.org/rules/require-explicit-emits.html" target="_blank" rel="noopener noreferrer">vue/require-explicit-emits</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-28">
+    <td>86:18</td>
+    <td class="clr-1">Warning</td>
+    <td>The &#34;update:loading&#34; event has been triggered but not declared on `emits` option.</td>
+    <td>
+        <a href="https://eslint.vuejs.org/rules/require-explicit-emits.html" target="_blank" rel="noopener noreferrer">vue/require-explicit-emits</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-28">
+    <td>92:18</td>
+    <td class="clr-1">Warning</td>
+    <td>The &#34;update:loading&#34; event has been triggered but not declared on `emits` option.</td>
+    <td>
+        <a href="https://eslint.vuejs.org/rules/require-explicit-emits.html" target="_blank" rel="noopener noreferrer">vue/require-explicit-emits</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-28">
+    <td>100:30</td>
+    <td class="clr-1">Warning</td>
+    <td>&#39;getSettings&#39; of method found, but never used.</td>
+    <td>
+        <a href="https://eslint.vuejs.org/rules/no-unused-properties.html" target="_blank" rel="noopener noreferrer">vue/no-unused-properties</a>
+    </td>
+</tr>
+
+<tr class="bg-2" data-group="f-29">
+    <th colspan="4">
+        [+] /home/user/nextcloud-docker-dev-d/workspace/stable34/apps-extra/mediadc/src/views/CollectorDetails.vue
+        <span>3 problems (1 error, 2 warnings)</span>
+    </th>
+</tr>
+<tr style="display: none;" class="f-29">
+    <td>255:14</td>
+    <td class="clr-1">Warning</td>
+    <td>The &#34;update:loading&#34; event has been triggered but not declared on `emits` option.</td>
+    <td>
+        <a href="https://eslint.vuejs.org/rules/require-explicit-emits.html" target="_blank" rel="noopener noreferrer">vue/require-explicit-emits</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-29">
+    <td>261:15</td>
+    <td class="clr-1">Warning</td>
+    <td>The &#34;update:loading&#34; event has been triggered but not declared on `emits` option.</td>
+    <td>
+        <a href="https://eslint.vuejs.org/rules/require-explicit-emits.html" target="_blank" rel="noopener noreferrer">vue/require-explicit-emits</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-29">
+    <td>360:7</td>
+    <td class="clr-2">Error</td>
+    <td>Unexpected console statement.</td>
+    <td>
+        <a href="https://eslint.org/docs/latest/rules/no-console" target="_blank" rel="noopener noreferrer">no-console</a>
+    </td>
+</tr>
+
+<tr class="bg-2" data-group="f-30">
+    <th colspan="4">
+        [+] /home/user/nextcloud-docker-dev-d/workspace/stable34/apps-extra/mediadc/src/views/Dashboard.vue
+        <span>1 problem (1 error, 0 warnings)</span>
+    </th>
+</tr>
+<tr style="display: none;" class="f-30">
+    <td>71:8</td>
+    <td class="clr-2">Error</td>
+    <td>Component name &#34;Dashboard&#34; should always be multi-word.</td>
+    <td>
+        <a href="https://eslint.vuejs.org/rules/multi-word-component-names.html" target="_blank" rel="noopener noreferrer">vue/multi-word-component-names</a>
+    </td>
+</tr>
+
+<tr class="bg-2" data-group="f-31">
+    <th colspan="4">
+        [+] /home/user/nextcloud-docker-dev-d/workspace/stable34/apps-extra/mediadc/src/views/Resolved.vue
+        <span>4 problems (1 error, 3 warnings)</span>
+    </th>
+</tr>
+<tr style="display: none;" class="f-31">
+    <td>47:8</td>
+    <td class="clr-2">Error</td>
+    <td>Component name &#34;Resolved&#34; should always be multi-word.</td>
+    <td>
+        <a href="https://eslint.vuejs.org/rules/multi-word-component-names.html" target="_blank" rel="noopener noreferrer">vue/multi-word-component-names</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-31">
+    <td>82:14</td>
+    <td class="clr-1">Warning</td>
+    <td>The &#34;update:loading&#34; event has been triggered but not declared on `emits` option.</td>
+    <td>
+        <a href="https://eslint.vuejs.org/rules/require-explicit-emits.html" target="_blank" rel="noopener noreferrer">vue/require-explicit-emits</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-31">
+    <td>85:16</td>
+    <td class="clr-1">Warning</td>
+    <td>The &#34;update:loading&#34; event has been triggered but not declared on `emits` option.</td>
+    <td>
+        <a href="https://eslint.vuejs.org/rules/require-explicit-emits.html" target="_blank" rel="noopener noreferrer">vue/require-explicit-emits</a>
+    </td>
+</tr>
+
+<tr style="display: none;" class="f-31">
+    <td>88:15</td>
+    <td class="clr-1">Warning</td>
+    <td>The &#34;update:loading&#34; event has been triggered but not declared on `emits` option.</td>
+    <td>
+        <a href="https://eslint.vuejs.org/rules/require-explicit-emits.html" target="_blank" rel="noopener noreferrer">vue/require-explicit-emits</a>
+    </td>
+</tr>
+
+            </tbody>
+        </table>
+        <script type="text/javascript">
+            var groups = document.querySelectorAll("tr[data-group]");
+            for (i = 0; i < groups.length; i++) {
+                groups[i].addEventListener("click", function() {
+                    var inGroup = document.getElementsByClassName(this.getAttribute("data-group"));
+                    this.innerHTML = (this.innerHTML.indexOf("+") > -1) ? this.innerHTML.replace("+", "-") : this.innerHTML.replace("-", "+");
+                    for (var j = 0; j < inGroup.length; j++) {
+                        inGroup[j].style.display = (inGroup[j].style.display !== "none") ? "none" : "table-row";
+                    }
+                });
+            }
+        </script>
+    </body>
+</html>

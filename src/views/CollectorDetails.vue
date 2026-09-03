@@ -30,11 +30,12 @@
 			<div class="task-details-heading">
 				<h2>
 					{{ rootTitle }}
-					<NcButton v-if="isValidUser"
+					<NcButton
+						v-if="isValidUser"
 						v-tooltip="{content: !collapsedStatus
 							? t('mediadc', 'Collapse task status')
 							: t('mediadc', 'Show task status'), placement: 'bottom-end'}"
-						type="tertiary"
+						variant="tertiary"
 						:aria-label="t('mediadc', 'Collapse task status')"
 						style="margin: 0 10px;"
 						@click="collapseTaskStatus">
@@ -76,27 +77,31 @@
 								</span>
 							</div>
 							<NcActions style="margin: 0 0 0 10px;">
-								<NcActionButton v-tooltip="{content: t('mediadc', 'Restart task with current params'), placement: 'left'}"
+								<NcActionButton
+									v-tooltip="{content: t('mediadc', 'Restart task with current params'), placement: 'left'}"
 									icon="icon-history"
-									:close-after-click="true"
+									:closeAfterClick="true"
 									@click="restartTask(task)">
 									{{ getStatusBadge(task) === 'duplicated' ? t('mediadc', 'Start') : t('mediadc', 'Restart') }}
 								</NcActionButton>
-								<NcActionButton v-tooltip="{content: t('mediadc', 'Edit task params'), placement: 'left'}"
+								<NcActionButton
+									v-tooltip="{content: t('mediadc', 'Edit task params'), placement: 'left'}"
 									icon="icon-rename"
-									:close-after-click="true"
+									:closeAfterClick="true"
 									@click="openEditTaskDialog(task)">
 									{{ t('mediadc', 'Edit') }}
 								</NcActionButton>
-								<NcActionButton v-tooltip="{content: t('mediadc', 'Terminate task execution'), placement: 'left'}"
+								<NcActionButton
+									v-tooltip="{content: t('mediadc', 'Terminate task execution'), placement: 'left'}"
 									icon="icon-pause"
-									:close-after-click="true"
+									:closeAfterClick="true"
 									@click="_terminateTask(task)">
 									{{ t('mediadc', 'Stop') }}
 								</NcActionButton>
-								<NcActionButton v-if="getStatusBadge(task) === 'finished'"
+								<NcActionButton
+									v-if="getStatusBadge(task) === 'finished'"
 									v-tooltip="{ content: t('mediadc', 'Export task results'), placement: 'left' }"
-									:close-after-click="true"
+									:closeAfterClick="true"
 									@click="openExportResultsDialog(task)">
 									<template #default>
 										{{ t('mediadc', 'Export') }}
@@ -105,22 +110,25 @@
 										<FileExportOutline :size="18" />
 									</template>
 								</NcActionButton>
-								<NcActionButton v-tooltip="{content: t('mediadc', 'Delete task'), placement: 'left'}"
+								<NcActionButton
+									v-tooltip="{content: t('mediadc', 'Delete task'), placement: 'left'}"
 									icon="icon-delete"
-									:close-after-click="true"
+									:closeAfterClick="true"
 									@click="deleteTask(task)">
 									{{ t('mediadc', 'Delete task') }}
 								</NcActionButton>
 							</NcActions>
 						</div>
-						<NcProgressBar :value="Math.round((task.files_scanned / task.files_total) * 100)"
+						<NcProgressBar
+							:value="Math.round((task.files_scanned / task.files_total) * 100)"
 							size="small"
 							:error="getStatusBadge(task) === 'error'" />
 					</div>
 					<div class="task-info">
 						<h3>{{ t('mediadc', 'Target directories') }}</h3>
 						<div class="target-directories-list">
-							<div v-for="dir in taskInfo.target_directories"
+							<div
+								v-for="dir in taskInfo.target_directories"
 								:key="dir.fileid"
 								v-tooltip="{content: getDirOwnerToolip(dir), placement: 'bottom'}"
 								class="target-directory-row">
@@ -151,9 +159,10 @@
 			</Transition>
 			<div v-if="hasErrors" class="errors">
 				<div class="errors-heading" style="display: flex; align-items: center;">
-					<h3>{{ t('mediadc', 'Task errors' ) }}</h3>
-					<NcButton v-tooltip="t('mediadc', 'Copy to clipboard')"
-						type="tertiary-no-background"
+					<h3>{{ t('mediadc', 'Task errors') }}</h3>
+					<NcButton
+						v-tooltip="t('mediadc', 'Copy to clipboard')"
+						variant="tertiary-no-background"
 						:aria-label="t('mediadc', 'Copy to clipboard')"
 						style="margin: 0 10px;"
 						@click="copyErrorsToClipboard">
@@ -171,21 +180,19 @@
 </template>
 
 <script>
-import axios from '@nextcloud/axios'
 import { getCurrentUser } from '@nextcloud/auth'
+import axios from '@nextcloud/axios'
+import { getDialogBuilder, showError, showMessage, showSuccess, showWarning } from '@nextcloud/dialogs'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
-import { getDialogBuilder, showSuccess, showError, showWarning, showMessage } from '@nextcloud/dialogs'
 import { generateUrl } from '@nextcloud/router'
+import { NcActionButton, NcActions, NcButton, NcProgressBar } from '@nextcloud/vue'
 import { mapActions, mapGetters } from 'vuex'
-
-import DetailsList from '../components/details/DetailsList.vue'
-import { formatBytes, parseUnixTimestamp, getStatusBadge, parseTargetMtype } from '../composables/useFormats.js'
-import TasksEdit from '../components/tasks/TasksEdit.vue'
-import DetailsExport from '../components/details/DetailsExport.vue'
-
-import { NcActions, NcActionButton, NcProgressBar, NcButton } from '@nextcloud/vue'
 import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
 import FileExportOutline from 'vue-material-design-icons/FileExportOutline.vue'
+import DetailsExport from '../components/details/DetailsExport.vue'
+import DetailsList from '../components/details/DetailsList.vue'
+import TasksEdit from '../components/tasks/TasksEdit.vue'
+import { formatBytes, getStatusBadge, parseTargetMtype, parseUnixTimestamp } from '../composables/useFormats.js'
 
 export default {
 	name: 'CollectorDetails',
@@ -200,16 +207,19 @@ export default {
 		ContentCopy,
 		FileExportOutline,
 	},
+
 	props: {
 		rootTitle: {
 			type: String,
 			required: true,
 		},
+
 		loading: {
 			type: Boolean,
 			required: true,
 		},
 	},
+
 	data() {
 		return {
 			tasksUpdater: null,
@@ -219,6 +229,7 @@ export default {
 			pendingSince: null,
 		}
 	},
+
 	computed: {
 		...mapGetters([
 			'task',
@@ -226,16 +237,20 @@ export default {
 			'details',
 			'settingByName',
 		]),
+
 		isValidUser() {
 			return getCurrentUser().uid === this.task?.owner
 		},
+
 		currentUser() {
 			return getCurrentUser().uid
 		},
+
 		hasErrors() {
 			return this.task?.errors?.length > 0
 		},
 	},
+
 	beforeMount() {
 		this.$emit('update:loading', true)
 		this.tasksUpdater = setInterval(this._getTaskDetails, 3000)
@@ -249,6 +264,7 @@ export default {
 		subscribe('restartTask', this.onRestartTaskEvent)
 		subscribe('updateTaskInfo', this._getDetailFilesTotalSize)
 	},
+
 	beforeUnmount() {
 		clearInterval(this.tasksUpdater)
 		unsubscribe('updateTaskInfo', this._getDetailFilesTotalSize)
@@ -258,6 +274,7 @@ export default {
 		this.$store.commit('setDetails', [])
 		this.$store.commit('setDetailsInfo', { filestotal: 0, filessize: 0 })
 	},
+
 	methods: {
 		formatBytes,
 		parseUnixTimestamp,
@@ -270,6 +287,7 @@ export default {
 			'terminateTask',
 			'getSettings',
 		]),
+
 		_terminateTask(task) {
 			if (this.isValidUser) {
 				this.terminateTask(task).then(() => {
@@ -279,8 +297,9 @@ export default {
 				showWarning(this.t('mediadc', 'You are not allowed to terminate this task'))
 			}
 		},
+
 		_getTaskDetails() {
-			this.getTaskDetails(this.$route.params.taskId).then(res => {
+			this.getTaskDetails(this.$route.params.taskId).then((res) => {
 				const status = this.getStatusBadge(res.data.collectorTask)
 				if (status === 'finished' || status === 'terminated' || status === 'error') {
 					clearInterval(this.tasksUpdater)
@@ -298,9 +317,11 @@ export default {
 				}
 			})
 		},
+
 		_getDetailFilesTotalSize() {
 			this.getDetailFilesTotalSize(this.$route.params.taskId)
 		},
+
 		restartTask(task) {
 			if (this.isValidUser) {
 				clearInterval(this.tasksUpdater)
@@ -320,7 +341,7 @@ export default {
 							finish_notification: JSON.parse(this.task.collector_settings).finish_notification,
 							exif_transpose: !this.settingByName('ignore_orientation').value || true,
 						},
-					}).then(res => {
+					}).then((res) => {
 						if (res.data.success) {
 							this.getTaskDetails(this.$route.params.taskId)
 							this.$store.commit('setDetailsInfo', { filestotal: 0, filessize: 0 })
@@ -335,7 +356,7 @@ export default {
 						} else {
 							showWarning(this.t('medaidc', 'Some error occurred while running Collector Task. Try again.'))
 						}
-					}).catch(err => {
+					}).catch((err) => {
 						console.debug(err)
 						showError('Some error occurred while running Collector Task. Try again.')
 					})
@@ -344,9 +365,10 @@ export default {
 				showWarning(this.t('mediadc', 'You are not allowed to restart this task'))
 			}
 		},
+
 		async deleteTask(task) {
 			if (this.isValidUser) {
-				const confirmed = await new Promise(resolve => {
+				const confirmed = await new Promise((resolve) => {
 					getDialogBuilder(this.t('mediadc', 'Confirm task deletion'))
 						.setText(this.t('mediadc', 'Are sure you want to delete this task?'))
 						.setSeverity('warning')
@@ -365,12 +387,15 @@ export default {
 				showWarning(this.t('mediadc', 'You are not allowed to delete this task'))
 			}
 		},
+
 		collapseTaskStatus() {
 			this.collapsedStatus = !this.collapsedStatus
 		},
+
 		openEditTaskDialog() {
 			this.editingTask = true
 		},
+
 		openExportResultsDialog(task) {
 			if (this.getStatusBadge(task) === 'finished' && this.details.length > 0) {
 				this.exporting = true
@@ -378,6 +403,7 @@ export default {
 				showMessage(this.t('mediadc', 'No results to export'))
 			}
 		},
+
 		filesDirLink(dir) {
 			if (dir) {
 				const path = dir.filepath.replace(`/${dir.fileowner}/files`, '').replace(`/${this.currentUser}/files`, '') !== ''
@@ -387,6 +413,7 @@ export default {
 			}
 			return '#'
 		},
+
 		onRestartTaskEvent() {
 			this.getTaskInfo(this.$route.params.taskId)
 			this.getTaskDetails(this.$route.params.taskId)
@@ -394,9 +421,11 @@ export default {
 			clearInterval(this.tasksUpdater)
 			this.tasksUpdater = setInterval(this._getTaskDetails, 3000)
 		},
+
 		getDirOwnerToolip(dir) {
 			return `${this.t('mediadc', 'Owner:')} ${dir.fileowner}`
 		},
+
 		copyErrorsToClipboard() {
 			navigator.clipboard.writeText(JSON.stringify(Object.assign(this.task.errors.split('\\n')), null, 2))
 			showSuccess(this.t('mediadc', 'Copied to clipboard'))

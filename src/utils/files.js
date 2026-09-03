@@ -19,12 +19,11 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
  */
 
-import { generateRemoteUrl } from '@nextcloud/router'
 import { getCurrentUser } from '@nextcloud/auth'
 import axios from '@nextcloud/axios'
+import { generateRemoteUrl } from '@nextcloud/router'
 
 const davRequest = `<?xml version="1.0"?>
 	<d:propfind xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns"
@@ -36,7 +35,11 @@ const davRequest = `<?xml version="1.0"?>
 		</d:prop>
 	</d:propfind>`
 
-const getFileId = (xml) => {
+/**
+ *
+ * @param xml
+ */
+function getFileId(xml) {
 	if (window.DOMParser) {
 		const parser = new DOMParser()
 		const xmlDoc = parser.parseFromString(xml, 'text/xml')
@@ -47,7 +50,11 @@ const getFileId = (xml) => {
 	}
 }
 
-const getContentType = (xml) => {
+/**
+ *
+ * @param xml
+ */
+function getContentType(xml) {
 	if (window.DOMParser) {
 		const parser = new DOMParser()
 		const xmlDoc = parser.parseFromString(xml, 'text/xml')
@@ -58,7 +65,11 @@ const getContentType = (xml) => {
 	}
 }
 
-const requestFileInfo = async (path) => {
+/**
+ *
+ * @param path
+ */
+async function requestFileInfo(path) {
 	const davPath = `${generateRemoteUrl('dav')}/files/${getCurrentUser().uid}${path}`
 	return await axios({
 		method: 'PROPFIND',
@@ -68,8 +79,13 @@ const requestFileInfo = async (path) => {
 	})
 }
 
-const formatBytes = (bytes, decimals = 2) => {
-	if (bytes === 0) return '0 B'
+/**
+ *
+ * @param bytes
+ * @param decimals
+ */
+function formatBytes(bytes, decimals = 2) {
+	if (bytes === 0) { return '0 B' }
 	const k = 1024
 	const dm = decimals < 0 ? 0 : decimals
 	const sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
@@ -78,8 +94,8 @@ const formatBytes = (bytes, decimals = 2) => {
 }
 
 export {
-	requestFileInfo,
-	getFileId,
-	getContentType,
 	formatBytes,
+	getContentType,
+	getFileId,
+	requestFileInfo,
 }

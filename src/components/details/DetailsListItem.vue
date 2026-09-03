@@ -23,14 +23,17 @@
  -->
 
 <template>
-	<div :id="'detail-' + detail.task_id + '-' + detail.group_id"
+	<div
+		:id="'detail-' + detail.task_id + '-' + detail.group_id"
 		class="details-list-item"
 		:class="{'icon-loading': updating}">
 		<div class="details-list-item-title">
-			<NcCheckboxRadioSwitch v-tooltip="{content: t('mediadc', 'Select group'), placement: 'top'}"
-				class="mediadc-checkbox-only batch-checkbox"
-				v-model="checked" />
-			<NcButton type="tertiary"
+			<NcCheckboxRadioSwitch
+				v-model="checked"
+				v-tooltip="{content: t('mediadc', 'Select group'), placement: 'top'}"
+				class="mediadc-checkbox-only batch-checkbox" />
+			<NcButton
+				variant="tertiary"
 				class="open-details-btn"
 				:aria-label="t('mediadc', 'Open duplicate group')"
 				@click="openDetailFiles(detail)">
@@ -40,7 +43,8 @@
 				<template #default>
 					{{ t('mediadc', 'Duplicate group') }} #{{ detail.group_id }} ({{ groupFilesTotal }}
 					{{ n('mediadc', 'file', 'files', groupFilesTotal) }}{{ ' - ' + formatBytes(groupFilesSize) }})
-					<span :class="!opened ? 'icon-triangle-s' : 'icon-triangle-n'"
+					<span
+						:class="!opened ? 'icon-triangle-s' : 'icon-triangle-n'"
 						style="display: inline-flex; margin: 0 0 0 5px;" />
 				</template>
 			</NcButton>
@@ -51,7 +55,8 @@
 			</NcActions>
 		</div>
 		<div v-if="opened && groupFilesTotal > groupItemsPerPage" class="pagination">
-			<NcButton type="tertiary"
+			<NcButton
+				variant="tertiary"
 				:aria-label="t('mediadc', 'Previous duplicate group files page')"
 				style="margin-right: 5px;"
 				@click="openPrevDetailFiles(detail)">
@@ -61,7 +66,8 @@
 			</NcButton>
 			<span>{{ t('mediadc', 'Page:') }}&nbsp;</span>
 			<span>{{ page + 1 }}/{{ Math.ceil(groupFilesTotal / groupItemsPerPage) }}</span>
-			<NcButton type="tertiary"
+			<NcButton
+				variant="tertiary"
 				:aria-label="t('mediadc', 'Next duplicate group files page')"
 				style="margin-left: 5px;"
 				@click="openNextDetailFiles(detail)">
@@ -69,7 +75,8 @@
 					<span class="icon-view-next" />
 				</template>
 			</NcButton>
-			<input id="go_to_page"
+			<input
+				id="go_to_page"
 				v-model="goToPage"
 				type="number"
 				style="width: fit-content;"
@@ -78,9 +85,10 @@
 				name="go_to_page"
 				:aria-label="t('mediadc', 'Page to navigate to')"
 				@keyup.enter="navigateToPage">
-			<NcButton v-if="detail.files.length > groupItemsPerPage"
+			<NcButton
+				v-if="detail.files.length > groupItemsPerPage"
 				v-tooltip="t('mediadc', 'Go to page')"
-				type="tertiary"
+				variant="tertiary"
 				:aria-label="t('mediadc', 'Navigate to duplicate list page')"
 				@click="navigateToPage">
 				<template #icon>
@@ -88,32 +96,31 @@
 				</template>
 			</NcButton>
 		</div>
-		<DetailsGroupList v-if="opened"
+		<DetailsGroupList
+			v-if="opened"
+			v-model:loadingFiles="loadingFiles"
+			v-model:updating="updating"
+			v-model:filesAscending="filesAscending"
 			:detail="detail"
 			:files="files"
-			:all-files="allFiles"
-			v-model:loading-files="loadingFiles"
-			v-model:updating="updating"
-			v-model:files-ascending="filesAscending" />
+			:allFiles="allFiles" />
 	</div>
 </template>
 
 <script>
 import axios from '@nextcloud/axios'
-import { generateUrl } from '@nextcloud/router'
 import { getDialogBuilder, showError, showSuccess, showWarning } from '@nextcloud/dialogs'
-import { subscribe, unsubscribe, emit } from '@nextcloud/event-bus'
+import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
+import { generateUrl } from '@nextcloud/router'
 import {
-	NcCheckboxRadioSwitch,
-	NcActions,
 	NcActionButton,
+	NcActions,
 	NcButton,
+	NcCheckboxRadioSwitch,
 } from '@nextcloud/vue'
-
 import { mapGetters } from 'vuex'
-
-import { formatBytes, parseUnixTimestamp, getStatusBadge, parseTargetMtype } from '../../composables/useFormats.js'
 import DetailsGroupList from './DetailsGroupList.vue'
+import { formatBytes, getStatusBadge, parseTargetMtype, parseUnixTimestamp } from '../../composables/useFormats.js'
 
 export default {
 	name: 'DetailsListItem',
@@ -124,16 +131,19 @@ export default {
 		NcCheckboxRadioSwitch,
 		DetailsGroupList,
 	},
+
 	props: {
 		detail: {
 			type: Object,
 			required: true,
 		},
+
 		checkedDetailGroups: {
 			type: Array,
 			required: true,
 		},
 	},
+
 	data() {
 		return {
 			opened: false,
@@ -149,6 +159,7 @@ export default {
 			goToPage: 1,
 		}
 	},
+
 	computed: {
 		...mapGetters([
 			'task',
@@ -156,20 +167,24 @@ export default {
 			'groupItemsPerPage',
 			'deleteFileConfirmation',
 		]),
+
 		groupFilesSize() {
 			return this.allFiles.length === 0 ? this.detail.files.reduce((sum, file) => sum + Number(file.filesize), 0) : this.allFiles.reduce((sum, file) => sum + Number(file.filesize), 0)
 		},
+
 		groupFilesTotal() {
 			return this.allFiles.length === 0 ? this.detail.files.length : this.allFiles.length
 		},
+
 		pagesRange() {
 			return Array.from({ length: Math.ceil(this.detail.files.length / this.groupItemsPerPage) }, (_, i) => i)
 		},
 	},
+
 	watch: {
 		checked() {
 			const newCheckedDetailGroups = this.checkedDetailGroups
-			const detailIndex = newCheckedDetailGroups.findIndex(d => d.group_id === this.detail.group_id)
+			const detailIndex = newCheckedDetailGroups.findIndex((d) => d.group_id === this.detail.group_id)
 			if (this.checked) {
 				if (detailIndex === -1) {
 					newCheckedDetailGroups.push(this.detail)
@@ -179,15 +194,18 @@ export default {
 			}
 			this.$emit('update:checkedDetailGroups', newCheckedDetailGroups)
 		},
+
 		filesAscending() {
 			this.sortFiles(this.filesAscending)
 		},
+
 		checkedDetailGroups() {
-			const detailIndex = this.checkedDetailGroups.findIndex(d => d.group_id === this.detail.group_id)
+			const detailIndex = this.checkedDetailGroups.findIndex((d) => d.group_id === this.detail.group_id)
 			if (!this.checked && detailIndex !== -1) {
 				this.checked = true
 			}
 		},
+
 		groupItemsPerPage(newGroupItemsPerPage) {
 			if (this.opened) {
 				if (this.page >= Math.ceil(this.detail.files.length / newGroupItemsPerPage)) {
@@ -200,6 +218,7 @@ export default {
 				}
 			}
 		},
+
 		allFiles(newAllFiles) {
 			if (this.page >= Math.ceil(newAllFiles.length / this.groupItemsPerPage)) {
 				this.page = Math.ceil(newAllFiles.length / this.groupItemsPerPage) - 1
@@ -208,20 +227,23 @@ export default {
 			}
 		},
 	},
+
 	beforeMount() {
-		const detailCheckedIndex = this.checkedDetailGroups.findIndex(d => d.group_id === this.detail.group_id)
+		const detailCheckedIndex = this.checkedDetailGroups.findIndex((d) => d.group_id === this.detail.group_id)
 		this.checked = detailCheckedIndex !== -1
 		subscribe('updateGroupFilesPagination', this.updateFilesPagination)
 		subscribe('deselectGroups', this.deselect)
 		subscribe('openGroup', this.openGroup)
 		subscribe('toggleGroup', this.toggleGroup)
 	},
+
 	beforeUnmount() {
 		unsubscribe('updateGroupFilesPagination', this.updateFilesPagination)
 		unsubscribe('deselectGroups', this.deselect)
 		unsubscribe('openGroup', this.openGroup)
 		unsubscribe('toggleGroup', this.toggleGroup)
 	},
+
 	methods: {
 		formatBytes,
 		parseUnixTimestamp,
@@ -247,6 +269,7 @@ export default {
 				this.opened = false
 			}
 		},
+
 		openNextDetailFiles(detail) {
 			if (this.page < Math.ceil(detail.files.length / this.groupItemsPerPage) - 1) {
 				this.page += 1
@@ -255,6 +278,7 @@ export default {
 				showWarning(this.t('mediadc', 'Last page reached!'))
 			}
 		},
+
 		openPrevDetailFiles(detail) {
 			if (this.page > 0) {
 				this.page -= 1
@@ -263,14 +287,16 @@ export default {
 				showWarning(this.t('mediadc', 'First page reached!'))
 			}
 		},
+
 		loadAllFilesInfo(taskId, detailId) {
-			axios.get(generateUrl(`/apps/mediadc/api/v1/tasks/${taskId}/files/${detailId}/all`)).then(res => {
+			axios.get(generateUrl(`/apps/mediadc/api/v1/tasks/${taskId}/files/${detailId}/all`)).then((res) => {
 				this.allFiles = res.data.files
 				this.paginatedFiles = this.paginateFiles(this.allFiles)
 				this.files = this.paginatedFiles[this.page]
 				this.loadingFiles = false
 			})
 		},
+
 		paginateFiles(files) {
 			const paginatedFiles = []
 			for (let i = 0; i < files.length; i++) {
@@ -283,9 +309,10 @@ export default {
 			}
 			return paginatedFiles
 		},
+
 		async removeTaskDetail(detail) {
 			if (this.deleteFileConfirmation) {
-				const confirmed = await new Promise(resolve => {
+				const confirmed = await new Promise((resolve) => {
 					getDialogBuilder(this.t('mediadc', 'Confirm group removal'))
 						.setText(this.t('mediadc', 'Are you sure you want to remove this group without deleting files?'))
 						.setSeverity('warning')
@@ -301,15 +328,16 @@ export default {
 				this._removeTaskDetail(detail)
 			}
 		},
+
 		_removeTaskDetail(detail) {
 			this.updating = true
-			axios.delete(generateUrl(`/apps/mediadc/api/v1/tasks/${detail.task_id}/detail/${detail.group_id}`)).then(res => {
+			axios.delete(generateUrl(`/apps/mediadc/api/v1/tasks/${detail.task_id}/detail/${detail.group_id}`)).then((res) => {
 				if (res.data.success) {
 					emit('openNextDetailGroup', this.detail)
 					const updatedDetails = [...this.details]
-					const removedDetailIndex = updatedDetails.findIndex(d => d.group_id === this.detail.group_id)
+					const removedDetailIndex = updatedDetails.findIndex((d) => d.group_id === this.detail.group_id)
 					updatedDetails.splice(removedDetailIndex, 1)
-					const checkedIndex = this.checkedDetailGroups.findIndex(d => d.group_id === detail.group_id)
+					const checkedIndex = this.checkedDetailGroups.findIndex((d) => d.group_id === detail.group_id)
 					const newCheckedDetailGroups = [...this.checkedDetailGroups]
 					if (this.checked && checkedIndex !== -1) {
 						newCheckedDetailGroups.splice(checkedIndex, 1)
@@ -318,7 +346,7 @@ export default {
 					emit('updateTaskInfo')
 					this.$store.commit('setDetails', updatedDetails)
 					showSuccess(this.t('mediadc', 'Duplicate group succesffully removed'))
-					const detailCheckedIndex = this.checkedDetailGroups.findIndex(d => d.group_id === detail.group_id)
+					const detailCheckedIndex = this.checkedDetailGroups.findIndex((d) => d.group_id === detail.group_id)
 					if (detailCheckedIndex !== -1) {
 						const newCheckedDetailGroups = this.checkedDetailGroups
 						newCheckedDetailGroups.splice(detailCheckedIndex, 1)
@@ -329,20 +357,22 @@ export default {
 					showError(this.t('mediadc', 'An error occurred while deleting duplicate group'))
 					this.updating = false
 				}
-			}).catch(err => {
+			}).catch((err) => {
 				console.debug(err)
 				showError(this.t('mediadc', 'An error occurred while deleting duplicate group'))
 				this.updating = false
 			})
 		},
+
 		sortFiles(ascending) {
 			this.allFiles.sort((a, b) => (ascending) ? a.filesize - b.filesize : b.filesize - a.filesize)
 			this.paginatedFiles = this.paginateFiles(this.allFiles)
 			this.files = this.paginatedFiles[this.page]
 		},
+
 		updateFilesPagination(file) {
 			if (file) {
-				const deletedFileIndex = this.allFiles.findIndex(f => f.fileid === file.fileid)
+				const deletedFileIndex = this.allFiles.findIndex((f) => f.fileid === file.fileid)
 				if (deletedFileIndex !== -1) {
 					this.allFiles.splice(deletedFileIndex, 1)
 				}
@@ -350,11 +380,13 @@ export default {
 			this.paginatedFiles = this.paginateFiles(this.allFiles)
 			this.files = this.paginatedFiles[this.page]
 		},
+
 		deselect(groupsToDeselect) {
 			if (this.checked && groupsToDeselect.includes(this.detail.group_id)) {
 				this.checked = false
 			}
 		},
+
 		openGroup(detail) {
 			if (this.detail.group_id === detail.group_id && !this.opened) {
 				this.openDetailFiles(detail)
@@ -366,11 +398,13 @@ export default {
 				}, 500) // wait for the details to open and render files
 			}
 		},
+
 		toggleGroup(detail) {
 			if (this.detail.group_id === detail.group_id) {
 				this.openDetailFiles(detail)
 			}
 		},
+
 		navigateToPage() {
 			if (this.goToPage > this.pagesRange.length) {
 				this.goToPage = this.pagesRange.length

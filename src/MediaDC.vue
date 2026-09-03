@@ -23,17 +23,19 @@
  -->
 
 <template>
-	<NcContent app-name="mediadc">
+	<NcContent appName="mediadc">
 		<NcAppNavigation>
 			<template #list>
-				<NcAppNavigationItem :to="{name: 'collector'}"
+				<NcAppNavigationItem
+					:to="{name: 'collector'}"
 					:name="t('mediadc', 'Tasks')"
 					exact>
 					<template #icon>
 						<FormatListBulletedSquare :size="20" />
 					</template>
 				</NcAppNavigationItem>
-				<NcAppNavigationItem :to="{name: 'resolved'}"
+				<NcAppNavigationItem
+					:to="{name: 'resolved'}"
 					:name="t('mediadc', 'Resolved')">
 					<template #icon>
 						<FormatListChecks :size="20" />
@@ -42,14 +44,18 @@
 			</template>
 			<template #footer>
 				<ul class="app-navigation-entry__settings">
-					<NcAppNavigationItem :aria-label="t('mediadc', 'Open MediaDC settings')"
+					<NcAppNavigationItem
+						:aria-label="t('mediadc', 'Open MediaDC settings')"
 						:name="t('mediadc', 'Settings')"
 						@click.prevent.stop="openSettingsModal">
-						<Cog slot="icon" :size="20" />
+						<template #icon>
+							<Cog :size="20" />
+						</template>
 					</NcAppNavigationItem>
 				</ul>
 			</template>
-			<AppSettings v-model:open="settingsOpened"
+			<AppSettings
+				v-model:open="settingsOpened"
 				@close="closeSettingsModal" />
 		</NcAppNavigation>
 		<NcAppContent :class="{ 'icon-loading': loading }">
@@ -59,11 +65,10 @@
 </template>
 
 <script>
-import { NcContent, NcAppContent, NcAppNavigation, NcAppNavigationItem } from '@nextcloud/vue'
+import { NcAppContent, NcAppNavigation, NcAppNavigationItem, NcContent } from '@nextcloud/vue'
 import Cog from 'vue-material-design-icons/Cog.vue'
 import FormatListBulletedSquare from 'vue-material-design-icons/FormatListBulletedSquare.vue'
 import FormatListChecks from 'vue-material-design-icons/FormatListChecks.vue'
-
 import AppSettings from './components/settings/AppSettings.vue'
 
 export default {
@@ -78,16 +83,19 @@ export default {
 		FormatListBulletedSquare,
 		FormatListChecks,
 	},
+
 	data() {
 		return {
 			loading: true,
 			settingsOpened: false,
 		}
 	},
+
 	methods: {
 		openSettingsModal() {
 			this.settingsOpened = true
 		},
+
 		closeSettingsModal() {
 			this.settingsOpened = false
 		},

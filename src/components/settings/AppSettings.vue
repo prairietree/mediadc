@@ -23,20 +23,23 @@
  -->
 
 <template>
-	<NcAppSettingsDialog :open="open"
-		:show-navigation="true"
+	<NcAppSettingsDialog
+		:open="open"
+		:showNavigation="true"
 		:name="t('mediadc', 'MediaDC settings')"
 		@update:open="onClose">
-		<NcAppSettingsSection id="settings"
+		<NcAppSettingsSection
+			id="settings"
 			:name="t('mediadc', 'Duplicates list')"
-			:area-label="t('mediadc', 'Duplicates list settings per user and browser')">
+			:areaLabel="t('mediadc', 'Duplicates list settings per user and browser')">
 			<div class="app-setting">
 				<label for="details-list-items-per-page">
 					{{ t('mediadc', 'Groups per page') }}
 				</label>
-				<NcInputField id="details-list-items-per-page"
+				<NcInputField
+					id="details-list-items-per-page"
 					v-model="detailsListItemPerPage"
-					:label-outside="true"
+					:labelOutside="true"
 					type="number"
 					min="1"
 					max="20" />
@@ -45,9 +48,10 @@
 				<label for="group-items-per-page">
 					{{ t('mediadc', 'Items per group') }}
 				</label>
-				<NcInputField id="group-items-per-page"
+				<NcInputField
+					id="group-items-per-page"
 					v-model="groupItemsPerPage"
-					:label-outside="true"
+					:labelOutside="true"
 					type="number"
 					min="1"
 					max="20" />
@@ -56,11 +60,12 @@
 				<label for="details-grid-setting">
 					{{ t('mediadc', 'Group image size') }}
 				</label>
-				<NcSelect v-model="selectedSize"
-					input-id="details-grid-setting"
+				<NcSelect
+					v-model="selectedSize"
+					inputId="details-grid-setting"
 					:clearable="false"
 					:options="gridSizes"
-					:label-outside="true" />
+					:labelOutside="true" />
 			</div>
 			<div class="app-setting">
 				<NcCheckboxRadioSwitch v-model="deleteFileConfirmation">
@@ -99,12 +104,14 @@ export default {
 		NcInputField,
 		NcSelect,
 	},
+
 	props: {
 		open: {
 			type: Boolean,
 			default: false,
 		},
 	},
+
 	data() {
 		return {
 			loading: true,
@@ -117,39 +124,48 @@ export default {
 			showFullFilePath: false,
 		}
 	},
+
 	watch: {
 		selectedSize() {
 			window.localStorage.setItem('mediadc_details_files_grid_size', this.selectedSize)
 			this.$store.commit('setDetailsGridSize', this.selectedSize)
 		},
+
 		detailsListItemPerPage() {
 			window.localStorage.setItem('mediadc_details_list_items_per_page', this.detailsListItemPerPage)
 			this.$store.commit('setDetailsListItemsPerPage', this.detailsListItemPerPage)
 		},
+
 		groupItemsPerPage() {
 			window.localStorage.setItem('mediadc_group_items_per_page', this.groupItemsPerPage)
 			this.$store.commit('setGroupItemsPerPage', this.groupItemsPerPage)
 		},
+
 		deleteFileConfirmation() {
 			window.localStorage.setItem('mediadc_delete_file_confirmation', this.deleteFileConfirmation)
 			this.$store.commit('setDeleteFileConfirmation', this.deleteFileConfirmation)
 		},
+
 		autoOpenNextGroup() {
 			window.localStorage.setItem('mediadc_auto_open_next_group', this.autoOpenNextGroup)
 			this.$store.commit('setAutoOpenNextGroup', this.autoOpenNextGroup)
 		},
+
 		showFullFilePath() {
 			window.localStorage.setItem('mediadc_show_full_file_path', this.showFullFilePath)
 			this.$store.commit('setShowFullFilePath', this.showFullFilePath)
 		},
 	},
+
 	beforeMount() {
 		this.loadLocalSetting()
 	},
+
 	methods: {
 		onClose() {
 			this.$emit('update:open', false)
 		},
+
 		loadLocalSetting() {
 			const localSelectedSize = window.localStorage.getItem('mediadc_details_files_grid_size')
 			const localDetailsListItemsPerPage = window.localStorage.getItem('mediadc_details_list_items_per_page')

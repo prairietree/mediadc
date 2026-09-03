@@ -31,12 +31,14 @@
 				<div v-if="targetDirectoriesIds.length > 0">
 					<div v-for="fileid in targetDirectoriesIds" :key="fileid" class="selected-target-directories-list">
 						<div class="target-directory">
-							<span :title="targetDirectoriesPaths[fileid]"
+							<span
+								:title="targetDirectoriesPaths[fileid]"
 								style="overflow-y: scroll; white-space: nowrap;">
 								{{ targetDirectoriesPaths[fileid] }}
 							</span>
-							<NcButton v-tooltip="{ content: t('mediadc', 'Remove'), placement: 'left'}"
-								type="tertiary"
+							<NcButton
+								v-tooltip="{ content: t('mediadc', 'Remove'), placement: 'left'}"
+								variant="tertiary"
 								:aria-label="t('mediadc', 'Remove selected target directory')"
 								@click="removeTargetDirectory(fileid)">
 								<template #icon>
@@ -50,7 +52,8 @@
 					<span>{{ t('mediadc', 'Not selected') }}</span>
 				</div>
 				<br>
-				<NcButton :aria-label="t('mediadc', 'Select target directory')"
+				<NcButton
+					:aria-label="t('mediadc', 'Select target directory')"
 					@click="openDirectoriesExplorer">
 					<template #icon>
 						<PlusThick :size="16" />
@@ -63,12 +66,14 @@
 				<div v-if="excludeDirectoriesPaths.length > 0">
 					<div v-for="fileid in Object.keys(excludeFileIds)" :key="fileid" class="selected-excluded-directories-list">
 						<div class="target-directory">
-							<span :title="excludeFileIds[fileid]"
+							<span
+								:title="excludeFileIds[fileid]"
 								style="overflow-y: scroll; white-space: nowrap;">
 								{{ excludeFileIds[fileid] }}
 							</span>
-							<NcButton v-tooltip="{ content: t('mediadc', 'Remove'), placement: 'left'}"
-								type="tertiary"
+							<NcButton
+								v-tooltip="{ content: t('mediadc', 'Remove'), placement: 'left'}"
+								variant="tertiary"
 								:aria-label="t('mediadc', 'Remove selected exclude directory')"
 								@click="removeExcludeDirectory(fileid)">
 								<template #icon>
@@ -82,7 +87,8 @@
 					<span>{{ t('mediadc', 'Not selected') }}</span>
 				</div>
 				<br>
-				<NcButton :aria-label="t('mediadc', 'Select exclude directory')"
+				<NcButton
+					:aria-label="t('mediadc', 'Select exclude directory')"
 					@click="openExcludeExplorer">
 					<template #icon>
 						<PlusThick :size="16" />
@@ -97,8 +103,9 @@
 				<div v-if="customExcludeList.length > 0" class="custom-masks-list">
 					<div v-for="(mask, index) in customExcludeList" :key="index" class="custom-mask">
 						<span>{{ mask }}</span>
-						<NcButton v-tooltip="{ content: t('mediadc', 'Remove'), placement: 'left'}"
-							type="tertiary"
+						<NcButton
+							v-tooltip="{ content: t('mediadc', 'Remove'), placement: 'left'}"
+							variant="tertiary"
 							:aria-label="t('mediadc', 'Remove selected custom exclude mask')"
 							@click="deleteCustomMask(mask)">
 							<template #icon>
@@ -111,22 +118,25 @@
 					<span>{{ t('mediadc', 'Not added') }}</span>
 				</div>
 				<div v-if="addingCustomMask" style="display: flex; align-items: center;">
-					<input id="custom-exclude-mask"
+					<input
+						id="custom-exclude-mask"
 						ref="customExcludeMask"
 						v-model="customExcludeMask"
 						type="text"
 						@keyup.enter="addCustomMask"
 						@keyup.esc="cancelAddingCustomMask">
-					<NcButton v-tooltip="t('mediadc', 'Confirm')"
-						type="tertiary"
+					<NcButton
+						v-tooltip="t('mediadc', 'Confirm')"
+						variant="tertiary"
 						:aria-label="t('mediadc', 'Confirm adding of the custom exclude mask')"
 						@click="addCustomMask">
 						<template #icon>
 							<span class="icon-checkmark" />
 						</template>
 					</NcButton>
-					<NcButton v-tooltip="t('mediadc', 'Decline')"
-						type="tertiary"
+					<NcButton
+						v-tooltip="t('mediadc', 'Decline')"
+						variant="tertiary"
 						:aria-label="t('mediadc', 'Cancel adding of the custom exclude mask')"
 						@click="cancelAddingCustomMask">
 						<template #icon>
@@ -135,7 +145,8 @@
 					</NcButton>
 				</div>
 				<div style="display: flex; align-items: center; margin: 20px 0;">
-					<NcButton :aria-label="t('mediadc', 'Add custom exclude mask')"
+					<NcButton
+						:aria-label="t('mediadc', 'Add custom exclude mask')"
 						@click="addNewMask">
 						<template #icon>
 							<PlusThick :size="16" />
@@ -150,7 +161,8 @@
 				<h3 style="margin: 5px 0;">
 					{{ t('mediadc', 'Target Mime Type') }}
 				</h3>
-				<select id="target_mtype"
+				<select
+					id="target_mtype"
 					v-model="targetMimeType"
 					name="target_mtype">
 					<option :value="0">
@@ -166,7 +178,8 @@
 				<h3 style="margin: 5px 0;">
 					{{ t('mediadc', 'Similarity threshold') }}
 				</h3>
-				<input v-model="similarity_threshold"
+				<input
+					v-model="similarity_threshold"
 					type="number"
 					min="50"
 					max="100"
@@ -174,7 +187,8 @@
 			</div>
 		</div>
 		<div class="create-task-actions">
-			<NcButton :aria-label="t('mediadc', 'Create and Run new Task')"
+			<NcButton
+				:aria-label="t('mediadc', 'Create and Run new Task')"
 				:disabled="runningTask || Object.keys(targetDirectoriesPaths).length === 0"
 				@click="runCollectorTask">
 				<template #default>
@@ -184,11 +198,13 @@
 					<span class="icon-loading-small" />
 				</template>
 			</NcButton>
-			<input v-model="taskName"
+			<input
+				v-model="taskName"
 				type="text"
 				:placeholder="t('mediadc', 'Task name')">
-			<NcCheckboxRadioSwitch v-tooltip="t('mediadc', 'Send notification on task finish')"
-				v-model="finishNotification">
+			<NcCheckboxRadioSwitch
+				v-model="finishNotification"
+				v-tooltip="t('mediadc', 'Send notification on task finish')">
 				{{ t('mediadc', 'Finish notification') }}
 			</NcCheckboxRadioSwitch>
 		</div>
@@ -196,13 +212,11 @@
 </template>
 
 <script>
-import { getFilePickerBuilder, showWarning, showSuccess, showError } from '@nextcloud/dialogs'
-import { mapActions, mapGetters } from 'vuex'
-
-import { requestFileInfo, getFileId } from '../../utils/files.js'
-
+import { getFilePickerBuilder, showError, showSuccess, showWarning } from '@nextcloud/dialogs'
 import { NcButton, NcCheckboxRadioSwitch } from '@nextcloud/vue'
+import { mapActions, mapGetters } from 'vuex'
 import PlusThick from 'vue-material-design-icons/PlusThick.vue'
+import { getFileId, requestFileInfo } from '../../utils/files.js'
 
 export default {
 	name: 'TasksNew',
@@ -211,6 +225,7 @@ export default {
 		NcCheckboxRadioSwitch,
 		PlusThick,
 	},
+
 	data() {
 		return {
 			targetDirectoriesPaths: {},
@@ -227,6 +242,7 @@ export default {
 			taskName: '',
 		}
 	},
+
 	computed: {
 		...mapGetters([
 			'settings',
@@ -234,11 +250,13 @@ export default {
 			'tasks',
 		]),
 	},
+
 	beforeMount() {
 		this.similarity_threshold = this.settingByName('similarity_threshold') !== undefined
 			? this.settingByName('similarity_threshold').value
 			: 90
 	},
+
 	methods: {
 		...mapActions(['runTask', 'getTasks']),
 		getDirectoriesPicker(title) {
@@ -249,10 +267,11 @@ export default {
 				.allowDirectories(true)
 				.build()
 		},
+
 		openDirectoriesExplorer() {
-			this.getDirectoriesPicker(this.t('mediadc', 'Choose target directory')).pick().then(dir => {
+			this.getDirectoriesPicker(this.t('mediadc', 'Choose target directory')).pick().then((dir) => {
 				if (dir.startsWith('/')) {
-					requestFileInfo(dir).then(res => {
+					requestFileInfo(dir).then((res) => {
 						const fileid = getFileId(res.data)
 						if (fileid !== -1) {
 							if (!(fileid in this.targetDirectoriesPaths)) {
@@ -264,7 +283,7 @@ export default {
 						}
 					})
 				} else {
-					requestFileInfo('/').then(res => {
+					requestFileInfo('/').then((res) => {
 						const fileid = getFileId(res.data)
 						if (fileid !== -1) {
 							if (!(fileid in this.targetDirectoriesPaths)) {
@@ -278,11 +297,12 @@ export default {
 				}
 			})
 		},
+
 		openExcludeExplorer() {
-			this.getDirectoriesPicker(this.t('mediadc', 'Choose directory to exclude')).pick().then(dir => {
-				if (Object.values(this.excludeFileIds).findIndex(targetDir => targetDir === dir) === -1) {
+			this.getDirectoriesPicker(this.t('mediadc', 'Choose directory to exclude')).pick().then((dir) => {
+				if (Object.values(this.excludeFileIds).findIndex((targetDir) => targetDir === dir) === -1) {
 					if (dir.startsWith('/')) {
-						requestFileInfo(dir).then(res => {
+						requestFileInfo(dir).then((res) => {
 							const fileid = getFileId(res.data)
 							if (fileid !== -1) {
 								this.excludeDirectoriesPaths.push(dir)
@@ -290,7 +310,7 @@ export default {
 							}
 						})
 					} else {
-						requestFileInfo('/').then(res => {
+						requestFileInfo('/').then((res) => {
 							const fileid = getFileId(res.data)
 							if (fileid !== -1) {
 								this.excludeDirectoriesPaths.push(dir)
@@ -303,6 +323,7 @@ export default {
 				}
 			})
 		},
+
 		runCollectorTask() {
 			this.runningTask = true
 			this.runTask({
@@ -310,7 +331,7 @@ export default {
 				excludeList: {
 					user: {
 						mask: this.customExcludeList,
-						fileid: Object.keys(this.excludeFileIds).map(item => Number(item)),
+						fileid: Object.keys(this.excludeFileIds).map((item) => Number(item)),
 					},
 					admin: JSON.parse(this.settingByName('exclude_list').value) || { mask: [], fileid: [] },
 				},
@@ -323,7 +344,7 @@ export default {
 					exif_transpose: !JSON.parse(this.settingByName('ignore_orientation').value),
 				},
 				name: this.taskName,
-			}).then(res => {
+			}).then((res) => {
 				this.runningTask = false
 				if (res.data.success) {
 					this.getTasks()
@@ -340,27 +361,31 @@ export default {
 				}
 			})
 		},
+
 		removeTargetDirectory(fileid) {
 			delete this.targetDirectoriesPaths[fileid]
-			const fileidIndex = this.targetDirectoriesIds.findIndex(id => id === fileid)
+			const fileidIndex = this.targetDirectoriesIds.findIndex((id) => id === fileid)
 			this.targetDirectoriesIds.splice(fileidIndex, 1)
 		},
+
 		removeExcludeDirectory(fileid) {
 			if (fileid in this.excludeFileIds) {
-				const dirIndex = this.excludeDirectoriesPaths.findIndex(dir => dir === this.excludeFileIds[fileid])
+				const dirIndex = this.excludeDirectoriesPaths.findIndex((dir) => dir === this.excludeFileIds[fileid])
 				this.excludeDirectoriesPaths.splice(dirIndex, 1)
 				delete this.excludeFileIds[fileid]
 			}
 		},
+
 		addNewMask() {
 			this.addingCustomMask = true
 			setTimeout(() => {
 				this.$refs.customExcludeMask.focus()
 			}, 100)
 		},
+
 		addCustomMask() {
 			if (this.customExcludeMask.length > 0) {
-				if (this.customExcludeList.findIndex(mask => mask === this.customExcludeMask) === -1) {
+				if (this.customExcludeList.findIndex((mask) => mask === this.customExcludeMask) === -1) {
 					this.customExcludeList.push(this.customExcludeMask)
 					this.customExcludeMask = ''
 					this.addingCustomMask = false
@@ -371,14 +396,17 @@ export default {
 				showWarning(this.t('mediadc', 'Enter custom mask!'))
 			}
 		},
+
 		cancelAddingCustomMask() {
 			this.customExcludeMask = ''
 			this.addingCustomMask = false
 		},
+
 		deleteCustomMask(mask) {
-			const maskIndex = this.customExcludeList.findIndex(m => m === mask)
+			const maskIndex = this.customExcludeList.findIndex((m) => m === mask)
 			this.customExcludeList.splice(maskIndex, 1)
 		},
+
 		resetForm() {
 			this.targetDirectoriesPaths = {}
 			this.targetDirectoriesIds = []

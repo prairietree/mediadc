@@ -23,24 +23,26 @@
  -->
 
 <template>
-	<NcDashboardWidget :items="tasks" :loading="loading" :show-more-url="''">
+	<NcDashboardWidget :items="tasks" :loading="loading" showMoreUrl="">
 		<template #default="{ item }">
-			<NcDashboardWidgetItem :target-url="getItemUrl(item.id)"
-				:avatar-url="getAvatarUrl()"
-				:avatar-username="getAvatarUsername()"
-				:avatar-is-no-user="true"
-				:main-text="getItemText(item)"
-				:sub-text="`${item.owner} - ${getStatusBadge(item)}`" />
+			<NcDashboardWidgetItem
+				:targetUrl="getItemUrl(item.id)"
+				:avatarUrl="getAvatarUrl()"
+				:avatarUsername="getAvatarUsername()"
+				:avatarIsNoUser="true"
+				:mainText="getItemText(item)"
+				:subText="`${item.owner} - ${getStatusBadge(item)}`" />
 		</template>
 		<template #empty-content>
 			<div class="empty-tasks-list">
-				<NcEmptyContent style="margin-top: 5vh;"
+				<NcEmptyContent
+					style="margin-top: 5vh;"
 					:name="t('mediadc', 'No tasks yet')">
 					<template #icon>
 						<ClipboardListOutline />
 					</template>
 					<template #action>
-						<NcButton :href="getAppUrl()" type="primary">
+						<NcButton :href="getAppUrl()" variant="primary">
 							{{ t('mediadc', 'Create a new one!') }}
 						</NcButton>
 					</template>
@@ -52,17 +54,16 @@
 
 <script>
 import { getCurrentUser } from '@nextcloud/auth'
-import { generateUrl } from '@nextcloud/router'
 import { loadState } from '@nextcloud/initial-state'
+import { generateUrl } from '@nextcloud/router'
 import {
+	NcButton,
 	NcDashboardWidget,
 	NcDashboardWidgetItem,
-	NcButton,
 	NcEmptyContent,
 } from '@nextcloud/vue'
 import ClipboardListOutline from 'vue-material-design-icons/ClipboardListOutline.vue'
-
-import { formatBytes, parseUnixTimestamp, getStatusBadge, parseTargetMtype } from '../composables/useFormats.js'
+import { formatBytes, getStatusBadge, parseTargetMtype, parseUnixTimestamp } from '../composables/useFormats.js'
 
 const tasks = loadState('mediadc', 'mediadc-recent-tasks')
 
@@ -75,15 +76,18 @@ export default {
 		NcEmptyContent,
 		ClipboardListOutline,
 	},
+
 	data() {
 		return {
 			tasks,
 			loading: true,
 		}
 	},
+
 	async mounted() {
 		this.loading = false
 	},
+
 	methods: {
 		formatBytes,
 		parseUnixTimestamp,
@@ -92,15 +96,19 @@ export default {
 		getAppUrl() {
 			return generateUrl('/apps/mediadc')
 		},
+
 		getItemUrl(taskId) {
 			return generateUrl(`/apps/mediadc/tasks/${taskId}`)
 		},
+
 		getAvatarUrl() {
 			return generateUrl(`/avatar/${getCurrentUser().uid}/32`)
 		},
+
 		getAvatarUsername() {
 			return getCurrentUser().uid
 		},
+
 		getItemText(item) {
 			const taskName = item.name !== '' && item.name !== null ? item.name + ' - ' : ''
 			return taskName + this.parseTargetMtype(item) + ' ' + item.files_total + ' ' + this.n('mediadc', 'file', 'files', Number(item.files_total)) + ' (' + this.formatBytes(item.files_total_size) + ')'

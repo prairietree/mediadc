@@ -75,23 +75,28 @@
 		</NcSettingsSection>
 		<NcLoadingIcon v-if="loadingSettings" :size="48" />
 		<div v-if="settings.length > 0 && !loadingSettings" class="settings">
-			<NcSettingsSection :name="t('mediadc', mappedSettings.hashing_algorithm.display_name)"
+			<NcSettingsSection
+				:name="t('mediadc', mappedSettings.hashing_algorithm.display_name)"
 				:description="t('mediadc', mappedSettings.hashing_algorithm.description)">
-				<select v-if="algorithms.length > 0"
+				<select
+					v-if="algorithms.length > 0"
 					id="hashing_algorithm"
 					v-model="hashing_algorithm"
 					name="hashing_algorithm"
 					@change="updateHashingAlgorithm">
-					<option v-for="algorithm in algorithms"
+					<option
+						v-for="algorithm in algorithms"
 						:key="algorithm"
 						:value="algorithm">
 						{{ algorithm }}
 					</option>
 				</select>
 			</NcSettingsSection>
-			<NcSettingsSection :name="t('mediadc', mappedSettings.similarity_threshold.display_name)"
+			<NcSettingsSection
+				:name="t('mediadc', mappedSettings.similarity_threshold.display_name)"
 				:description="t('mediadc', mappedSettings.similarity_threshold.description)">
-				<input id="similarity_threshold"
+				<input
+					id="similarity_threshold"
 					v-model="mappedSettings.similarity_threshold.value"
 					type="number"
 					name="similarity_threshold"
@@ -99,9 +104,11 @@
 					max="100"
 					@change="saveChanges">
 			</NcSettingsSection>
-			<NcSettingsSection :name="t('mediadc',mappedSettings.hash_size.display_name)"
+			<NcSettingsSection
+				:name="t('mediadc', mappedSettings.hash_size.display_name)"
 				:description="t('mediadc', mappedSettings.hash_size.description)">
-				<select id="hash_size"
+				<select
+					id="hash_size"
 					v-model.number="hash_size"
 					name="hash_size"
 					@change="updateHashSize">
@@ -110,27 +117,31 @@
 					</option>
 				</select>
 			</NcSettingsSection>
-			<NcSettingsSection :name="t('mediadc',mappedSettings.ignore_orientation.display_name)"
+			<NcSettingsSection
+				:name="t('mediadc', mappedSettings.ignore_orientation.display_name)"
 				:description="t('mediadc', mappedSettings.ignore_orientation.description)">
 				<NcCheckboxRadioSwitch v-model="ignore_orientation" @update:modelValue="updateIgnoreOrientation">
 					{{ t('mediadc', 'Ignore image orientation') }}
 				</NcCheckboxRadioSwitch>
 			</NcSettingsSection>
-			<NcSettingsSection :name="t('mediadc', mappedSettings.exclude_list.display_name)"
+			<NcSettingsSection
+				:name="t('mediadc', mappedSettings.exclude_list.display_name)"
 				:description="t('mediadc', mappedSettings.exclude_list.description)">
 				<template #default>
 					<ul v-if="customExcludeList.length > 0" style="width: 100%; max-width: 350px; max-height: 290px; overflow-y: scroll;">
-						<NcListItem v-for="(mask, index) in customExcludeList"
+						<NcListItem
+							v-for="(mask, index) in customExcludeList"
 							:key="index"
-							:force-display-actions="true"
+							:forceDisplayActions="true"
 							:title="mask">
 							<template #icon>
 								<span class="icon-filter" />
 							</template>
 							<template #actions>
-								<NcActionButton v-tooltip="{ content: t('mediadc', 'Remove'), placement: 'left'}"
+								<NcActionButton
+									v-tooltip="{ content: t('mediadc', 'Remove'), placement: 'left'}"
 									icon="icon-delete"
-									:close-after-click="true"
+									:closeAfterClick="true"
 									@click="deleteCustomMask(mask)">
 									{{ t('mediadc', 'Remove') }}
 								</NcActionButton>
@@ -142,29 +153,33 @@
 					</div>
 					<div style="display: flex; align-items: center; margin: 20px 0 0;">
 						<div v-show="addingCustomMask" style="display: flex; align-items: center;">
-							<input id="custom-exclude-mask"
+							<input
+								id="custom-exclude-mask"
 								ref="customExcludeMask"
 								v-model="customExcludeMask"
 								type="text"
 								@keyup.enter="addCustomMask"
 								@keyup.esc="cancelAddingCustomMask">
-							<NcButton v-tooltip="t('mediadc', 'Confirm')"
-								type="tertiary"
+							<NcButton
+								v-tooltip="t('mediadc', 'Confirm')"
+								variant="tertiary"
 								@click="addCustomMask">
 								<template #icon>
 									<span class="icon-checkmark" />
 								</template>
 							</NcButton>
-							<NcButton v-tooltip="t('mediadc', 'Decline')"
-								type="tertiary"
+							<NcButton
+								v-tooltip="t('mediadc', 'Decline')"
+								variant="tertiary"
 								@click="cancelAddingCustomMask">
 								<template #icon>
 									<span class="icon-close" />
 								</template>
 							</NcButton>
 						</div>
-						<NcButton v-if="!addingCustomMask"
-							type="secondary"
+						<NcButton
+							v-if="!addingCustomMask"
+							variant="secondary"
 							@click="addNewMask">
 							{{ t('mediadc', 'Add mask') }}
 							<template #icon>
@@ -174,9 +189,11 @@
 					</div>
 				</template>
 			</NcSettingsSection>
-			<NcSettingsSection :name="t('mediadc', mappedSettings.python_limit.display_name)"
+			<NcSettingsSection
+				:name="t('mediadc', mappedSettings.python_limit.display_name)"
 				:description="t('mediadc', mappedSettings.python_limit.description)">
-				<input id="python_limit"
+				<input
+					id="python_limit"
 					v-model.number="mappedSettings.python_limit.value"
 					type="number"
 					name="python_limit"
@@ -184,7 +201,8 @@
 					max="10"
 					@change="saveChanges">
 			</NcSettingsSection>
-			<NcSettingsSection :name="t('mediadc', mappedSettings.python_binary.display_name)"
+			<NcSettingsSection
+				:name="t('mediadc', mappedSettings.python_binary.display_name)"
 				:description="t('mediadc', mappedSettings.python_binary.description)">
 				<NcCheckboxRadioSwitch v-model="python_binary" @update:modelValue="updatePythonBinary">
 					{{ t('mediadc', 'Use pre-compiled Python binaries') }}
@@ -193,7 +211,8 @@
 		</div>
 		<div v-if="settings.length === 0 && !loadingSettings">
 			<NcSettingsSection :name="t('mediadc', 'Error')">
-				<NcEmptyContent style="margin-top: 0;"
+				<NcEmptyContent
+					style="margin-top: 0;"
 					:name="t('mediadc', 'Settings list is empty')"
 					:description="t('mediadc', 'Seems like database not initialized properly. Try to re-enable the app')">
 					<template #icon>
@@ -210,24 +229,21 @@
 
 <script>
 import axios from '@nextcloud/axios'
-import { generateUrl } from '@nextcloud/router'
 import { showError, showSuccess, showWarning } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
-
+import { generateUrl } from '@nextcloud/router'
 import {
 	NcActionButton,
 	NcButton,
+	NcCheckboxRadioSwitch,
 	NcEmptyContent,
 	NcListItem,
-	NcSettingsSection,
-	NcCheckboxRadioSwitch,
 	NcLoadingIcon,
 	NcNoteCard,
+	NcSettingsSection,
 } from '@nextcloud/vue'
-
-import PlusThick from 'vue-material-design-icons/PlusThick.vue'
 import AlertCircleOutline from 'vue-material-design-icons/AlertCircleOutline.vue'
-
+import PlusThick from 'vue-material-design-icons/PlusThick.vue'
 import BugReport from './BugReport.vue'
 
 export default {
@@ -245,6 +261,7 @@ export default {
 		NcCheckboxRadioSwitch,
 		AlertCircleOutline,
 	},
+
 	data() {
 		return {
 			loadingSettings: false,
@@ -262,8 +279,9 @@ export default {
 			ignore_orientation: true,
 		}
 	},
+
 	beforeMount() {
-		axios.get(generateUrl('/apps/mediadc/api/v1/system-info')).then(res => {
+		axios.get(generateUrl('/apps/mediadc/api/v1/system-info')).then((res) => {
 			this.systemInfo = res.data
 		})
 		this.settings = loadState('mediadc', 'settings', null)
@@ -273,18 +291,20 @@ export default {
 			this.getSettings()
 		}
 	},
+
 	methods: {
 		getSettings() {
 			this.loadingSettings = true
-			axios.get(generateUrl('/apps/mediadc/api/v1/settings')).then(res => {
+			axios.get(generateUrl('/apps/mediadc/api/v1/settings')).then((res) => {
 				this.settings = res.data
 				this.mapSettings(this.settings)
 			}).finally(() => {
 				this.loadingSettings = false
 			})
 		},
+
 		mapSettings(settings) {
-			settings.forEach(setting => {
+			settings.forEach((setting) => {
 				this.mappedSettings[setting.name] = setting
 			})
 			this.algorithms = ['average', 'dhash', 'phash', 'whash']
@@ -294,44 +314,49 @@ export default {
 			this.python_binary = JSON.parse(this.mappedSettings.python_binary.value)
 			this.ignore_orientation = JSON.parse(this.mappedSettings.ignore_orientation.value)
 		},
+
 		saveChanges() {
 			axios.put(generateUrl('/apps/mediadc/api/v1/settings'), { settings: this.settings })
-				.then(res => {
+				.then((res) => {
 					if (res.data.success) {
 						showSuccess(this.t('mediadc', 'Settings successfully updated'))
 					}
 				})
-				.catch(err => {
+				.catch((err) => {
 					console.debug(err)
 					showError(this.t('mediadc', 'Some error occurred while updating settings'))
 				})
 		},
+
 		async truncatePhotosAndVideos() {
 			return axios.post(generateUrl('/apps/mediadc/api/v1/settings/truncate/all'))
 		},
+
 		async updateSetting(name, setting) {
 			return axios.put(generateUrl(`/apps/mediadc/api/v1/settings/name/${name}`), { setting })
 		},
+
 		updatePythonBinary() {
 			this.mappedSettings.python_binary.value = JSON.stringify(this.python_binary)
 			this.saveChanges()
 		},
+
 		updateHashingAlgorithm() {
 			if (confirm(this.t('mediadc', 'The photo and video hashes will be cleaned before hashing algorithm is changed.\nContinue?'))) {
 				this.truncatePhotosAndVideos().then(() => {
 					this.mappedSettings.hashing_algorithm.value = JSON.stringify(this.hashing_algorithm)
-					this.updateSetting(this.mappedSettings.hashing_algorithm.name, this.mappedSettings.hashing_algorithm).then(res => {
+					this.updateSetting(this.mappedSettings.hashing_algorithm.name, this.mappedSettings.hashing_algorithm).then((res) => {
 						if (res.data.success) {
 							showSuccess(this.t('mediadc', 'Hashing algorithm successfully updated'))
 							this.saveChanges()
 						} else {
 							showError(res.data.message)
 						}
-					}).catch(err => {
+					}).catch((err) => {
 						console.debug(err)
 						showError(this.t('mediadc', 'An error occurred while updating setting. Try again'))
 					})
-				}).catch(err => {
+				}).catch((err) => {
 					console.debug(err)
 					showError(this.t('mediadc', 'Some error occurred while changing hashing algorithm'))
 					this.hashing_algorithm = JSON.parse(this.mappedSettings.hashing_algorithm.value)
@@ -340,18 +365,19 @@ export default {
 				this.hashing_algorithm = JSON.parse(this.mappedSettings.hashing_algorithm.value) || 'dhash'
 			}
 		},
+
 		updateHashSize() {
 			if (confirm(this.t('mediadc', 'The photo and video hashes will be cleaned before changing hash size.\nContinue?'))) {
 				this.truncatePhotosAndVideos().then(() => {
 					this.mappedSettings.hash_size.value = JSON.stringify(this.hash_size)
-					this.updateSetting(this.mappedSettings.hash_size.name, this.mappedSettings.hash_size).then(res => {
+					this.updateSetting(this.mappedSettings.hash_size.name, this.mappedSettings.hash_size).then((res) => {
 						if (res.data.success) {
 							showSuccess(this.t('mediadc', 'Hash size successfully updated'))
 							this.saveChanges()
 						} else {
 							showError(res.data.message)
 						}
-					}).catch(err => {
+					}).catch((err) => {
 						console.debug(err)
 						showError(this.t('mediadc', 'An error occurred when updating the setting. Try again'))
 					})
@@ -360,18 +386,19 @@ export default {
 				this.hash_size = JSON.parse(this.mappedSettings.hash_size.value)
 			}
 		},
+
 		updateIgnoreOrientation() {
 			if (confirm(this.t('mediadc', 'The photo and video hashes will be cleaned before changing hash size.\nContinue?'))) {
 				this.truncatePhotosAndVideos().then(() => {
 					this.mappedSettings.ignore_orientation.value = JSON.stringify(this.ignore_orientation)
-					this.updateSetting(this.mappedSettings.ignore_orientation.name, this.ignore_orientation).then(res => {
+					this.updateSetting(this.mappedSettings.ignore_orientation.name, this.ignore_orientation).then((res) => {
 						if (res.data.success) {
 							showSuccess(this.t('mediadc', 'Ignore orientation flag successfully updated'))
 							this.saveChanges()
 						} else {
 							showError(res.data.message)
 						}
-					}).catch(err => {
+					}).catch((err) => {
 						console.debug(err)
 						showError(this.t('mediadc', 'An error occurred when updating the setting. Try again'))
 					})
@@ -380,26 +407,29 @@ export default {
 				this.ignore_orientation = JSON.parse(this.mappedSettings.hash_size.value)
 			}
 		},
+
 		updateExcludeList() {
 			this.mappedSettings.exclude_list.value = JSON.stringify({
 				mask: this.customExcludeList,
 				fileid: [],
 			})
 			this.updateSetting(this.mappedSettings.exclude_list.name, this.mappedSettings.exclude_list)
-				.catch(err => {
+				.catch((err) => {
 					console.debug(err)
 					showError(this.t('mediadc', 'Some error occurred while updating setting. Try again'))
 				})
 		},
+
 		addNewMask() {
 			this.addingCustomMask = true
 			setTimeout(() => {
 				this.$refs.customExcludeMask.focus()
 			}, 100)
 		},
+
 		addCustomMask() {
 			if (this.customExcludeMask.length > 0) {
-				if (this.customExcludeList.findIndex(mask => mask === this.customExcludeMask) === -1) {
+				if (this.customExcludeList.findIndex((mask) => mask === this.customExcludeMask) === -1) {
 					this.customExcludeList.push(this.customExcludeMask)
 					this.customExcludeMask = ''
 					this.addingCustomMask = false
@@ -411,12 +441,14 @@ export default {
 				showWarning(this.t('mediadc', 'Enter custom mask!'))
 			}
 		},
+
 		cancelAddingCustomMask() {
 			this.customExcludeMask = ''
 			this.addingCustomMask = false
 		},
+
 		deleteCustomMask(mask) {
-			const maskIndex = this.customExcludeList.findIndex(m => m === mask)
+			const maskIndex = this.customExcludeList.findIndex((m) => m === mask)
 			this.customExcludeList.splice(maskIndex, 1)
 			this.updateExcludeList()
 		},

@@ -26,7 +26,8 @@
 	<div class="resolved-list">
 		<div class="resolved-list-heading">
 			<div v-if="resolved.total_pages > 1" class="pagination pagination-desktop">
-				<NcButton type="tertiary"
+				<NcButton
+					variant="tertiary"
 					:aria-label="t('mediadc', 'Previous resolved list page')"
 					@click="prevResolvedPage">
 					<template #icon>
@@ -35,7 +36,8 @@
 				</NcButton>
 				<span style="margin-left: 5px;">{{ t('mediadc', 'Page:') }}&nbsp;</span>
 				<span style="margin-right: 5px;">{{ page + 1 }}/{{ resolved.total_pages }}</span>
-				<NcButton type="tertiary"
+				<NcButton
+					variant="tertiary"
 					:aria-label="t('mediadc', 'Next resolved list page')"
 					@click="nextResolvedPage">
 					<template #icon>
@@ -43,7 +45,8 @@
 					</template>
 				</NcButton>
 				<template v-if="resolved.total_pages > 1">
-					<input id="go_to_page"
+					<input
+						id="go_to_page"
 						v-model="goToPage"
 						type="number"
 						style="width: fit-content;"
@@ -52,8 +55,9 @@
 						name="go_to_page"
 						:aria-label="t('mediadc', 'Page to navigate to')"
 						@keyup.enter="navigateToPage">
-					<NcButton v-tooltip="t('mediadc', 'Go to page')"
-						type="tertiary"
+					<NcButton
+						v-tooltip="t('mediadc', 'Go to page')"
+						variant="tertiary"
 						:aria-label="t('mediadc', 'Navigate to resolved list page')"
 						@click="navigateToPage">
 						<template #icon>
@@ -64,17 +68,19 @@
 			</div>
 			<h2>{{ t('mediadc', 'Resolved list') }} ({{ resolved.total_items }} {{ n('mediadc', 'file', 'files', resolved.total_items) }})</h2>
 			<div class="type-actions">
-				<NcButton v-tooltip="t('mediadc', 'Toggle media type')"
-					type="tertiary"
+				<NcButton
+					v-tooltip="t('mediadc', 'Toggle media type')"
+					variant="tertiary"
 					:aria-label="t('mediadc', 'Toggle resolved list media type')"
 					@click="toggleMediaType">
 					<template #icon>
 						<span :class="selectedType === 'photos' ? 'icon-video' : 'icon-picture'" />
 					</template>
 				</NcButton>
-				<NcButton v-if="resolved.total_items > 0"
+				<NcButton
+					v-if="resolved.total_items > 0"
 					v-tooltip="cleanupText"
-					type="tertiary"
+					variant="tertiary"
 					:aria-label="cleanupText"
 					:disabled="cleanuploading"
 					@click="cleanup">
@@ -84,8 +90,9 @@
 					</template>
 				</NcButton>
 			</div>
-			<NcButton v-tooltip="viewTooltip"
-				type="tertiary"
+			<NcButton
+				v-tooltip="viewTooltip"
+				variant="tertiary"
 				class="toggle-view-button"
 				:aria-label="t('mediadc', 'Toggle list view (list or grid)')"
 				@click="toggleListView">
@@ -95,7 +102,8 @@
 			</NcButton>
 		</div>
 		<div v-if="resolved.total_pages > 1" class="pagination pagination-mobile">
-			<NcButton type="tertiary"
+			<NcButton
+				variant="tertiary"
 				:aria-label="t('mediadc', 'Previous resolved list page')"
 				@click="prevResolvedPage">
 				<template #icon>
@@ -104,7 +112,8 @@
 			</NcButton>
 			<span style="margin-left: 5px;">{{ t('mediadc', 'Page:') }}&nbsp;</span>
 			<span style="margin-right: 5px;">{{ page + 1 }}/{{ resolved.total_pages }}</span>
-			<NcButton type="tertiary"
+			<NcButton
+				variant="tertiary"
 				:aria-label="t('mediadc', 'Next resolved list page')"
 				@click="nextResolvedPage">
 				<template #icon>
@@ -112,7 +121,8 @@
 				</template>
 			</NcButton>
 			<template v-if="resolved.total_pages > 1">
-				<input id="go_to_page"
+				<input
+					id="go_to_page"
 					v-model="goToPage"
 					type="number"
 					style="width: fit-content;"
@@ -121,8 +131,9 @@
 					name="go_to_page"
 					:aria-label="t('mediadc', 'Page to navigate to')"
 					@keyup.enter="navigateToPage">
-				<NcButton v-tooltip="t('mediadc', 'Go to page')"
-					type="tertiary"
+				<NcButton
+					v-tooltip="t('mediadc', 'Go to page')"
+					variant="tertiary"
 					:aria-label="t('mediadc', 'Navigate to resolved list page')"
 					@click="navigateToPage">
 					<template #icon>
@@ -134,10 +145,11 @@
 		<Transition name="fade" appear>
 			<div v-if="listView" class="list-view">
 				<transition-group v-if="resolved.data && resolved.data.length > 0" name="fade" tag="ul">
-					<NcListItem v-for="photo in resolved.data"
+					<NcListItem
+						v-for="photo in resolved.data"
 						:key="photo.fileid"
 						:bold="true"
-						:force-display-actions="true"
+						:forceDisplayActions="true"
 						:name="fileTitle(photo)"
 						@click="openFile(photo)">
 						<template #subname>
@@ -149,8 +161,9 @@
 							</div>
 						</template>
 						<template #actions>
-							<NcActionButton icon="icon-delete"
-								:close-after-click="true"
+							<NcActionButton
+								icon="icon-delete"
+								:closeAfterClick="true"
 								@click="unresolve(photo.fileid)">
 								{{ t('mediadc', 'Remove file from resolved list') }}
 							</NcActionButton>
@@ -158,39 +171,43 @@
 					</NcListItem>
 				</transition-group>
 				<div v-else class="empty-resolved" style="margin: 0 0 20px;">
-					<NcEmptyContent style="margin-top: 5vh;"
+					<NcEmptyContent
+						style="margin-top: 5vh;"
 						:name="t('mediadc', `No resolved ${selectedType} yet`)"
 						:description="t('mediadc', 'Create a new task or work on existing ones and resolve some!')">
 						<template #icon>
 							<ClipboardListOutline />
 						</template>
 						<template #action>
-							<NcButton :to="{ name: 'collector' }" type="primary">
+							<NcButton :to="{ name: 'collector' }" variant="primary">
 								{{ t('mediadc', 'Create a new one!') }}
 							</NcButton>
 						</template>
 					</NcEmptyContent>
 				</div>
 			</div>
-			<transition-group v-else-if="resolved.data && resolved.data.length > 0"
+			<transition-group
+				v-else-if="resolved.data && resolved.data.length > 0"
 				name="grid"
 				tag="div"
 				class="grid-view">
-				<div v-for="photo in resolved.data"
+				<div
+					v-for="photo in resolved.data"
 					:key="photo.fileid"
 					class="grid-view-item">
 					<ResolvedListFile :file="photo" :files="resolved.data" />
 				</div>
 			</transition-group>
 			<div v-else class="empty-resolved" style="margin: 0 0 20px;">
-				<NcEmptyContent style="margin-top: 5vh;"
+				<NcEmptyContent
+					style="margin-top: 5vh;"
 					:name="t('mediadc', `No resolved ${selectedType} yet`)"
 					:description="t('mediadc', 'Create a new task or work on existing ones and resolve some!')">
 					<template #icon>
 						<ClipboardListOutline />
 					</template>
 					<template #action>
-						<NcButton :to="{ name: 'collector' }" type="primary">
+						<NcButton :to="{ name: 'collector' }" variant="primary">
 							{{ t('mediadc', 'Create a new one!') }}
 						</NcButton>
 					</template>
@@ -203,19 +220,16 @@
 <script>
 import { getCurrentUser } from '@nextcloud/auth'
 import { generateUrl } from '@nextcloud/router'
-
-import { formatBytes, parseUnixTimestamp, getStatusBadge, parseTargetMtype } from '../../composables/useFormats.js'
-import ResolvedListFile from './ResolvedListFile.vue'
-
 import {
 	NcActionButton,
 	NcButton,
 	NcEmptyContent,
 	NcListItem,
 } from '@nextcloud/vue'
-import ClipboardListOutline from 'vue-material-design-icons/ClipboardListOutline.vue'
-
 import { mapActions, mapGetters } from 'vuex'
+import ClipboardListOutline from 'vue-material-design-icons/ClipboardListOutline.vue'
+import ResolvedListFile from './ResolvedListFile.vue'
+import { formatBytes, getStatusBadge, parseTargetMtype, parseUnixTimestamp } from '../../composables/useFormats.js'
 
 export default {
 	name: 'ResolvedList',
@@ -227,6 +241,7 @@ export default {
 		ResolvedListFile,
 		ClipboardListOutline,
 	},
+
 	data() {
 		return {
 			thumbSize: 48,
@@ -234,6 +249,7 @@ export default {
 			goToPage: 1,
 		}
 	},
+
 	computed: {
 		...mapGetters([
 			'resolved',
@@ -241,19 +257,24 @@ export default {
 			'selectedType',
 			'cleanuploading',
 		]),
+
 		tasksLink() {
 			return generateUrl('/apps/mediadc')
 		},
+
 		viewTooltip() {
 			return this.listView ? this.t('mediadc', 'Change to grid view') : this.t('mediadc', 'Change to list view')
 		},
+
 		pagesRange() {
 			return Array.from({ length: this.resolved.total_pages }, (_, i) => i)
 		},
+
 		cleanupText() {
 			return this.selectedType === 'photos' ? this.t('mediadc', 'Cleanup resolved photos (mark unresolved)') : this.t('mediadc', 'Cleanup resolved videos (mark unresolved)')
 		},
 	},
+
 	methods: {
 		formatBytes,
 		parseUnixTimestamp,
@@ -262,7 +283,7 @@ export default {
 		...mapActions(['getResolved']),
 		unresolve(fileid) {
 			const lastFileOnPage = this.resolved.data.length === 1
-			this.$store.dispatch('resolveFile', { fileid, resolved: false }).then(res => {
+			this.$store.dispatch('resolveFile', { fileid, resolved: false }).then((res) => {
 				if (res.data?.success) {
 					if (lastFileOnPage && this.page > 0) {
 						this.$store.commit('updatePage', this.page - 1)
@@ -271,14 +292,17 @@ export default {
 				}
 			})
 		},
+
 		imageUrl(fileid) {
 			return generateUrl(`/core/preview?fileId=${fileid}&x=${this.thumbSize}&y=${this.thumbSize}$forceIcon=0`)
 		},
+
 		fileTitle(photo) {
 			return `${photo.filename} (${this.formatBytes(Number(photo.filesize))})`
 		},
+
 		openFile(file) {
-			const filesList = this.resolved.data.map(file => ({
+			const filesList = this.resolved.data.map((file) => ({
 				basename: file.filename,
 				fileid: file.fileid,
 				filename: file.filepath.replace(`/${getCurrentUser().uid}/files`, ''),
@@ -289,28 +313,33 @@ export default {
 			}))
 			OCA.Viewer.open({
 				path: file.filepath.replace(`/${getCurrentUser().uid}/files`, ''),
-				list: filesList.map(file => ({
+				list: filesList.map((file) => ({
 					...file,
 					list: filesList,
 				})),
 			})
 		},
+
 		toggleListView() {
 			this.listView = !this.listView
 		},
+
 		toggleMediaType() {
 			this.$store.commit('setSelectedType', this.selectedType === 'photos' ? 'videos' : 'photos')
 		},
+
 		prevResolvedPage() {
 			if (this.page > 0) {
 				this.$store.commit('updatePage', this.page - 1)
 			}
 		},
+
 		nextResolvedPage() {
 			if (this.page < this.resolved.total_pages - 1) {
 				this.$store.commit('updatePage', this.page + 1)
 			}
 		},
+
 		navigateToPage() {
 			if (this.goToPage > this.pagesRange.length) {
 				this.goToPage = this.pagesRange.length
@@ -319,6 +348,7 @@ export default {
 			}
 			this.$store.commit('updatePage', this.goToPage - 1)
 		},
+
 		cleanup() {
 			this.$store.commit('setCleanupLoading', true)
 			this.$store.dispatch('cleanupResolved', { type: this.selectedType }).then(() => {
