@@ -72,7 +72,7 @@ import { NcButton } from '@nextcloud/vue'
 import { mapGetters } from 'vuex'
 
 export default {
-	name: 'Pagination',
+	name: 'DuplicateGroupsPagination',
 	components: {
 		NcButton,
 	},
@@ -98,6 +98,8 @@ export default {
 			required: true,
 		},
 	},
+
+	emits: ['update:page'],
 
 	data() {
 		return {

@@ -129,14 +129,14 @@ const localVue = createLocalVue()
 localVue.use(Vuex)
 localVue.use(VueRouter)
 
-const Collector = () => import('../../../../src/views/Collector.vue')
+const DuplicateCollector = () => import('../../../../src/views/DuplicateCollector.vue')
 const CollectorDetails = () => import('../../../../src/views/CollectorDetails.vue')
-const Resolved = () => import('../../../../src/views/Resolved.vue')
+const ResolvedMediaFiles = () => import('../../../../src/views/ResolvedMediaFiles.vue')
 const Configuration = () => import('../../../../src/views/Configuration.vue')
 const routes = [
 	{
 		path: '/',
-		component: Collector,
+		component: DuplicateCollector,
 		name: 'collector',
 		props: (route) => ({
 			rootTitle: 'MediaDC',
@@ -161,7 +161,7 @@ const routes = [
 	},
 	{
 		path: '/resolved',
-		component: Resolved,
+		component: ResolvedMediaFiles,
 		name: 'resolved',
 		props: (route) => ({
 			rootTitle: 'MediaDC Resolved files',

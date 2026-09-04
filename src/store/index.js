@@ -21,6 +21,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+/* Webpack-provided global */
+/* global process */
+
 import { createStore } from 'vuex'
 import details from './details.js'
 import resolved from './resolved.js'

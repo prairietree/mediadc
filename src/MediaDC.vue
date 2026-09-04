@@ -28,8 +28,7 @@
 			<template #list>
 				<NcAppNavigationItem
 					:to="{name: 'collector'}"
-					:name="t('mediadc', 'Tasks')"
-					exact>
+					:name="t('mediadc', 'Tasks')">
 					<template #icon>
 						<FormatListBulletedSquare :size="20" />
 					</template>

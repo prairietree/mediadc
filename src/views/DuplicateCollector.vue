@@ -45,7 +45,7 @@ import TasksList from '../components/tasks/TasksList.vue'
 import TasksNew from '../components/tasks/TasksNew.vue'
 
 export default {
-	name: 'Collector',
+	name: 'DuplicateCollector',
 	components: {
 		TasksNew,
 		TasksList,
@@ -62,6 +62,8 @@ export default {
 			required: true,
 		},
 	},
+
+	emits: ['update:loading'],
 
 	data() {
 		return {
@@ -97,7 +99,7 @@ export default {
 	},
 
 	methods: {
-		...mapActions(['getTasks', 'getSettings']),
+		...mapActions(['getTasks']),
 	},
 }
 </script>

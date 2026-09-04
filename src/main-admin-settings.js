@@ -24,7 +24,7 @@
 import { getRequestToken } from '@nextcloud/auth'
 import { translate, translatePlural } from '@nextcloud/l10n'
 import { generateFilePath } from '@nextcloud/router'
-import { VTooltip as Tooltip } from 'floating-vue' // eslint-disable-line n/no-extraneous-import
+import { VTooltip as Tooltip } from 'floating-vue'
 import { createApp } from 'vue'
 import AdminSettings from './components/settings/AdminSettings.vue'
 

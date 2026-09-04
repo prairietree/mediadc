@@ -184,6 +184,7 @@ import { getCurrentUser } from '@nextcloud/auth'
 import axios from '@nextcloud/axios'
 import { getDialogBuilder, showError, showMessage, showSuccess, showWarning } from '@nextcloud/dialogs'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
+import { logger } from '@nextcloud/logger'
 import { generateUrl } from '@nextcloud/router'
 import { NcActionButton, NcActions, NcButton, NcProgressBar } from '@nextcloud/vue'
 import { mapActions, mapGetters } from 'vuex'
@@ -219,6 +220,8 @@ export default {
 			required: true,
 		},
 	},
+
+	emits: ['update:loading'],
 
 	data() {
 		return {
@@ -357,7 +360,7 @@ export default {
 							showWarning(this.t('medaidc', 'Some error occurred while running Collector Task. Try again.'))
 						}
 					}).catch((err) => {
-						console.debug(err)
+						logger.error('Error occurred while running Collector Task:', { error: err })
 						showError('Some error occurred while running Collector Task. Try again.')
 					})
 				})

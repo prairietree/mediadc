@@ -24,7 +24,7 @@
 
 <template>
 	<transition name="fade">
-		<div class="block-wrapper">
+		<div v-if="opened" class="block-wrapper">
 			<div class="edit-task-block">
 				<div class="edit-task-close" @click="closeEditTaskDialog()" />
 				<h2>{{ t('mediadc', 'Edit task') }}</h2>
@@ -225,6 +225,15 @@ export default {
 		PlusThick,
 	},
 
+	props: {
+		opened: {
+			type: Boolean,
+			required: true,
+		},
+	},
+
+	emits: ['update:opened'],
+
 	data() {
 		return {
 			targetDirectoriesPaths: {},
@@ -244,9 +253,7 @@ export default {
 
 	computed: {
 		...mapGetters([
-			'settings',
 			'settingByName',
-			'tasks',
 			'task',
 			'taskInfo',
 		]),

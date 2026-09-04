@@ -25,7 +25,7 @@ import { getRequestToken } from '@nextcloud/auth'
 import { translate, translatePlural } from '@nextcloud/l10n'
 import { generateFilePath } from '@nextcloud/router'
 import { createApp } from 'vue'
-import Dashboard from './views/Dashboard.vue'
+import RecentTasksDashboard from './views/RecentTasksDashboard.vue'
 
 __webpack_nonce__ = btoa(getRequestToken())
 // eslint-disable-next-line
@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	const register = OCA?.Dashboard?.register || (() => {})
 
 	register('mediadc-tasks', (el) => {
-		const app = createApp(Dashboard)
+		const app = createApp(RecentTasksDashboard)
 		app.config.globalProperties.t = translate
 		app.config.globalProperties.n = translatePlural
 		app.config.globalProperties.OC = window.OC

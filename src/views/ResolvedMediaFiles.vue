@@ -44,7 +44,7 @@ import { mapGetters } from 'vuex'
 import ResolvedList from '../components/resolved/ResolvedList.vue'
 
 export default {
-	name: 'Resolved',
+	name: 'ResolvedMediaFiles',
 	components: {
 		ResolvedList,
 	},
@@ -60,6 +60,8 @@ export default {
 			required: true,
 		},
 	},
+
+	emits: ['update:loading'],
 
 	computed: {
 		...mapGetters([

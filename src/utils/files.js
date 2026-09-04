@@ -37,7 +37,7 @@ const davRequest = `<?xml version="1.0"?>
 
 /**
  *
- * @param xml
+ * @param {string} xml WebDAV response XML
  */
 function getFileId(xml) {
 	if (window.DOMParser) {
@@ -52,7 +52,7 @@ function getFileId(xml) {
 
 /**
  *
- * @param xml
+ * @param {string} xml WebDAV response XML
  */
 function getContentType(xml) {
 	if (window.DOMParser) {
@@ -67,7 +67,7 @@ function getContentType(xml) {
 
 /**
  *
- * @param path
+ * @param {string} path File path to request
  */
 async function requestFileInfo(path) {
 	const davPath = `${generateRemoteUrl('dav')}/files/${getCurrentUser().uid}${path}`
@@ -81,11 +81,13 @@ async function requestFileInfo(path) {
 
 /**
  *
- * @param bytes
- * @param decimals
+ * @param {number} bytes Number of bytes to format
+ * @param {number} decimals Number of decimal places to display
  */
 function formatBytes(bytes, decimals = 2) {
-	if (bytes === 0) { return '0 B' }
+	if (bytes === 0) {
+		return '0 B'
+	}
 	const k = 1024
 	const dm = decimals < 0 ? 0 : decimals
 	const sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']

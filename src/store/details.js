@@ -187,7 +187,7 @@ const mutations = {
 	 * Set filtered details list
 	 *
 	 * @param {object} state the store data
-	 * @param {*} detailsFiltered filtered details list
+	 * @param {Array<object>} detailsFiltered filtered details list
 	 */
 	setDetailsFiltered(state, detailsFiltered) {
 		state.detailsFiltered = detailsFiltered.sort((a, b) => a.group_id - b.group_id)
@@ -327,7 +327,7 @@ const actions = {
 	 * Retrieve and commit list of task details
 	 *
 	 * @param {object} context the store object
-	 * @param taskId
+	 * @param {number|string} taskId ID of the task to retrieve
 	 * @return {Promise<object>} request data (collectorTask, collectorTaskDetails)
 	 */
 	async getTaskDetails(context, taskId) {
@@ -349,7 +349,7 @@ const actions = {
 	 * Retrieve and commit task info
 	 *
 	 * @param {object} context the store object
-	 * @param taskId
+	 * @param {number|string} taskId ID of the task to retrieve
 	 * @return {Promise<object>} request data (collectorTaskInfo: target/exclude directories info)
 	 */
 	async getTaskInfo(context, taskId) {
@@ -363,7 +363,7 @@ const actions = {
 	 * Retrieve and commit task details info
 	 *
 	 * @param {object} context the store object
-	 * @param taskId
+	 * @param {number|string} taskId ID of the task to retrieve
 	 * @return {Promise<object>} request data (task details filessize and filestotal)
 	 */
 	async getDetailFilesTotalSize(context, taskId) {

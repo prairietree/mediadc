@@ -58,7 +58,11 @@ class PageController extends Controller {
 	#[NoCSRFRequired]
 	public function index(): TemplateResponse {
 		$this->eventDispatcher->dispatchTyped(new LoadSidebar());
-		$this->eventDispatcher->dispatchTyped(new LoadViewer());
+		// LoadViewer comes with the default nextcloud install but may not be present in light
+		// installations. So we check for the class before dispatching the event to avoid errors.
+		if (class_exists(LoadViewer::class)) {
+			$this->eventDispatcher->dispatchTyped(new LoadViewer());
+		}
 
 		Util::addScript(Application::APP_ID, Application::APP_ID . '-main');
 		Util::addStyle(Application::APP_ID, 'style');

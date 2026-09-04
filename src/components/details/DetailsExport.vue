@@ -24,7 +24,7 @@
 
 <template>
 	<transition name="fade">
-		<div class="details-export-wrapper">
+		<div v-if="opened" class="details-export-wrapper">
 			<div class="details-export">
 				<div class="details-export-close" @click="closeExportResultsDialog()" />
 				<h2>{{ t('mediadc', 'Export task results') }}</h2>
@@ -57,11 +57,18 @@ export default {
 	},
 
 	props: {
+		opened: {
+			type: Boolean,
+			required: true,
+		},
+
 		task: {
 			type: Object,
 			required: true,
 		},
 	},
+
+	emits: ['update:opened'],
 
 	data() {
 		return {

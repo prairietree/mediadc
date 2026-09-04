@@ -49,7 +49,7 @@
 						</template>
 					</NcButton>
 				</div>
-				<Pagination
+				<DuplicateGroupsPagination
 					v-model:page="page"
 					:details="(!filtered) ? details : detailsFiltered"
 					:prevGroupsPage="prevGroupsPage"
@@ -200,6 +200,7 @@
 import axios from '@nextcloud/axios'
 import { showError, showSuccess, showWarning } from '@nextcloud/dialogs'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
+import { logger } from '@nextcloud/logger'
 import { generateUrl } from '@nextcloud/router'
 import {
 	NcActionButton,
@@ -213,7 +214,7 @@ import CheckAll from 'vue-material-design-icons/CheckAll.vue'
 import CheckUnderline from 'vue-material-design-icons/CheckUnderline.vue'
 import MinusBoxOutline from 'vue-material-design-icons/MinusBoxOutline.vue'
 import DetailsListItem from './DetailsListItem.vue'
-import Pagination from './Pagination.vue'
+import DuplicateGroupsPagination from './DuplicateGroupsPagination.vue'
 import { formatBytes, getStatusBadge, parseTargetMtype, parseUnixTimestamp } from '../../composables/useFormats.js'
 
 export default {
@@ -224,12 +225,14 @@ export default {
 		NcButton,
 		NcActions,
 		NcActionButton,
-		Pagination,
+		DuplicateGroupsPagination,
 		MinusBoxOutline,
 		CheckAll,
 		CheckUnderline,
 		NcLoadingIcon,
 	},
+
+	emits: ['update:loading'],
 
 	data() {
 		return {
@@ -245,10 +248,8 @@ export default {
 	computed: {
 		...mapGetters([
 			'task',
-			'taskInfo',
 			'details',
 			'detailsInfo',
-			'sortedDetails',
 			'sorted',
 			'paginatedDetails',
 			'paginatedSortedDetails',
@@ -256,7 +257,6 @@ export default {
 			'paginatedDetailsFilteredSorted',
 			'itemsPerPage',
 			'detailsFiltered',
-			'detailsFilteredSorted',
 			'autoOpenNextGroup',
 		]),
 
@@ -265,20 +265,10 @@ export default {
 		},
 
 		checkedDetailGroupsIntersect() {
-			let a = []
-			if (!this.sortGroups) {
-				if (this.filtered) {
-					a = new Set(this.paginatedDetailsFiltered[this.page].map((d) => d.group_id))
-				} else {
-					a = new Set(this.paginatedDetails[this.page].map((d) => d.group_id))
-				}
-			} else {
-				if (this.filtered) {
-					a = new Set(this.paginatedDetailsFilteredSorted[this.page].map((d) => d.group_id))
-				} else {
-					a = new Set(this.paginatedSortedDetails[this.page].map((d) => d.group_id))
-				}
-			}
+			const details = this.filtered
+				? (this.sortGroups ? this.paginatedDetailsFilteredSorted : this.paginatedDetailsFiltered)
+				: (this.sortGroups ? this.paginatedSortedDetails : this.paginatedDetails)
+			const a = new Set(details[this.page].map((d) => d.group_id))
 			const b = new Set(this.checkedDetailGroups.map((d) => d.group_id))
 			const intersect = new Set([...a].filter((i) => b.has(i)))
 			return Array.from(intersect)
@@ -399,11 +389,11 @@ export default {
 				}
 			}).catch((err) => {
 				showError(this.t('mediadc', 'A server error occurred'))
-				console.debug(err)
+				logger.error('Error removing checked groups:', { error: err })
 			})
 		},
 
-		_deselectAllGroups(_details) {
+		_deselectAllGroups() {
 			emit('deselectGroups', this.checkedDetailGroups.map((d) => d.group_id))
 			for (const detail of this.details) {
 				const detailIndex = this.checkedDetailGroups.findIndex((d) => d.group_id === detail.group_id)
@@ -439,7 +429,7 @@ export default {
 				this.batchDeleting = false
 			}).catch((err) => {
 				showError(this.t('mediadc', 'A server error occurred'))
-				console.debug(err)
+				logger.error('Error deleting checked groups files:', { error: err })
 				this.batchDeleting = false
 			})
 		},

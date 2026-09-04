@@ -22,6 +22,7 @@
  */
 
 import axios from '@nextcloud/axios'
+import { logger } from '@nextcloud/logger'
 import { generateUrl } from '@nextcloud/router'
 
 const state = {
@@ -180,7 +181,7 @@ const actions = {
 			commit('setSettings', res.data)
 			return res.data
 		}).catch((err) => {
-			console.debug(err)
+			logger.error('Failed to retrieve settings', { error: err })
 		})
 	},
 

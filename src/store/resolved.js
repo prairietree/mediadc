@@ -24,6 +24,7 @@
 import axios from '@nextcloud/axios'
 import { showError } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
+import { logger } from '@nextcloud/logger'
 import { generateUrl } from '@nextcloud/router'
 
 const state = {
@@ -159,7 +160,7 @@ const actions = {
 			}
 			return res
 		}).catch((err) => {
-			console.debug(err)
+			logger.error('Failed to retrieve resolved items', { error: err })
 		})
 	},
 
@@ -174,7 +175,7 @@ const actions = {
 		return axios.post(generateUrl(`/apps/mediadc/api/v1/resolved/mark/${params.fileid}`), { type: context.state.selectedType, resolved: params.resolved }).then((res) => {
 			return res
 		}).catch((err) => {
-			console.debug(err)
+			logger.error('Failed to mark/unmark resolved item', { error: err })
 			showError(t('mediadc', 'A server error occurred'))
 		})
 	},
@@ -190,7 +191,7 @@ const actions = {
 		return axios.post(generateUrl(`/apps/mediadc/api/v1/resolved/${params.type}/cleanup`)).then((res) => {
 			return res
 		}).catch((err) => {
-			console.debug(err)
+			logger.error('Failed to cleanup resolved items', { error: err })
 			showError(t('mediadc', 'A server error occurred'))
 		})
 	},

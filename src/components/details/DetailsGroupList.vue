@@ -114,6 +114,7 @@
 import axios from '@nextcloud/axios'
 import { showError, showMessage, showSuccess, showWarning } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
+import { logger } from '@nextcloud/logger'
 import { generateUrl } from '@nextcloud/router'
 import { NcActionButton, NcActions, NcButton } from '@nextcloud/vue'
 import { mapGetters } from 'vuex'
@@ -132,13 +133,11 @@ export default {
 	props: {
 		files: {
 			type: Array,
-			required: true,
 			default: () => [],
 		},
 
 		allFiles: {
 			type: Array,
-			required: true,
 			default: () => [],
 		},
 
@@ -152,16 +151,13 @@ export default {
 			required: true,
 		},
 
-		updating: {
-			type: Boolean,
-			required: true,
-		},
-
 		filesAscending: {
 			type: Boolean,
 			required: true,
 		},
 	},
+
+	emits: ['update:allFiles', 'update:updating', 'update:filesAscending'],
 
 	data() {
 		return {
@@ -175,9 +171,7 @@ export default {
 
 	computed: {
 		...mapGetters([
-			'detailsGridSize',
 			'groupItemsPerPage',
-			'details',
 		]),
 
 		checkedFilesIntersect() {
@@ -277,7 +271,7 @@ export default {
 					showSuccess(this.t('mediadc', 'Checked files successfully removed'))
 				}
 			}).catch((err) => {
-				console.debug(err)
+				logger.debug('A server error occurred', { error: err })
 				showError(this.t('mediadc', 'A server error occurred'))
 				this.$emit('update:updating', false)
 			})
@@ -303,12 +297,12 @@ export default {
 					showWarning(this.t('mediadc', 'Not all files deleted'))
 					this._updateDeletedFiles(res)
 				} else {
-					console.debug(res.data.errors)
+					logger.debug('A server error occurred. Files not deleted', { error: res.data.errors })
 					showError(this.t('mediadc', 'A server error occurred. Files not deleted'))
 					this.$emit('update:updating', false)
 				}
 			}).catch((err) => {
-				console.debug(err)
+				logger.debug('A server error occurred', { error: err })
 				showError(this.t('mediadc', 'A server error occurred'))
 				this.$emit('update:updating', false)
 			})

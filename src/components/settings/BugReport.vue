@@ -58,6 +58,7 @@
 <script>
 import axios from '@nextcloud/axios'
 import { showSuccess } from '@nextcloud/dialogs'
+import { logger } from '@nextcloud/logger'
 import { generateUrl } from '@nextcloud/router'
 import { NcButton } from '@nextcloud/vue'
 import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
@@ -83,7 +84,7 @@ export default {
 				this.systemInfo = res.data
 				this.updating = false
 			}).catch((err) => {
-				console.debug(err)
+				logger.error('Error collecting system info:', { error: err })
 				this.updating = false
 			})
 		},

@@ -112,6 +112,8 @@ export default {
 		},
 	},
 
+	emits: ['update:open'],
+
 	data() {
 		return {
 			loading: true,

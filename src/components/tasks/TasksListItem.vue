@@ -90,7 +90,6 @@ export default {
 
 	computed: {
 		...mapGetters([
-			'tasks',
 		]),
 
 		listItemTitle() {
@@ -112,8 +111,6 @@ export default {
 		getStatusBadge,
 		parseTargetMtype,
 		...mapActions([
-			'getTasks',
-			'getSettings',
 			'deleteTask',
 			'duplicateTask',
 			'terminateTask',

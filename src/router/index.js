@@ -24,9 +24,9 @@
 import { generateUrl } from '@nextcloud/router'
 import { createRouter, createWebHistory } from 'vue-router'
 
-const Collector = () => import('../views/Collector.vue')
+const DuplicateCollector = () => import('../views/DuplicateCollector.vue')
 const CollectorDetails = () => import('../views/CollectorDetails.vue')
-const Resolved = () => import('../views/Resolved.vue')
+const ResolvedMediaFiles = () => import('../views/ResolvedMediaFiles.vue')
 
 export default createRouter({
 	history: createWebHistory(generateUrl('/apps/mediadc', '')),
@@ -34,9 +34,9 @@ export default createRouter({
 	routes: [
 		{
 			path: '/',
-			component: Collector,
+			component: DuplicateCollector,
 			name: 'collector',
-			props: (route) => ({
+			props: () => ({
 				rootTitle: t('mediadc', 'MediaDC'),
 			}),
 		},
@@ -51,9 +51,9 @@ export default createRouter({
 		},
 		{
 			path: '/resolved',
-			component: Resolved,
+			component: ResolvedMediaFiles,
 			name: 'resolved',
-			props: (route) => ({
+			props: () => ({
 				rootTitle: t('mediadc', 'MediaDC Resolved files'),
 			}),
 		},

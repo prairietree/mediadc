@@ -153,6 +153,7 @@ import { getCurrentUser } from '@nextcloud/auth'
 import axios from '@nextcloud/axios'
 import { getDialogBuilder, showError, showMessage, showSuccess, showWarning } from '@nextcloud/dialogs'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
+import { logger } from '@nextcloud/logger'
 import { generateRemoteUrl, generateUrl } from '@nextcloud/router'
 import { NcButton, NcCheckboxRadioSwitch, NcDialog, NcSelect } from '@nextcloud/vue'
 import { mapGetters } from 'vuex'
@@ -196,6 +197,8 @@ export default {
 		},
 	},
 
+	emits: ['update:checkedFiles', 'update:files'],
+
 	data() {
 		return {
 			loaded: false,
@@ -214,12 +217,11 @@ export default {
 			'detailsGridSize',
 			'deleteFileConfirmation',
 			'showFullFilePath',
-			'details',
 		]),
 
 		imageUrl() {
 			if (this.file.has_preview) {
-				return generateUrl(`/core/preview?fileId=${this.file.fileid}&x=${this.detailsGridSize}&y=${this.detailsGridSize}$forceIcon=0`)
+				return generateUrl(`/core/preview?fileId=${this.file.fileid}&x=${this.detailsGridSize}&y=${this.detailsGridSize}&forceIcon=0`)
 			} else {
 				return generateRemoteUrl(`dav/files${this.file.filepath.replace('files/', '')}`)
 			}
@@ -340,7 +342,7 @@ export default {
 					this.updating = false
 				})
 				.catch((err) => {
-					console.debug(err)
+					logger.debug('An error occurred while deleting the file', { error: err })
 					showError(this.t('mediadc', 'An error occurred while deleting the file'))
 					this.updating = false
 				})
@@ -370,7 +372,7 @@ export default {
 					this.updating = false
 				}
 			}).catch((err) => {
-				console.debug(err)
+				logger.debug('A server error occurred', { error: err })
 				showError(this.t('mediadc', 'A server error occurred'))
 				this.updating = false
 			})
@@ -391,7 +393,7 @@ export default {
 					this.albumOptions = res.data?.albums ?? []
 				})
 				.catch((err) => {
-					console.debug(err)
+					logger.debug('An error occurred while loading albums', { error: err })
 					this.albumOptions = []
 					showError(this.t('mediadc', 'Could not load albums'))
 				})
@@ -431,7 +433,7 @@ export default {
 					}
 				})
 				.catch((err) => {
-					console.debug(err)
+					logger.debug('An error occurred while adding file to album', { error: err })
 					showError(this.t('mediadc', 'Could not add file to album'))
 				})
 				.finally(() => {

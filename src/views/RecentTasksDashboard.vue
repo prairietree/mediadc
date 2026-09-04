@@ -68,7 +68,7 @@ import { formatBytes, getStatusBadge, parseTargetMtype, parseUnixTimestamp } fro
 const tasks = loadState('mediadc', 'mediadc-recent-tasks')
 
 export default {
-	name: 'Dashboard',
+	name: 'RecentTasksDashboard',
 	components: {
 		NcDashboardWidget,
 		NcDashboardWidgetItem,

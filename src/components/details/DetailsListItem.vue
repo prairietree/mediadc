@@ -111,6 +111,7 @@
 import axios from '@nextcloud/axios'
 import { getDialogBuilder, showError, showSuccess, showWarning } from '@nextcloud/dialogs'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
+import { logger } from '@nextcloud/logger'
 import { generateUrl } from '@nextcloud/router'
 import {
 	NcActionButton,
@@ -144,6 +145,8 @@ export default {
 		},
 	},
 
+	emits: ['update:checkedDetailGroups'],
+
 	data() {
 		return {
 			opened: false,
@@ -162,7 +165,6 @@ export default {
 
 	computed: {
 		...mapGetters([
-			'task',
 			'details',
 			'groupItemsPerPage',
 			'deleteFileConfirmation',
@@ -279,7 +281,7 @@ export default {
 			}
 		},
 
-		openPrevDetailFiles(detail) {
+		openPrevDetailFiles() {
 			if (this.page > 0) {
 				this.page -= 1
 				this.files = this.paginatedFiles[this.page]
@@ -358,7 +360,7 @@ export default {
 					this.updating = false
 				}
 			}).catch((err) => {
-				console.debug(err)
+				logger.error('An error occurred while deleting duplicate group', { error: err })
 				showError(this.t('mediadc', 'An error occurred while deleting duplicate group'))
 				this.updating = false
 			})

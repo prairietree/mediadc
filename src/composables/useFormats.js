@@ -10,16 +10,14 @@ const TARGET_MTYPE_LABELS = [
 ]
 
 /**
- *
- * @param time
+ * @param {number|string} time Unix timestamp to format.
  */
 export function parseUnixTimestamp(time) {
 	return moment.unix(Number(time)).format('YYYY-MM-DD HH:mm:ss')
 }
 
 /**
- *
- * @param task
+ * @param {object|null|undefined} task Task data used to determine its status.
  */
 export function getStatusBadge(task) {
 	if (task === null || task === undefined) {
@@ -48,8 +46,7 @@ export function getStatusBadge(task) {
 }
 
 /**
- *
- * @param task
+ * @param {object|null|undefined} task Task data containing the target MIME type.
  */
 export function parseTargetMtype(task) {
 	if (task) {

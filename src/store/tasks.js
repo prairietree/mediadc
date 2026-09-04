@@ -24,6 +24,7 @@
 import axios from '@nextcloud/axios'
 import { showError, showSuccess, showWarning } from '@nextcloud/dialogs'
 import { translatePlural as n, translate as t } from '@nextcloud/l10n'
+import { logger } from '@nextcloud/logger'
 import { generateUrl } from '@nextcloud/router'
 import { getStatusBadge } from '../composables/useFormats.js'
 
@@ -125,7 +126,7 @@ const actions = {
 			}
 			return res
 		}).catch((err) => {
-			console.debug(err)
+			logger.error('An error occurred while starting the task', { error: err })
 			showError(t('mediadc', 'An error occurred while starting the task'))
 		})
 	},
@@ -135,8 +136,7 @@ const actions = {
 	 *
 	 * @param {object} context the store object
 	 * @param {object} context.commit the store mutations
-	 * @param {number} taskId task id
-	 * @param task
+	 * @param {object} task target task
 	 * @return {Promise<object>}
 	 */
 	async terminateTask({ commit }, task) {
@@ -147,7 +147,7 @@ const actions = {
 			}
 			return res
 		}).catch((err) => {
-			console.debug(err)
+			logger.error('An error occurred while terminating the task', { error: err })
 			showError(t('mediadc', 'Some error occurred while terminating task'))
 		})
 	},
@@ -167,7 +167,7 @@ const actions = {
 			}
 			return res
 		}).catch((err) => {
-			console.debug(err)
+			logger.error('An error occurred while deleting the task', { error: err })
 			showError(t('mediadc', 'An error occurred while deleting task'))
 		})
 	},
@@ -189,7 +189,7 @@ const actions = {
 			}
 			return res
 		}).catch((err) => {
-			console.debug(err)
+			logger.error('An error occurred while duplicating the task', { error: err })
 		})
 	},
 
@@ -200,7 +200,6 @@ const actions = {
 	 * @param {object} context.commit the store mutations
 	 * @param {object} context.rootGetters context.rootGetters the store root getters
 	 * @param {object} task target task
-	 * @return {Promise<object>}
 	 */
 	async restartTask({ commit, rootGetters }, task) {
 		return axios.post(generateUrl('/apps/mediadc/api/v1/tasks/restart'), {
@@ -237,7 +236,7 @@ const actions = {
 			}
 			return res
 		}).catch((err) => {
-			console.debug(err)
+			logger.error('An error occurred while restarting the task', { error: err })
 			showError(t('mediadc', 'Some error occurred while running Collector Task. Try again.'))
 		})
 	},

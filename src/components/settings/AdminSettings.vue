@@ -231,6 +231,7 @@
 import axios from '@nextcloud/axios'
 import { showError, showSuccess, showWarning } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
+import { logger } from '@nextcloud/logger'
 import { generateUrl } from '@nextcloud/router'
 import {
 	NcActionButton,
@@ -323,7 +324,7 @@ export default {
 					}
 				})
 				.catch((err) => {
-					console.debug(err)
+					logger.error('Error updating settings:', { error: err })
 					showError(this.t('mediadc', 'Some error occurred while updating settings'))
 				})
 		},
@@ -353,11 +354,11 @@ export default {
 							showError(res.data.message)
 						}
 					}).catch((err) => {
-						console.debug(err)
+						logger.error('Error updating hashing algorithm:', { error: err })
 						showError(this.t('mediadc', 'An error occurred while updating setting. Try again'))
 					})
 				}).catch((err) => {
-					console.debug(err)
+					logger.error('Error truncating photos and videos:', { error: err })
 					showError(this.t('mediadc', 'Some error occurred while changing hashing algorithm'))
 					this.hashing_algorithm = JSON.parse(this.mappedSettings.hashing_algorithm.value)
 				})
@@ -378,7 +379,7 @@ export default {
 							showError(res.data.message)
 						}
 					}).catch((err) => {
-						console.debug(err)
+						logger.error('Error updating hash size:', { error: err })
 						showError(this.t('mediadc', 'An error occurred when updating the setting. Try again'))
 					})
 				})
@@ -399,7 +400,7 @@ export default {
 							showError(res.data.message)
 						}
 					}).catch((err) => {
-						console.debug(err)
+						logger.error('Error updating ignore orientation flag:', { error: err })
 						showError(this.t('mediadc', 'An error occurred when updating the setting. Try again'))
 					})
 				})
@@ -415,7 +416,7 @@ export default {
 			})
 			this.updateSetting(this.mappedSettings.exclude_list.name, this.mappedSettings.exclude_list)
 				.catch((err) => {
-					console.debug(err)
+					logger.error('Error updating exclude list:', { error: err })
 					showError(this.t('mediadc', 'Some error occurred while updating setting. Try again'))
 				})
 		},

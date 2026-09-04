@@ -245,9 +245,7 @@ export default {
 
 	computed: {
 		...mapGetters([
-			'settings',
 			'settingByName',
-			'tasks',
 		]),
 	},
 
