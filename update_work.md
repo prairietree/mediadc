@@ -12,6 +12,8 @@ Nextcloud has been removing older JavaScript libraries. In Nextcloud 34, core in
 
 **Action:** Audit custom frontend assets and refactor them to modern JavaScript or TypeScript syntax, or standard Vue 3 lifecycle bindings.
 
+**Mitigation** Ran numerous searches and found zero real matches. 
+
 ### 2. Deprecated `QueryBuilder::execute()` Removed
 
 For backend file-database indexing, which is central to a duplicate seeker such as `mediadc`, Nextcloud's PHP database engine received a strict update.
@@ -23,6 +25,8 @@ For backend file-database indexing, which is central to a duplicate seeker such 
 - `executeQuery()` for `SELECT` queries
 - `executeStatement()` for `INSERT` and `UPDATE` queries
 
+**Mitigation** Searched all PHP files (excluding vendor/node_modules) for `->execute(` and found no `QueryBuilder` usages; existing mapper queries already use `executeStatement()`/`QBMapper` helpers, and the only `execute()` matches are unrelated Symfony `Command::execute()` overrides.
+
 ### 3. DAV Permissions and File-System Hooks Changed
 
 `mediadc` manipulates, compares, and interacts with file and folder attributes in a user's cloud filesystem.
@@ -30,6 +34,8 @@ For backend file-database indexing, which is central to a duplicate seeker such 
 **Impact:** Nextcloud 34 adjusted the structure of internal WebDAV engine signatures, including the behavior and parameter syntax of `getDavPermissions`.
 
 **Action:** Review backend hooks into virtual-filesystem properties to ensure permission evaluations do not produce signature or parameter mismatch errors.
+
+**Mitigation:** No app code currently implements a custom DAV permission hook or direct override of `getDavPermissions` in `apps-extra/mediadc`. The app's PHP logic was reviewed for filesystem metadata access and no direct `QueryBuilder` or DAV hook override patterns were found; the remaining validation is to exercise permission-sensitive flows in a real NC 34 instance (share access, external mounts, and permission-denied cases) and confirm no runtime mismatch occurs when file attributes are read or compared.
 
 ### 4. Core Frontend Utility Dependencies Updated
 
@@ -85,6 +91,11 @@ Add a GitHub Actions workflow to run static analysis such as Psalm or PHPStan, h
 - Reviewed the app metadata in `appinfo/info.xml` and documented the relevant Nextcloud 34 compatibility constraints.
 - Identified the main upgrade-sensitive areas for this app: frontend dependency changes, PHP database query calls, DAV permission/file-hook integration, migration repair steps, and background job execution.
 - Added a structured checklist and testing notes in this document so the update can be validated in a focused, traceable way.
+- Got ESLint working and ran fix with it.
+- Manually fixed rest of issues found by ESLint.
+- Wrapped LoadViewer in check incase viwer app is not installed.
+- Did some very basic testing to make sure you still works.
+
 
 ## Questions to Confirm Before We Change Code
 

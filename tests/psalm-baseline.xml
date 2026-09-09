@@ -18,15 +18,9 @@
   <file src="lib/Controller/PageController.php">
     <UndefinedClass>
       <code><![CDATA[LoadSidebar]]></code>
-      <code><![CDATA[LoadViewer]]></code>
     </UndefinedClass>
   </file>
-  <file src="lib/Controller/SettingsController.php">
-    <UndefinedClass>
-      <code><![CDATA[$this->cpaUtils]]></code>
-      <code><![CDATA[private]]></code>
-    </UndefinedClass>
-  </file>
+  <file src="lib/Controller/SettingsController.php"/>
   <file src="lib/Db/CollectorTaskDetailMapper.php">
     <UndefinedDocblockClass>
       <code><![CDATA[$this->db->getDatabasePlatform()]]></code>
@@ -41,22 +35,8 @@
       <code><![CDATA[LoadAdditionalScriptsEvent]]></code>
     </UndefinedClass>
   </file>
-  <file src="lib/Migration/AppDataInitializationStep.php">
-    <UndefinedClass>
-      <code><![CDATA[$this->cpaUtils]]></code>
-      <code><![CDATA[$this->cpaUtils]]></code>
-      <code><![CDATA[$this->cpaUtils]]></code>
-      <code><![CDATA[private]]></code>
-    </UndefinedClass>
-  </file>
-  <file src="lib/Migration/AppUpdateStep.php">
-    <UndefinedClass>
-      <code><![CDATA[$this->cpaUtils]]></code>
-      <code><![CDATA[$this->cpaUtils]]></code>
-      <code><![CDATA[$this->cpaUtils]]></code>
-      <code><![CDATA[private]]></code>
-    </UndefinedClass>
-  </file>
+  <file src="lib/Migration/AppDataInitializationStep.php"/>
+  <file src="lib/Migration/AppUpdateStep.php"/>
   <file src="lib/Service/CollectorService.php">
     <MismatchingDocblockReturnType>
       <code><![CDATA[array|bool]]></code>
@@ -71,39 +51,6 @@
     <TypeDoesNotContainType>
       <code><![CDATA[count($params) === 0]]></code>
     </TypeDoesNotContainType>
-    <UndefinedClass>
-      <code><![CDATA[$this->cpaUtils]]></code>
-      <code><![CDATA[$this->cpaUtils]]></code>
-      <code><![CDATA[$this->cpaUtils]]></code>
-      <code><![CDATA[$this->cpaUtils]]></code>
-      <code><![CDATA[$this->cpaUtils]]></code>
-      <code><![CDATA[$this->cpaUtils]]></code>
-      <code><![CDATA[$this->cpaUtils]]></code>
-      <code><![CDATA[$this->cpaUtils]]></code>
-      <code><![CDATA[$this->cpaUtils]]></code>
-      <code><![CDATA[$this->cpaUtils]]></code>
-      <code><![CDATA[$this->cpaUtils]]></code>
-      <code><![CDATA[$this->cpaUtils]]></code>
-      <code><![CDATA[$this->cpaUtils]]></code>
-      <code><![CDATA[$this->cpaUtils]]></code>
-      <code><![CDATA[$this->cpaUtils]]></code>
-      <code><![CDATA[$this->cpaUtils]]></code>
-      <code><![CDATA[$this->cpaUtils]]></code>
-      <code><![CDATA[$this->cpaUtils]]></code>
-      <code><![CDATA[$this->cpaUtils]]></code>
-      <code><![CDATA[$this->cpaUtils]]></code>
-      <code><![CDATA[$this->cpaUtils]]></code>
-      <code><![CDATA[$this->cpaUtils]]></code>
-      <code><![CDATA[$this->cpaUtils]]></code>
-      <code><![CDATA[$this->cpaUtils]]></code>
-      <code><![CDATA[$this->pythonService]]></code>
-      <code><![CDATA[$this->pythonService]]></code>
-      <code><![CDATA[$this->pythonService]]></code>
-      <code><![CDATA[SharedStorage]]></code>
-      <code><![CDATA[\OCA\GroupFolders\Mount\GroupFolderStorage]]></code>
-      <code><![CDATA[private]]></code>
-      <code><![CDATA[private]]></code>
-    </UndefinedClass>
   </file>
   <file src="lib/Service/PhotosService.php">
     <MissingDependency>

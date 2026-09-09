@@ -117,7 +117,7 @@ class AlbumService {
 	 * through the container and treat a missing/renamed class as a graceful
 	 * "photos_unavailable" rather than a 500.
 	 *
-	 * @return array{success: bool, photos_disabled?: bool, photos_unavailable?: bool, already_in_album?: bool, not_found?: bool, not_permitted?: bool}
+	 * @return array{success: bool, photos_disabled?: bool, photos_unavailable?: bool, already_in_album?: bool, album_not_found?: bool, not_permitted?: bool}
 	 */
 	public function addFileToAlbum(int $albumId, int $fileId): array {
 		if ($this->userId === null) {

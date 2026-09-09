@@ -31,7 +31,6 @@ namespace OCA\MediaDC\Service;
 use DOMDocument;
 use OCA\MediaDC\Service\PythonService;
 use OCA\MediaDC\Service\PythonUtilsService;
-use OCA\Files_Sharing\SharedStorage;
 use OCA\MediaDC\AppInfo\Application;
 use OCA\MediaDC\BackgroundJob\QueuedTaskJob;
 use OCA\MediaDC\Db\CollectorTask;
@@ -1215,10 +1214,11 @@ class CollectorService {
 	 * @param Node $node
 	 *
 	 * @return bool
+	 * @psalm-suppress UndefinedClass
 	 */
 	private function isShared(Node $node): bool {
-		return $node->getStorage()->instanceOfStorage(SharedStorage::class) ||
-			$node->getStorage()->instanceOfStorage(\OCA\GroupFolders\Mount\GroupFolderStorage::class);
+		return $node->getStorage()->instanceOfStorage('OCA\\Files_Sharing\\SharedStorage') ||
+			$node->getStorage()->instanceOfStorage('OCA\\GroupFolders\\Mount\\GroupFolderStorage');
 	}
 
 	/**
