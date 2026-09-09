@@ -46,6 +46,8 @@ Nextcloud 34 updated the native dependency targets for core system tools:
 
 **Action:** When running `npm run build` on the `stable34` branch, run `npm update` as needed to align local `package.json` specifications with the upgraded dependencies and Hub design tokens.
 
+**Mitigation:** MediaDC does not directly declare or use `@vueuse/core` or `@vueuse/integrations`, and a source audit found no jQuery, VueUse, or global `$` usage. Frontend dependency resolution did require two build-tool fixes: `eslint-webpack-plugin` was updated to `^6.0.0` to support the ESLint 10 required by `@nextcloud/eslint-config`, and `terser-webpack-plugin` was added as an explicit dev dependency because it is required by the Nextcloud webpack preset. The lockfile now installs successfully with `npm ci`; `npm run lint` passes and `npm run build` completes successfully, with only non-blocking webpack asset-size/performance warnings.
+
 ## Recommended Testing
 
 1. Enable debug logging in `config/config.php`:
